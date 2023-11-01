@@ -2,27 +2,47 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TH.Core;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    #region Singleton
-    public static GameManager I { get; private set; }
-    private void Awake()
-    {
-        if (I == null)
-        {
-            I = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+    #region Inner Class
+    private enum ManagerType {
+		LOG,
+	}
+    #endregion
+
+    #region Managers Core
+    public static LogManager Log {
+		get {
+			return _managerList[ManagerType.LOG] as LogManager;
+		}
+	}
+
+    private static Dictionary<ManagerType, IManager> _managerList = new Dictionary<ManagerType, IManager> {
+		{ManagerType.LOG, new LogManager()},
+	};
+
+    private void InitManagers() {
+        foreach (var manager in _managerList) {
+			manager.Value.Init();
+		}
+    }
+
+    protected override void Init() {
+        base.Init();
+
+        // [TODO] 게임 매니저 초기화
+        
+
+        // 다른 매니저들 초기화
+        InitManagers();
     }
     #endregion
-    
+
     [Header("Game Flow Variable")]
     [SerializeField] private bool _gameEnd;
-    
+
     public void B_Start()
     {
         // Init Data
@@ -33,8 +53,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator GameFlow()
     {
-        Debug.Log("게임 시작");
-        
+        Log.Log("게임 시작");
+
         _gameEnd = false;
         do
         {
@@ -65,8 +85,6 @@ public class GameManager : MonoBehaviour
         yield return WaitNext(); 
     }
     
-    
-    
     #region Util
     private bool _next;
     public IEnumerator WaitNext()
@@ -83,12 +101,6 @@ public class GameManager : MonoBehaviour
     public bool Record()
     {
         return false;
-    }
-
-    public void Log(string log, float time = 1f)
-    {
-        //UIManager.I.OutputInfo(log, time);
-        Debug.Log(log);
     }
     
     public IEnumerator Timer(int time, Action endAction = null)
