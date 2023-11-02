@@ -47,4 +47,9 @@ public abstract class BaseTile : MonoBehaviour
 
     }
 
+    public virtual void OffCurse()
+    {
+
+    }
+
 }
