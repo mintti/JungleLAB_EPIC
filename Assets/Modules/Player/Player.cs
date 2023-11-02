@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using TH.Core;
 
 public class Player : MonoBehaviour {
 	#region PublicVariables
@@ -26,10 +27,19 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Defence(int value) {
-
+		_defence += value;
 	}
 
 	public void Hit(int damage) {
+		_defence -= damage;
+
+		if (_defence < 0) {
+			_health += _defence;
+			_defence = 0;
+		}
+	}
+
+	public void Move(int value) {
 
 	}
 	#endregion
