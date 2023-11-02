@@ -30,7 +30,7 @@ public class Card {
 		if (actionType == ActionType.Move) {
 			GameManager.Player.Move(_cardData.CardNumber);
 		} else if (actionType == ActionType.Activate) {
-			//Activate();
+			BoardManager.I.tiles[BoardManager.I.PlayerOnIndex].OnAction();
 		}
 	}
 	#endregion

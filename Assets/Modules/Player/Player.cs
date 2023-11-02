@@ -22,10 +22,6 @@ public class Player : MonoBehaviour {
 		_health = _maxHealth;
 	}
 
-	public void Attack(int damage) {
-		
-	}
-
 	public void Defence(int value) {
 		_defence += value;
 	}
