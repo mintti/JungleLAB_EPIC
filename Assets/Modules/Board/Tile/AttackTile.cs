@@ -20,6 +20,7 @@ public class AttackTile : BaseTile
             {
                 _isCurse = false;
                 // 파이어볼 소환
+                // BoardManager에 추가
             }
         }
         
