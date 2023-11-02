@@ -11,6 +11,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private UIBossInfo _uiBossInfo;
     public UIBossInfo UIBossInfo => _uiBossInfo;
     
-    [FormerlySerializedAs("_uiSkillSelector")] [SerializeField] private UINewSkillSelector uiNewSkillSelector;
-    public UINewSkillSelector UINewSkillSelector => uiNewSkillSelector;
+    [SerializeField] private UINewSkillSelector _uiNewSkillSelector;
+    public UINewSkillSelector UINewSkillSelector => _uiNewSkillSelector;
 }

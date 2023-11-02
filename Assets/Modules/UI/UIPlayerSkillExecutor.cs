@@ -16,7 +16,6 @@ public class UIPlayerSkillExecutor : MonoBehaviour
             _action ??= GetComponent<UISkillInfo>().BaseSkill.Inner.Execute;
             return _action;
         }
-        set => _action = value;
     }
 
     public void B_Execute() => Action();
