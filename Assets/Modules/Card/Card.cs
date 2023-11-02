@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TH.Core;
 using UnityEngine;
 
+[Serializable]
 public class Card {
 	public enum Type {
 		Base,
@@ -23,7 +26,7 @@ public class Card {
 	#endregion
 
 	#region PrivateVariables
-	private CardData _cardData;
+	[ShowInInspector, ReadOnly] private CardData _cardData;
 	#endregion
 
 	#region PublicMethod

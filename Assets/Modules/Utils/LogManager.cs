@@ -8,6 +8,7 @@ namespace TH.Core {
 public class LogManager : IManager
 {
 	public const string ERROR_CARD_DECK_NOT_INIT = "CardDeck has not initialized.";
+	public const string ERROR_CARD_NOT_IN_HAND = "Card is not in hand.";
 
 	public enum LogType {
 		Info,
