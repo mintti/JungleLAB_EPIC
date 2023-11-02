@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using TH.Core;
 using UnityEngine;
 
@@ -15,9 +16,9 @@ public class CardDeck : MonoBehaviour {
 	// 카드 덱 데이터
 	private HashSet<Card> _cards;
 
-	private List<Card> _drawPile;
-	private List<Card> _hand;
-	private List<Card> _graveyard;
+	[ShowInInspector, ReadOnly] private List<Card> _drawPile;
+	[ShowInInspector, ReadOnly] private List<Card> _hand;
+	[ShowInInspector, ReadOnly] private List<Card> _graveyard;
 	
 	// 플로우 컨트롤 변수
 	private bool _hasInit = false;
@@ -43,8 +44,56 @@ public class CardDeck : MonoBehaviour {
 		_graveyard = new List<Card>();
 
 		LoadInitialCardSet();
+		ResetCardDeck();
 
 		_hasInit = true;
+	}
+
+	/// <summary>
+	/// 카드 사용
+	/// </summary>
+	/// <param name="card">대상 카드</param>
+	public void UseCard(Card card) {
+		DiscardCard(card);
+	}
+
+	/// <summary>
+	/// 해당 카드 버리기
+	/// </summary>
+	/// <param name="card"></param>
+	private void DiscardCard(Card card) {
+		if (!_hand.Contains(card)) {
+			GameManager.Log.Log(LogManager.ERROR_CARD_NOT_IN_HAND, LogManager.LogType.Error);
+			return;
+		}
+
+		_hand.Remove(card);
+		_graveyard.Add(card);
+	}
+
+	/// <summary>
+	/// 손패 버리기
+	/// </summary>
+	public void DiscardHand() {
+		foreach (var card in _hand) {
+			_graveyard.Add(card);
+		}
+		_hand.Clear();
+	}
+
+	/// <summary>
+	/// 카드 드로우
+	/// </summary>
+	/// <param name="count">드로우 할 카드 갯수</param>
+	/// <returns>드로우 된 카드 갯수</returns>
+	public int DrawCard(int count) {
+		for (int i = 0; i < count; i++) {
+			if (DrawCard() == false) {
+				return i;
+			}
+		}
+
+		return count;
 	}
 	#endregion
     
@@ -54,8 +103,8 @@ public class CardDeck : MonoBehaviour {
 	/// </summary>
 	private void LoadInitialCardSet() {
 		foreach (var c_data in GameManager.Data.InitialCards) {
-			for (int i = 0; i < c_data.Value; i++) {
-				var card = new Card(c_data.Key);
+			for (int i = 0; i < c_data.Count; i++) {
+				var card = new Card(c_data.CardData);
 				_cards.Add(card);
 			}
 		}
@@ -87,31 +136,6 @@ public class CardDeck : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// 손패 버리기
-	/// </summary>
-	private void DiscardHand() {
-		foreach (var card in _hand) {
-			_graveyard.Add(card);
-		}
-		_hand.Clear();
-	}
-
-	/// <summary>
-	/// 카드 드로우
-	/// </summary>
-	/// <param name="count">드로우 할 카드 갯수</param>
-	/// <returns>드로우 된 카드 갯수</returns>
-	private int DrawCard(int count) {
-		for (int i = 0; i < count; i++) {
-			if (DrawCard() == false) {
-				return i;
-			}
-		}
-
-		return count;
-	}
-
-	/// <summary>
 	/// 카드 한 장 드로우
 	/// </summary>
 	/// <returns>카드 드로우 성공 여부</returns>
@@ -130,15 +154,6 @@ public class CardDeck : MonoBehaviour {
 		_hand.Add(card);
 
 		return true;
-	}
-	
-	/// <summary>
-	/// 카드 사용
-	/// </summary>
-	/// <param name="card">대상 카드</param>
-	private void UseCard(Card card) {
-		_hand.Remove(card);
-		_graveyard.Add(card);
 	}
 	#endregion
 }

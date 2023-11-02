@@ -13,6 +13,7 @@ namespace TH.Core {
     public class UICard : MonoBehaviour, IPointerClickHandler
     {
         #region PublicVariables
+		public Card Card => _card;
         #endregion
 
         #region PrivateVariables
@@ -23,9 +24,9 @@ namespace TH.Core {
 		private ComponentGetter<RectTransform> _rectTransform
 			= new ComponentGetter<RectTransform>(TypeOfGetter.This);
 		private ComponentGetter<TextMeshProUGUI> _cardNumberText
-			= new ComponentGetter<TextMeshProUGUI>(TypeOfGetter.Child, "CardNumber");
+			= new ComponentGetter<TextMeshProUGUI>(TypeOfGetter.ChildByName, "CardNumber");
 		private ComponentGetter<Image> _cardImage
-			= new ComponentGetter<Image>(TypeOfGetter.Child, "Image");
+			= new ComponentGetter<Image>(TypeOfGetter.ChildByName, "Image");
         #endregion
 
         #region PublicMethod
