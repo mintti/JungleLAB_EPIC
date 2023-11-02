@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Defense
   m_EditorClassIdentifier: 
   _skillType: 1
-  _name: 
-  _maxLevel: 0
-  _cost: 0
+  _name: "\uBC29\uC5B4"
+  _maxLevel: 3
+  _cost: 1
   _sprite: {fileID: 21300000, guid: 44821fd0e4db1e54b9eb78bba6a6d7d6, type: 3}
-  _description: 
+  _description: "\uB9C8\uBC95 \uBC29\uC5B4 \uD68D\uB4DD\uD569\uB2C8\uB2E4."

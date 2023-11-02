@@ -31,18 +31,23 @@ public class SkillData : ScriptableObject
     {
         get
         {
-            _inner ??= _skillType switch
+            if (_inner == null)
             {
-                SkillType.Defense => new Defense(),
-                SkillType.Attack => new Attack(),
-                SkillType.Draw => new Draw(),
-                SkillType.Move => new Move(),
-                SkillType.Spawn => new Spawn(),
-                SkillType.Install => new Install(),
-                SkillType.Heal => new Heal(),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-            
+                _inner = _skillType switch
+                {
+                    SkillType.Defense => new Defense(),
+                    SkillType.Attack => new Attack(),
+                    SkillType.Draw => new Draw(),
+                    SkillType.Move => new Move(),
+                    SkillType.Spawn => new Spawn(),
+                    SkillType.Install => new Install(),
+                    SkillType.Heal => new Heal(),
+                    _ => throw new ArgumentOutOfRangeException()
+                };
+                
+                _inner.Init(this);
+            }
+           
             return _inner;
         }
         set => _inner = value;

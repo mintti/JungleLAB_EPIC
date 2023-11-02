@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class CastingInfo : MonoBehaviour
+public class SkillInfo : Singleton<SkillInfo>
 {
     private int _maxCastingCount = 5;
 
@@ -49,5 +52,23 @@ public class CastingInfo : MonoBehaviour
     public void AddCastingGauge(int value)
     {
         CastingGauge += value;
+    }
+
+    private List<SkillData> _learnedSkills;
+    public void LearnSkill(SkillData learningSkill)
+    {
+        _learnedSkills ??= new();
+
+        var skill = _learnedSkills.FirstOrDefault(x => x.SkillType == learningSkill.SkillType);
+        if (skill == null)
+        {
+            _learnedSkills.Add(learningSkill);
+        }
+        else
+        {
+            skill.Inner.LevelUp();
+        }
+        
+        UIManager.I.UIPlayerInfo.UIPlayerSkill.LearnSkill(learningSkill);
     }
 }

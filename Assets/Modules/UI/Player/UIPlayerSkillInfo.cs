@@ -19,14 +19,13 @@ public class UIPlayerSkillInfo : MonoBehaviour
     
     /// <summary>
     /// 새로 배우는 스킬 정보를 받아 화면에 표시합니다.
-    /// [TODO] 배운 스킬 등록 방법에 따라 엎을 수 있음
     /// </summary>
     public void LearnSkill(SkillData learningSkill)
     {
         _learnedSkills ??= new();
 
-        var skill = _learnedSkills.FirstOrDefault(x => x.BaseSkill.SkillType == learningSkill.SkillType);
-        if (skill == null)
+        var uiSkill = _learnedSkills.FirstOrDefault(x => x.BaseSkill.SkillType == learningSkill.SkillType);
+        if (uiSkill == null)
         {
             var obj = Instantiate(_learnedSkillPrefab, _playerSkillTr);
             var uiSkillInfo =  obj.GetComponent<UISkillInfo>();
@@ -36,7 +35,7 @@ public class UIPlayerSkillInfo : MonoBehaviour
         }
         else
         {
-            skill.BaseSkill.Inner.LevelUp();
+            uiSkill.UpdateInfo();
         }
     }
 
