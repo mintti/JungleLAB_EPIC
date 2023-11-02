@@ -8,6 +8,10 @@ public abstract class BaseTile : MonoBehaviour
     public Debuff debuff;
 
     protected bool _isCurse;
+    public bool IsCurse
+    {
+        get => _isCurse;
+    }
     protected int _curseTurnCount;
     public virtual void OnAction(int num=0)
     {
