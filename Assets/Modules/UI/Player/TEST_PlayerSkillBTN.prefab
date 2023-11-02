@@ -164,6 +164,7 @@ GameObject:
   - component: {fileID: 6465396704709256176}
   - component: {fileID: 6465396704709256179}
   - component: {fileID: 6465396704709256180}
+  - component: {fileID: 2906665133659196586}
   - component: {fileID: 6465396704709256181}
   m_Layer: 5
   m_Name: TEST_PlayerSkillBTN
@@ -274,7 +275,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6465396704709256177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2906665133659196586}
+        m_TargetAssemblyTypeName: UIPlayerSkillExecutor, Assembly-CSharp
+        m_MethodName: B_Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6465396704709256179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +318,18 @@ MonoBehaviour:
   _nameTMP: {fileID: 6465396704618578558}
   _img: {fileID: 6465396704709256177}
   _descriptionTMP: {fileID: 6465396704848586791}
+--- !u!114 &2906665133659196586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6465396704709256190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e11d4c1822c6d7459c659892eecf668, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6465396704709256181
 MonoBehaviour:
   m_ObjectHideFlags: 0
