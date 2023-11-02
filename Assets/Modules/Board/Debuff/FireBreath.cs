@@ -5,8 +5,9 @@ using UnityEngine;
 public class FireBreath : Debuff {
 
     private int _damage;
-    public FireBreath(int dmg)
+    public FireBreath(int dmg, int count)
     {
+        _debuffCount = count;
         _damage = dmg;
     }
 
