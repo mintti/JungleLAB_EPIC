@@ -12,8 +12,6 @@ public abstract class Debuff : MonoBehaviour
     }
     public virtual void OnDebuff()
     {
-        // 디버프의 내용
-        _debuffCount -= 1;
     }
 
 }
