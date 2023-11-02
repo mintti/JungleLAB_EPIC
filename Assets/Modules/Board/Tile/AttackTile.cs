@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class AttackTile : BaseTile
 {
-    private bool _isCurse;
-    private int _curseTurnCount;
-
-    
     public override void OnAction(int num)
     {
         // 보스의 HP를 num만큼 감소 
@@ -24,14 +20,14 @@ public class AttackTile : BaseTile
             {
                 _isCurse = false;
                 // 파이어볼 소환
+                // BoardManager에 추가
             }
         }
         
 
     }
-    public void OnCurse(int count)
+    public override void OnCurse(int count)
     {
-        // 일단 PoC에선 저주가 하나밖에 없어서..
         _isCurse = true;
         _curseTurnCount = count;
     }

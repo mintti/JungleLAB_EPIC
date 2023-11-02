@@ -6,13 +6,13 @@ using UnityEngine;
 public class BossManager : MonoBehaviour
 {
     public int maxHp;
-    private int _currentHp;
+    public int _currentHp;
     private int _currentState;
     private int _currentPatternIndex;
     private int _currentDefense;
     public List<BossState> bossStates = new List<BossState>();
 
-    [Header("ÆÐÅÏ¼öÄ¡°ª")]
+    [Header("ï¿½ï¿½ï¿½Ï¼ï¿½Ä¡ï¿½ï¿½")]
     public int normalMagic;
     public int normalAttack;
     public int normalDefense;
@@ -72,28 +72,58 @@ public class BossManager : MonoBehaviour
         bossStates.Add(state3);
     }
 
+    public Pattern GetCurrentPattern()
+    {
+        var pattern = bossStates[_currentState].patterns[_currentPatternIndex];;
+        return pattern;
+    }
+    
     public void BossTurn()
     {
         _currentDefense = 0;
-        
-        PatternType _paternType = bossStates[_currentState].patterns[_currentPatternIndex].type;
-        int _value = bossStates[_currentState].patterns[_currentPatternIndex].value;
+
+        var pattern = GetCurrentPattern();
+        PatternType _paternType = pattern.type;
+        int _value = pattern.value;
 
         if (_paternType == PatternType.FireMagic)
         {
+            for(int i = 0; i < _value; i++)
+            {
+                int _ranValue1;
+                int _ranValue2;
+                int _tileIndex;
 
+                do
+                {
+                    _ranValue1 = Random.Range(1, 5);
+                    _ranValue2 = Random.Range(1, 4);
+                    _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                } while (BoardManager.I.tiles[_tileIndex].IsCurse);
+
+                BoardManager.I.tiles[_tileIndex].OnCurse(2);
+                // ¸¶¹ýÁøÀÌ 2ÅÏµ¿¾È À¯Áö.
+            }
         }
         else if (_paternType == PatternType.Attack)
         {
-
+            //À¯Àú Å¸°ÙÆÃ °ø°Ý
         }
         else if (_paternType == PatternType.Defense)
         {
             _currentDefense += _value;
+            //º¸½º ¹æ¾î È¹µæ
         }
         else if (_paternType == PatternType.FireBreath) 
         {
+            int _ranValue = Random.Range(1, 5);
+            int _startIndex = (_ranValue - 1) * 4;
 
+            for (int i = _startIndex; i < _startIndex + 5; i++)
+            {
+                BoardManager.I.tiles[i].debuff = new FireBreath(1, 2);
+                //1ÀÇ µ¥¹ÌÁö¸¦ ÁÖ´Â Å¸ÀÏÀÌ 2ÅÏµ¿¾È À¯Áö
+            }
         }
 
         if (_currentPatternIndex + 1 == bossStates[_currentState].patterns.Count)
@@ -113,12 +143,14 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
+            //1Â÷ ±¤ÆøÈ­
         }
 
         if (_currentHp > maxHp * 0.3 && _afterHp <= maxHp * 0.3)
         {
             _currentState++;
             _currentPatternIndex = 0;
+            //2Â÷ ±¤ÆøÈ­
         }
 
     }

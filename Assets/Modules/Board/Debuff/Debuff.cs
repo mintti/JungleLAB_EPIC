@@ -9,6 +9,7 @@ public abstract class Debuff : MonoBehaviour
     public int DebuffCount
     {
         get => _debuffCount;
+        set => _debuffCount = value;
     }
     public virtual void OnDebuff()
     {

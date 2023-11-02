@@ -4,6 +4,6 @@ using UnityEngine;
 
 public interface ISummon {
 
-    void OnTurnEnd();
-    void Connect();
+    IEnumerator OnTurnEnd();
+    IEnumerator Connect();
 }

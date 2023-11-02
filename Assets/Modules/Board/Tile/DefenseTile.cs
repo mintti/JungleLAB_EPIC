@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class DefenseTile : BaseTile
 {
-    private bool _isCurse;
-    private int _curseTurnCount;
+    [SerializeField] private GameObject fireball;
     public override void OnAction(int num)
     {
         // player의 방어도를 num만큼 상승 
@@ -27,9 +26,8 @@ public class DefenseTile : BaseTile
 
 
     }
-    public void OnCurse(int count)
+    public override void OnCurse(int count)
     {
-        // 일단 PoC에선 저주가 하나밖에 없어서..
         _isCurse = true;
         _curseTurnCount = count;
     }
