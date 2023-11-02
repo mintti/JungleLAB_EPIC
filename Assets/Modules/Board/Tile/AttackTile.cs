@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AttackTile : BaseTile
 {
-    private bool _isCurse;
-    private int _curseTurnCount;
+    
 
     
     public override void OnAction(int num)
@@ -29,7 +28,7 @@ public class AttackTile : BaseTile
         
 
     }
-    public void OnCurse(int count)
+    public override void OnCurse(int count)
     {
         // 일단 PoC에선 저주가 하나밖에 없어서..
         _isCurse = true;

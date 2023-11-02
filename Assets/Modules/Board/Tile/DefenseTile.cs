@@ -27,7 +27,7 @@ public class DefenseTile : BaseTile
 
 
     }
-    public void OnCurse(int count)
+    public override void OnCurse(int count)
     {
         // 일단 PoC에선 저주가 하나밖에 없어서..
         _isCurse = true;
