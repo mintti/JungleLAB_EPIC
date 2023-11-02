@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class DefenseTile : BaseTile
 {
@@ -19,15 +20,19 @@ public class DefenseTile : BaseTile
             if (_curseTurnCount == 0)
             {
                 _isCurse = false;
-                // 파이어볼 소환
+                GetComponent<SpriteRenderer>().color = Color.white;
+                GameObject s = Instantiate(BoardManager.I.fireball, transform.position, Quaternion.identity);
+                s.GetComponent<Fireball>().Init(index);
+                BoardManager.I.AddSummon(s.GetComponent<ISummon>());
             }
         }
 
 
     }
+    [Button]
     public override void OnCurse(int count)
     {
-        // 일단 PoC에선 저주가 하나밖에 없어서..
+        GetComponent<SpriteRenderer>().color = Color.black;
         _isCurse = true;
         _curseTurnCount = count;
     }

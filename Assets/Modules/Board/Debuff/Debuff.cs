@@ -6,6 +6,7 @@ public abstract class Debuff : MonoBehaviour
 {
 
     protected int _debuffCount;
+    public virtual GameObject Effect { get; }
     public int DebuffCount
     {
         get => _debuffCount;
@@ -13,6 +14,11 @@ public abstract class Debuff : MonoBehaviour
     }
     public virtual void OnDebuff()
     {
+    }
+
+    public virtual void OffDebuff()
+    {
+
     }
 
 }

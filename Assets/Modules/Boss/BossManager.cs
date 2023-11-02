@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class BossManager : MonoBehaviour
@@ -64,17 +65,17 @@ public class BossManager : MonoBehaviour
         Pattern pattern11 = new Pattern { type = PatternType.Defense, value = enragedDefense };
 
         BossState state3 = new BossState { name = "Enraged" };
-        state2.patterns.Add(pattern8);
-        state2.patterns.Add(pattern9);
-        state2.patterns.Add(pattern10);
-        state2.patterns.Add(pattern11);
+        state3.patterns.Add(pattern8);
+        state3.patterns.Add(pattern9);
+        state3.patterns.Add(pattern10);
+        state3.patterns.Add(pattern11);
 
         bossStates.Add(state3);
     }
 
     public Pattern GetCurrentPattern()
     {
-        var pattern = bossStates[_currentState].patterns[_currentPatternIndex];;
+        var pattern = bossStates[_currentState].patterns[_currentPatternIndex];
         return pattern;
     }
     
@@ -88,26 +89,38 @@ public class BossManager : MonoBehaviour
 
         if (_paternType == PatternType.FireMagic)
         {
+            Debug.Log("Spawn MagicCircle");
             for(int i = 0; i < _value; i++)
             {
-                int _ranValue1 = Random.Range(1, 5);
-                int _ranValue2 = Random.Range(1, 4);
-                int _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                int _ranValue1;
+                int _ranValue2;
+                int _tileIndex;
+
+                do
+                {
+                    _ranValue1 = Random.Range(1, 5);
+                    _ranValue2 = Random.Range(1, 4);
+                    _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                } while (BoardManager.I.tiles[_tileIndex].IsCurse);
+
                 BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                //마법진이 2턴동안 유지.
+                // 마법진이 2턴동안 유지.
             }
         }
         else if (_paternType == PatternType.Attack)
         {
+            Debug.Log("AttackPlayer");
             //유저 타겟팅 공격
         }
         else if (_paternType == PatternType.Defense)
         {
+            Debug.Log("GetDefense");
             _currentDefense += _value;
             //보스 방어 획득
         }
         else if (_paternType == PatternType.FireBreath) 
         {
+            Debug.Log("FireBreath");
             int _ranValue = Random.Range(1, 5);
             int _startIndex = (_ranValue - 1) * 4;
 
@@ -126,16 +139,28 @@ public class BossManager : MonoBehaviour
         {
             _currentPatternIndex++;
         }
+        TestUpdateUI();
     }
 
     public void HpUpdate(int _dmg)
     {
+        if (_currentDefense > 0)
+        {
+            _currentDefense -= _dmg;
+
+            if (_currentDefense < 0)
+            {
+                _dmg = _currentDefense * -1;
+            }
+        }
+
         int _afterHp = _currentHp - _dmg;
         if (_currentHp > maxHp * 0.7 && _afterHp <= maxHp * 0.7)
         {
             _currentState++;
             _currentPatternIndex = 0;
             //1차 광폭화
+            Debug.Log("Angry1");
         }
 
         if (_currentHp > maxHp * 0.3 && _afterHp <= maxHp * 0.3)
@@ -143,7 +168,75 @@ public class BossManager : MonoBehaviour
             _currentState++;
             _currentPatternIndex = 0;
             //2차 광폭화
+            Debug.Log("Angry2");
         }
+
+        _currentHp = _afterHp;
+        TestUpdateUI();
+    }
+
+    public void TestHit()
+    {
+        HpUpdate(7); 
+    }
+
+    [Header("test")]
+    public TextMeshProUGUI hp;
+    public TextMeshProUGUI patternType;
+    public TextMeshProUGUI bossState;
+    public TextMeshProUGUI patternValue;
+    public TextMeshProUGUI deffense;
+    public void TestUpdateUI()
+    {
+        var pattern = GetCurrentPattern();
+        PatternType _paternType = pattern.type;
+        int _value = pattern.value;
+
+
+        hp.text = $"HP : {_currentHp}/{maxHp}";
+        if(_currentDefense > 0)
+        {
+            deffense.text = $"+{_currentDefense}";
+        }
+        else
+        {
+            deffense.text = $"";
+        }
+
+        if (_paternType == PatternType.FireMagic)
+        {
+            patternType.text = $"FireBall Magic";
+            patternValue.text = $"";
+        }
+        else if (_paternType == PatternType.Attack)
+        {
+            patternType.text = $"Attack";
+            patternValue.text = $"{_value}";
+        }
+        else if (_paternType == PatternType.Defense)
+        {
+            patternType.text = $"Deffense";
+            patternValue.text = $"{_value}";
+        }
+        else
+        {
+            patternType.text = $"FireBreath";
+            patternValue.text = $"";
+        }
+
+        if (_currentState == 0)
+        {
+            bossState.text = $"Normal";
+        }
+        else if (_currentState == 1)
+        {
+            bossState.text = $"Angry";
+        }
+        else
+        {
+            bossState.text = $"Very Angry";
+        }
+
 
     }
 
