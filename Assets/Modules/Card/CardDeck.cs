@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class CardDeck : MonoBehaviour {
     #region PublicVariables
+	public IReadOnlyList<Card> DrawPile => _drawPile;
+	public IReadOnlyList<Card> Hand => _hand;
+	public IReadOnlyList<Card> Graveyard => _graveyard;
 	#endregion
 
 	#region PrivateVariables
@@ -29,13 +32,11 @@ public class CardDeck : MonoBehaviour {
 
 		_cards.Add(target);
 	}
-	#endregion
-    
-	#region Private Method
+
 	/// <summary>
 	/// 카드 덱 초기화
 	/// </summary>
-	private void Init() {
+	public void Init() {
 		_cards = new HashSet<Card>();
 		_drawPile = new List<Card>();
 		_hand = new List<Card>();
@@ -45,7 +46,9 @@ public class CardDeck : MonoBehaviour {
 
 		_hasInit = true;
 	}
-
+	#endregion
+    
+	#region Private Method
 	/// <summary>
 	/// 초기 덱 구성 불러오기
 	/// </summary>
