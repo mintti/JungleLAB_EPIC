@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class DefenseTile : BaseTile
 {
-    private bool _isCurse;
-    private int _curseTurnCount;
     public override void OnAction(int num)
     {
         // player의 방어도를 num만큼 상승 

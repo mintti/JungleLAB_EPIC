@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class AttackTile : BaseTile
 {
-    
-
-    
     public override void OnAction(int num)
     {
         // 보스의 HP를 num만큼 감소 
