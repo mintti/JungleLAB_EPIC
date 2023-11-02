@@ -9,6 +9,11 @@ public class Fireball : MonoBehaviour, ISummon
     [SerializeField] private int _distance;
     [SerializeField] private int _damage;
 
+    public void Init(int index)
+    {
+        _index = index;
+    }
+
     public IEnumerator Connect()
     {
         throw new System.NotImplementedException();
@@ -28,5 +33,6 @@ public class Fireball : MonoBehaviour, ISummon
             transform.DOMove(nextPos, 0.5f);
             yield return new WaitForSeconds(0.5f);
         }
+
     }
 }
