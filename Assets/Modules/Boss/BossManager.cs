@@ -90,11 +90,19 @@ public class BossManager : MonoBehaviour
         {
             for(int i = 0; i < _value; i++)
             {
-                int _ranValue1 = Random.Range(1, 5);
-                int _ranValue2 = Random.Range(1, 4);
-                int _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                int _ranValue1;
+                int _ranValue2;
+                int _tileIndex;
+
+                do
+                {
+                    _ranValue1 = Random.Range(1, 5);
+                    _ranValue2 = Random.Range(1, 4);
+                    _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                } while (BoardManager.I.tiles[_tileIndex].IsCurse);
+
                 BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                //마법진이 2턴동안 유지.
+                // 마법진이 2턴동안 유지.
             }
         }
         else if (_paternType == PatternType.Attack)
