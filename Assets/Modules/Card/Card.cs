@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using TH.Core;
 using UnityEngine;
 
+[Serializable]
 public class Card {
 	public enum Type {
 		Base,
@@ -19,10 +22,11 @@ public class Card {
 	}
 
     #region PublicVariables
+	public CardData CardData => _cardData;
 	#endregion
 
 	#region PrivateVariables
-	private CardData _cardData;
+	[ShowInInspector, ReadOnly] private CardData _cardData;
 	#endregion
 
 	#region PublicMethod
@@ -30,6 +34,10 @@ public class Card {
 		if (actionType == ActionType.Move) {
 			GameManager.Player.Move(_cardData.CardNumber);
 		} else if (actionType == ActionType.Activate) {
+			if (_cardData.CardType == Type.Wizard) {
+				GameManager.Player.CastMagic(_cardData.CardNumber);
+			}
+			
 			BoardManager.I.tiles[BoardManager.I.PlayerOnIndex].OnAction();
 		}
 	}

@@ -9,7 +9,8 @@ public class GameManager : Singleton<GameManager>
     #region Inner Class
     private enum ManagerType {
 		LOG,
-        CARD
+        CARD,
+        RESOURCE
 	}
     #endregion
 
@@ -42,9 +43,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public static ResourceManager Resource {
+        get {
+            return _managerList[ManagerType.RESOURCE] as ResourceManager;
+        }
+    }
+
     private static Dictionary<ManagerType, IManager> _managerList = new Dictionary<ManagerType, IManager> {
 		{ManagerType.LOG, new LogManager()},
         {ManagerType.CARD, new CardManager()},
+        {ManagerType.RESOURCE, new ResourceManager()}
 	};
 
     private void InitManagers() {
