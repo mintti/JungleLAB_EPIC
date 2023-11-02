@@ -22,14 +22,17 @@ public class AttackTile : BaseTile
 
             if (_curseTurnCount == 0)
             {
-                _isCurse = true;
+                _isCurse = false;
+                // 파이어볼 소환
             }
         }
         
 
     }
-    public void OnCurse()
+    public void OnCurse(int count)
     {
-
+        // 일단 PoC에선 저주가 하나밖에 없어서..
+        _isCurse = true;
+        _curseTurnCount = count;
     }
 }

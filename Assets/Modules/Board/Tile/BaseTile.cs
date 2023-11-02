@@ -17,7 +17,7 @@ public abstract class BaseTile : MonoBehaviour
 
         if (debuff != null)
         {
-            debuff.OnDebuff();
+            //debuff.OnDebuff();
 
             if (debuff.DebuffCount == 0)
             {
