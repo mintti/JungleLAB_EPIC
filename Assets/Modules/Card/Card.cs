@@ -19,6 +19,7 @@ public class Card {
 	}
 
     #region PublicVariables
+	public CardData CardData => _cardData;
 	#endregion
 
 	#region PrivateVariables
