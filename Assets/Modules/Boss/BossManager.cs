@@ -88,19 +88,34 @@ public class BossManager : MonoBehaviour
 
         if (_paternType == PatternType.FireMagic)
         {
-
+            for(int i = 0; i < _value; i++)
+            {
+                int _ranValue1 = Random.Range(1, 5);
+                int _ranValue2 = Random.Range(1, 4);
+                int _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
+                BoardManager.I.tiles[_tileIndex].OnCurse(2);
+                //마법진이 2턴동안 유지.
+            }
         }
         else if (_paternType == PatternType.Attack)
         {
-
+            //유저 타겟팅 공격
         }
         else if (_paternType == PatternType.Defense)
         {
             _currentDefense += _value;
+            //보스 방어 획득
         }
         else if (_paternType == PatternType.FireBreath) 
         {
+            int _ranValue = Random.Range(1, 5);
+            int _startIndex = (_ranValue - 1) * 4;
 
+            for (int i = _startIndex; i < _startIndex + 5; i++)
+            {
+                BoardManager.I.tiles[i].debuff = new FireBreath(1, 2);
+                //1의 데미지를 주는 타일이 2턴동안 유지
+            }
         }
 
         if (_currentPatternIndex + 1 == bossStates[_currentState].patterns.Count)
@@ -120,12 +135,14 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
+            //1차 광폭화
         }
 
         if (_currentHp > maxHp * 0.3 && _afterHp <= maxHp * 0.3)
         {
             _currentState++;
             _currentPatternIndex = 0;
+            //2차 광폭화
         }
 
     }
