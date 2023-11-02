@@ -7,10 +7,12 @@ namespace TH.Core {
 
 public class LogManager : IManager
 {
+	public const string ERROR_CARD_DECK_NOT_INIT = "CardDeck has not initialized.";
+
 	public enum LogType {
-		INFO,
-		WARNING,
-		ERROR,
+		Info,
+		Warning,
+		Error,
 	}
 
 	public LogManager() {
@@ -28,7 +30,7 @@ public class LogManager : IManager
 
 	}
 
-	public void Log(string message, LogType logType=LogType.INFO) {
+	public void Log(string message, LogType logType=LogType.Info) {
 		#if UNITY_EDITOR
 		LogInEditor(message, logType);
 		#else
@@ -38,17 +40,17 @@ public class LogManager : IManager
 	#endregion
     
 	#region PrivateMethod
-	private void LogInEditor(string message, LogType logType=LogType.INFO) {
-		if (logType == LogType.INFO) {
-			Debug.Log(message);
-		} else if (logType == LogType.WARNING) {
-			Debug.LogWarning(message);
-		} else if (logType == LogType.ERROR) {
-			Debug.LogError(message);
+	private void LogInEditor(string message, LogType logType=LogType.Info) {
+		if (logType == LogType.Info) {
+			Debug.Log($"Debug: {message}");
+		} else if (logType == LogType.Warning) {
+			Debug.LogWarning($"Warning: {message}");
+		} else if (logType == LogType.Error) {
+			Debug.LogError($"Error: {message}");
 		}
 	}
 
-	private void LogInBuild(string message, LogType logType=LogType.INFO) {
+	private void LogInBuild(string message, LogType logType=LogType.Info) {
 	}
 	#endregion
 }
