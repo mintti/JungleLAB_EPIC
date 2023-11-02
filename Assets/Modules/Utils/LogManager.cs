@@ -8,9 +8,9 @@ namespace TH.Core {
 public class LogManager : IManager
 {
 	public enum LogType {
-		INFO,
-		WARNING,
-		ERROR,
+		Info,
+		Warning,
+		Error,
 	}
 
 	public LogManager() {
@@ -28,7 +28,7 @@ public class LogManager : IManager
 
 	}
 
-	public void Log(string message, LogType logType=LogType.INFO) {
+	public void Log(string message, LogType logType=LogType.Info) {
 		#if UNITY_EDITOR
 		LogInEditor(message, logType);
 		#else
@@ -38,17 +38,17 @@ public class LogManager : IManager
 	#endregion
     
 	#region PrivateMethod
-	private void LogInEditor(string message, LogType logType=LogType.INFO) {
-		if (logType == LogType.INFO) {
+	private void LogInEditor(string message, LogType logType=LogType.Info) {
+		if (logType == LogType.Info) {
 			Debug.Log(message);
-		} else if (logType == LogType.WARNING) {
+		} else if (logType == LogType.Warning) {
 			Debug.LogWarning(message);
-		} else if (logType == LogType.ERROR) {
+		} else if (logType == LogType.Error) {
 			Debug.LogError(message);
 		}
 	}
 
-	private void LogInBuild(string message, LogType logType=LogType.INFO) {
+	private void LogInBuild(string message, LogType logType=LogType.Info) {
 	}
 	#endregion
 }
