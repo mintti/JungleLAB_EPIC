@@ -106,7 +106,7 @@ public class GameManager : Singleton<GameManager>
     IEnumerator BoardEvent()
     {
         // [TODO] 보드 설정 시작 전달
-        yield return WaitNext(); 
+        yield return BoardManager.I.OnTurnEnd();
     }
     
     #region Util
