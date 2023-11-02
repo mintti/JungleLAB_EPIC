@@ -9,18 +9,42 @@ public class GameManager : Singleton<GameManager>
     #region Inner Class
     private enum ManagerType {
 		LOG,
+        CARD
 	}
     #endregion
 
     #region Managers Core
+    private static GameData _data;
+    public static GameData Data {
+        get {
+            if (_data == null) {
+                _data = I.GetComponent<GameData>();
+            }
+            return _data;
+        }
+    }
+
+    public static Player Player {
+        get {
+            return FindAnyObjectByType<Player>();
+        }
+    }
+
     public static LogManager Log {
 		get {
 			return _managerList[ManagerType.LOG] as LogManager;
 		}
 	}
 
+    public static CardManager Card {
+        get {
+            return _managerList[ManagerType.CARD] as CardManager;
+        }
+    }
+
     private static Dictionary<ManagerType, IManager> _managerList = new Dictionary<ManagerType, IManager> {
 		{ManagerType.LOG, new LogManager()},
+        {ManagerType.CARD, new CardManager()},
 	};
 
     private void InitManagers() {
