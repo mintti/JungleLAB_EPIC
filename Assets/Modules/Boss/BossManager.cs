@@ -6,13 +6,13 @@ using UnityEngine;
 public class BossManager : MonoBehaviour
 {
     public int maxHp;
-    private int _currentHp;
+    public int _currentHp;
     private int _currentState;
     private int _currentPatternIndex;
     private int _currentDefense;
     public List<BossState> bossStates = new List<BossState>();
 
-    [Header("ÆÐÅÏ¼öÄ¡°ª")]
+    [Header("ï¿½ï¿½ï¿½Ï¼ï¿½Ä¡ï¿½ï¿½")]
     public int normalMagic;
     public int normalAttack;
     public int normalDefense;
@@ -72,12 +72,19 @@ public class BossManager : MonoBehaviour
         bossStates.Add(state3);
     }
 
+    public Pattern GetCurrentPattern()
+    {
+        var pattern = bossStates[_currentState].patterns[_currentPatternIndex];;
+        return pattern;
+    }
+    
     public void BossTurn()
     {
         _currentDefense = 0;
-        
-        PatternType _paternType = bossStates[_currentState].patterns[_currentPatternIndex].type;
-        int _value = bossStates[_currentState].patterns[_currentPatternIndex].value;
+
+        var pattern = GetCurrentPattern();
+        PatternType _paternType = pattern.type;
+        int _value = pattern.value;
 
         if (_paternType == PatternType.FireMagic)
         {
