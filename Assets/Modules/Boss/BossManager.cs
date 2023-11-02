@@ -126,7 +126,8 @@ public class BossManager : MonoBehaviour
 
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
-                BoardManager.I.tiles[i].debuff = new FireBreath(1, 2);
+                FireBreath fb = new FireBreath(1, 2);
+                BoardManager.I.tiles[i].AddDebuff(fb);
                 //1의 데미지를 주는 타일이 2턴동안 유지
             }
         }
