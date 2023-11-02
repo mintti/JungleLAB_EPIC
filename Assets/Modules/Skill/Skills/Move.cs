@@ -4,7 +4,7 @@ namespace Modules.Skill.Skills
     {
         public override void Execute()
         {
-            throw new System.NotImplementedException();
+            GameManager.Log.Log($"시작 지점으로 순간이동을 할 것임");
         }
     }
 }

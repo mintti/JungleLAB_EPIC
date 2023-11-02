@@ -14,9 +14,13 @@ public class UISkillInfo : MonoBehaviour
     public void Init(SkillData skill)
     {
         BaseSkill = skill;
-        
-        _nameTMP.text = skill.Name;
-        _img.sprite = skill.Sprite;
-        _descriptionTMP.text = skill.Description;
+        UpdateInfo();
+    }
+
+    public void UpdateInfo()
+    {
+        _nameTMP.text = $"{BaseSkill.Name} {BaseSkill.Inner.Level}";
+        _img.sprite = BaseSkill.Sprite;
+        _descriptionTMP.text = BaseSkill.Description;
     }
 }

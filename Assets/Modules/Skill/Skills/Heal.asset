@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Heal
   m_EditorClassIdentifier: 
   _skillType: 7
-  _name: 
-  _maxLevel: 0
-  _cost: 0
+  _name: "\uD790"
+  _maxLevel: 3
+  _cost: 3
   _sprite: {fileID: 21300000, guid: 917b18f356ebf864492ffd2d76bd11d5, type: 3}
-  _description: 
+  _description: "\uCCB4\uB825\uC744 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
