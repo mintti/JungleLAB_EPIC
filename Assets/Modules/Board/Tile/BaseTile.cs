@@ -6,7 +6,9 @@ public abstract class BaseTile : MonoBehaviour
 {
     public int index;
     public Debuff debuff;
-    
+
+    protected bool _isCurse;
+    protected int _curseTurnCount;
     public virtual void OnAction(int num=0)
     {
 
@@ -18,12 +20,17 @@ public abstract class BaseTile : MonoBehaviour
         if (debuff != null)
         {
             //debuff.OnDebuff();
-
+            debuff.DebuffCount -= 1;
             if (debuff.DebuffCount == 0)
             {
                 debuff = null;
             }
         }
+    }
+
+    public virtual void OnCurse(int count)
+    {
+
     }
 
 }
