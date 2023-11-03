@@ -13,7 +13,7 @@ public class UIEventInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI eventInfoTMP;
     [SerializeField] private Button eventDrawBtn;
 
-    public void Init()
+    public void OnTileEvent()
     {
         eventInfoTMP.text = "랜덤 이벤트를 실행합니다.";
         eventDrawBtn.gameObject.SetActive(true);
@@ -71,6 +71,7 @@ public class UIEventInfo : MonoBehaviour
         
         // 1초 후 액션 종료
         yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
     }
     
     IEnumerator Blank()
