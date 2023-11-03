@@ -38,8 +38,11 @@ public class Player : MonoBehaviour {
 	#endregion
 
 	#region PublicMethod
+	[Button]
 	public void Init() {
-		// 속석 값 초기화
+		// 속성 값 초기화
+		_health = GetComponent<PlayerHealth>();
+		_defence = GetComponent<PlayerDefence>();
 		_health.ResetValue();
 		_defence.ResetValue();
 
@@ -55,10 +58,23 @@ public class Player : MonoBehaviour {
 		return _abilities[typeof(T)] as T;
 	}
 
-	public void PreUpdate() {
+	public IEnumerator UpdatePlayer() {
+		// 플레이어 능력 업데이트
 		foreach (var ability in _abilities.Values) {
 			ability.PreUpdate();
 		}
+
+		// 플레이어 능력 업데이트
+		foreach (var ability in _abilities.Values) {
+			ability.UpdateAbility();
+		}
+
+		// 플레이어 능력 업데이트
+		foreach (var ability in _abilities.Values) {
+			ability.PostUpdate();
+		}
+
+		yield return null;
 	}
 
 	public void Defence(int value) {
