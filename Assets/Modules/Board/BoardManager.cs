@@ -13,7 +13,6 @@ public class BoardManager : Singleton<BoardManager>
     [SerializeField] private int _lineTileCount;
     public List<BaseTile> tiles = new();
     public List<ISummon> summons = new();
-    public GameObject fireball;
     public GameObject fireBreath;
     private void Start()
     {
