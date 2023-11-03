@@ -30,9 +30,9 @@ public class Card {
 	#endregion
 
 	#region PublicMethod
-	public void Use(ActionType actionType) {
+	public IEnumerator Use(ActionType actionType) {
 		if (actionType == ActionType.Move) {
-			GameManager.Player.Move(_cardData.CardNumber);
+			yield return GameManager.Player.Move(_cardData.CardNumber);
 		} else if (actionType == ActionType.Activate) {
 			if (_cardData.CardType == Type.Wizard) {
 				GameManager.Player.CastMagic(_cardData.CardNumber);
