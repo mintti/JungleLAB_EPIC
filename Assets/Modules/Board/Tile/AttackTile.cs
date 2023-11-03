@@ -17,8 +17,7 @@ public class AttackTile : BaseTile
 
             if (_curseTurnCount == 0)
             {
-                _isCurse = false;
-                GetComponent<SpriteRenderer>().color = Color.white;
+                OffCurse();
                 GameObject s=Instantiate(BoardManager.I.fireball, transform.position, Quaternion.identity);
                 s.GetComponent<Fireball>().Init(index);
                 BoardManager.I.AddSummon(s.GetComponent<ISummon>());
@@ -32,5 +31,11 @@ public class AttackTile : BaseTile
         GetComponent<SpriteRenderer>().color = Color.black;
         _isCurse = true;
         _curseTurnCount = count;
+    }
+
+    public override void OffCurse()
+    {
+        _isCurse = false;
+        GetComponent<SpriteRenderer>().color = Color.white;
     }
 }
