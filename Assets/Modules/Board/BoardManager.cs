@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class BoardManager : Singleton<BoardManager>
 {
@@ -12,12 +13,19 @@ public class BoardManager : Singleton<BoardManager>
     [SerializeField] private int _lineTileCount;
     public List<BaseTile> tiles = new();
     public List<ISummon> summons = new();
-
+    public GameObject fireball;
+    public GameObject fireBreath;
     private void Start()
     {
         Init();
     }
-    public void OnTurnEnd()
+
+    [Button]
+    public void TestTurnEnd()
+    {
+        StartCoroutine(OnTurnEnd());
+    }
+    public IEnumerator OnTurnEnd()
     {
         foreach(BaseTile t in tiles)
         {
@@ -26,11 +34,11 @@ public class BoardManager : Singleton<BoardManager>
 
         foreach(ISummon s in summons)
         {
-            StartCoroutine(s.OnTurnEnd());
+            yield return s.OnTurnEnd();
         }
     }
 
-    private void Init()
+    protected override void Init()
     {
         for(int i = 0; i < tiles.Count; i++)
         {

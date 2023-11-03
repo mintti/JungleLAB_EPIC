@@ -4,9 +4,18 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using TH.Core;
 using Mono.CSharp;
+using System;
 
 public class Player : MonoBehaviour {
 	#region PublicVariables
+	public Action OnMove {
+		get {
+			return _onMove;
+		}
+		set {
+			_onMove = value;
+		}
+	}
 	#endregion
 
 	#region PrivateVariables
@@ -20,6 +29,8 @@ public class Player : MonoBehaviour {
 	[ShowInInspector, ReadOnly] private int _defence;
 	[ShowInInspector, ReadOnly] private int _magicStack;
 	[ShowInInspector, ReadOnly] private int _castingGuage;
+
+	private Action _onMove;
 	#endregion
 
 	#region PublicMethod
@@ -45,7 +56,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Move(int value) {
-
+		_onMove?.Invoke();
 	}
 
 	public void CastMagic(int value) {
