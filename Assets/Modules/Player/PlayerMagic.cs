@@ -51,6 +51,8 @@ namespace TH.Core
 		[SerializeField] private int _maxCastingCount = 5;
 		[SerializeField, ReadOnly] private int _castingGauge;
 		[SerializeField, ReadOnly] private int _magicCircleCount;
+
+		private List<SkillData> _learnedSkills;
 		#endregion
 
 		#region PublicMethod
@@ -60,7 +62,6 @@ namespace TH.Core
 			CastingGauge += value;
 		}
 
-		private List<SkillData> _learnedSkills;
 		public void LearnSkill(SkillData learningSkill)
 		{
 			_learnedSkills ??= new();
@@ -77,10 +78,16 @@ namespace TH.Core
 
 			UIManager.I.UIPlayerInfo.UIPlayerSkill.LearnSkill(learningSkill);
 		}
-		#endregion
 
-		#region PrivateMethod
-		#endregion
-	}
+        public override void UpdateUI()
+        {
+            UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateMagicCircleCount(_magicCircleCount);
+			UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateCastingGauge(_castingGauge, _maxCastingCount);
+        }
+        #endregion
+
+        #region PrivateMethod
+        #endregion
+    }
 
 }

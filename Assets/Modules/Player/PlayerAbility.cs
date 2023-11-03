@@ -25,6 +25,10 @@ public abstract class PlayerAbility: MonoBehaviour {
 	public virtual void PostUpdate() {
 
 	}
+
+	public virtual void UpdateUI() {
+		
+	}
 	#endregion
     
 	#region PrivateMethod

@@ -6,6 +6,7 @@ using DG.Tweening;
 using TH.Core;
 using System.Collections.Generic;
 using System.Linq;
+using System.Collections.ObjectModel;
 
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
@@ -58,6 +59,10 @@ public class Player : MonoBehaviour {
 		_position = 0;
 	}
 
+	public T Ability<T>() where T : PlayerAbility {
+		return _abilities[typeof(T)] as T;
+	}
+
 	public void Defence(int value) {
 		_defence.ChangeValue(value);
 	}
@@ -85,18 +90,6 @@ public class Player : MonoBehaviour {
 
 			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
         }
-	}
-
-	public void CastMagic(int value) {
-		_castingGuage += value;
-		if (_castingGuage >= MAX_CASTING_GUAGE) {
-			_magicStack += _castingGuage / MAX_CASTING_GUAGE;
-			_castingGuage %= MAX_CASTING_GUAGE;
-
-			UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateMagicCircleCount(_magicStack);
-		}
-		
-		UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateCastingGauge(_castingGuage, MAX_CASTING_GUAGE);
 	}
 	#endregion
     
