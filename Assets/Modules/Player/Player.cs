@@ -25,12 +25,6 @@ public class Player : MonoBehaviour {
 	#endregion
 
 	#region PrivateVariables
-	private const int MAX_CASTING_GUAGE = 5;
-
-	[Title("Player Properties")]
-	[ShowInInspector, ReadOnly] private int _magicStack;
-	[ShowInInspector, ReadOnly] private int _castingGuage;
-
 	[ShowInInspector, ReadOnly] private int _position;
 
 	// 플레이어 이벤트
@@ -53,10 +47,9 @@ public class Player : MonoBehaviour {
 		// 플레이어 능력 초기화
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);
 
-		_castingGuage = 0;
-		_magicStack = 0;
-
+		// 플레이어 위치 초기화
 		_position = 0;
+		MoveTo(_position);
 	}
 
 	public T Ability<T>() where T : PlayerAbility {
@@ -84,9 +77,7 @@ public class Player : MonoBehaviour {
 		for(int i = 0; i < value; i++)
         {
             _position = BoardManager.I.GetNextIndex(_position);
-            Vector3 nextPos = BoardManager.I.GetTilePos(_position);
-            transform.DOMove(nextPos, 0.5f);
-            yield return new WaitForSeconds(0.5f);
+            yield return MoveToCoroutine(_position, 0.5f);
 
 			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
         }
@@ -94,5 +85,15 @@ public class Player : MonoBehaviour {
 	#endregion
     
 	#region PrivateMethod
+	private IEnumerator MoveToCoroutine(int index, float time) {
+		Vector3 targetPos = BoardManager.I.GetTilePos(index);
+		transform.DOMove(targetPos, time);
+		yield return new WaitForSeconds(time);
+	}
+
+	private void MoveTo(int index) {
+		Vector3 targetPos = BoardManager.I.GetTilePos(index);
+		transform.position = targetPos;
+	}
 	#endregion
 }
