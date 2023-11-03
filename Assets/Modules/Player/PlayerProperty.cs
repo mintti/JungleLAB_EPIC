@@ -20,9 +20,7 @@ public abstract class PlayerProperty<T>: MonoBehaviour where T: IComparable {
 	#region PublicMethod
 	public abstract void Init();
 
-	public virtual void ChangeValue(T value) {
-		_value = value;
-	}
+	public abstract void ChangeValue(T value);
 
 	public virtual void ResetValue() {
 		if (_isMaxDefault) {

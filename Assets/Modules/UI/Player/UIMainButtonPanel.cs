@@ -42,7 +42,7 @@ public class UIMainButtonPanel : MonoBehaviour
 	}
 
 	private void OnActionEndButtonClick() {
-		GameManager.Card.DrawCard();
+		GameManager.I.Next();
 	}
 
 	private void DisableButtons() {

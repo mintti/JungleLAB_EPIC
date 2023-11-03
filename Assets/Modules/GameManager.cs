@@ -83,6 +83,8 @@ public class GameManager : Singleton<GameManager>
 
         // 다른 매니저들 초기화
         InitManagers();
+
+        B_Start();
     }
     #endregion
 
@@ -91,7 +93,8 @@ public class GameManager : Singleton<GameManager>
 
     public void B_Start()
     {
-        // Init Data
+        // Player 초기화
+        Player.Init();
         
         // 게임 시작
         StartCoroutine(GameFlow());
@@ -115,14 +118,19 @@ public class GameManager : Singleton<GameManager>
 
     IEnumerator PlayerEvent()
     {
+        Card.DrawCard();
+        Player.PreUpdatePlayer();
         // [TODO] 플레이어 턴 시작 전달
         yield return WaitNext(); 
+        yield return Player.UpdatePlayer();
     }
     
     IEnumerator BossEvent()
     {
         // [TODO] 보스 턴 시작 전달
-        yield return WaitNext(); 
+        //yield return WaitNext();
+        Boss.BossTurn();
+        yield return null;
     }
     
     IEnumerator BoardEvent()

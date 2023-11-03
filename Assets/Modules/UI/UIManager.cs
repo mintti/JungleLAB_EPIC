@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TH.Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -28,4 +29,8 @@ public class UIManager : Singleton<UIManager>
     
     [SerializeField] private UIStartPanel _uiStartPanel;
     public UIStartPanel UIStartPanel => _uiStartPanel;
+
+    [Header("Main UI")]
+    [SerializeField] private UIMainButtonPanel _uiMain;
+    public UIMainButtonPanel UIMain => _uiMain;
 }
