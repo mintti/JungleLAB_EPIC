@@ -17,6 +17,8 @@ public class CardManager: IManager
 				return null;
 		}
 	}
+
+	public CardDeck CardDeck => _cardDeck.Get();
 	#endregion
 
 	#region PrivateVariables
