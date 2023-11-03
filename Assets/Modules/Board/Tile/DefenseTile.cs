@@ -7,7 +7,7 @@ public class DefenseTile : BaseTile
 {
     public override void OnAction(int num)
     {
-        // player의 방어도를 num만큼 상승 
+        GameManager.Player.Defence(num);
     }
 
     public override void OnTurnEnd()
