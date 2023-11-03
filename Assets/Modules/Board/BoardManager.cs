@@ -76,5 +76,9 @@ public class BoardManager : Singleton<BoardManager>
         summons.Add(s);
     }
 
+    public void DeleteSummon(ISummon s)
+    {
+        summons.Remove(s);
+    }
 
 }

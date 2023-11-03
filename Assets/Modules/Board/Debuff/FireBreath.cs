@@ -7,10 +7,10 @@ public class FireBreath : Debuff {
 
     private int _damage;
     public override GameObject Effect => BoardManager.I.fireBreath;
-    public FireBreath(int dmg, int count)
+    public FireBreath(int damage, int count)
     {
         _debuffCount =count;
-        _damage = dmg;
+        _damage = damage;
 
     }
 
@@ -22,7 +22,7 @@ public class FireBreath : Debuff {
     
     public override void OnDebuff()
     {
-        // 플레이어에게 _damage만큼 데미지 주기
+        GameManager.Player.Hit(_damage);
 
     }
 

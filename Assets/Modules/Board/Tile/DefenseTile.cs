@@ -8,7 +8,7 @@ public class DefenseTile : BaseTile
 {
     public override void OnAction(int num)
     {
-        // player�� ���� num��ŭ ��� 
+        GameManager.Player.Defence(num);
     }
 
     public override void OnTurnEnd()

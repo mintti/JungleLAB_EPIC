@@ -26,7 +26,10 @@ public class Fireball : MonoBehaviour, ISummon
             _index = BoardManager.I.GetNextIndex(_index);
             if (_index == BoardManager.I.PlayerOnIndex)
             {
-                //플레이어에게 _damage만큼 데미지주기
+                GameManager.Player.Hit(_damage);
+                BoardManager.I.DeleteSummon(this);
+                Destroy(gameObject);
+
             }
 
             Vector3 nextPos = BoardManager.I.GetTilePos(_index);
