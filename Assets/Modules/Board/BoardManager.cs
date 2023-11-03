@@ -8,7 +8,7 @@ public class BoardManager : Singleton<BoardManager>
     private int _playerOnIndex;
     public int PlayerOnIndex
     {
-        get => _playerOnIndex;
+        get => GameManager.Player.Index;
     }
     [SerializeField] private int _lineTileCount;
     public List<BaseTile> tiles = new();

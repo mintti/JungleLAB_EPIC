@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
 			_onMove = value;
 		}
 	}
+
+	public int Index => _index;
 	#endregion
 
 	#region PrivateVariables
