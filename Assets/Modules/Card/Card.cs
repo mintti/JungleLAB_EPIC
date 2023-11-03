@@ -38,7 +38,7 @@ public class Card {
 				GameManager.Player.Ability<PlayerMagic>().CastingGauge += _cardData.CardNumber;
 			}
 			
-			BoardManager.I.tiles[BoardManager.I.PlayerOnIndex].OnAction();
+			BoardManager.I.tiles[BoardManager.I.PlayerOnIndex].OnAction(_cardData.CardNumber);
 		}
 	}
 	#endregion

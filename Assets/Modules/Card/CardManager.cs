@@ -32,10 +32,6 @@ public class CardManager: IManager
 	public void Init() {
 		_cardDeck.Get().Init();
 		_uICardInfo.Get().Init(_cardDeck.Get());
-
-		// TODO: 임시로 여기에 넣어둠
-		_cardDeck.Get().DrawCard(DRAW_COUNT);
-		_uICardInfo.Get().UpdateUI();
 	}
 
 	public IEnumerator SelectedCardAction() {

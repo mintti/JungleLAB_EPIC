@@ -43,6 +43,8 @@ public class Player : MonoBehaviour {
 		// 속성 값 초기화
 		_health = GetComponent<PlayerHealth>();
 		_defence = GetComponent<PlayerDefence>();
+		_health.Init();
+		_defence.Init();
 		_health.ResetValue();
 		_defence.ResetValue();
 
@@ -56,6 +58,15 @@ public class Player : MonoBehaviour {
 
 	public T Ability<T>() where T : PlayerAbility {
 		return _abilities[typeof(T)] as T;
+	}
+
+	public void PreUpdatePlayer() {
+		UIManager.I.UIMain.gameObject.SetActive(true);
+		_defence.ResetValue();
+	}
+
+	public void PostUpdatePlayer() {
+		UIManager.I.UIMain.gameObject.SetActive(false);
 	}
 
 	public IEnumerator UpdatePlayer() {
@@ -82,12 +93,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Hit(int damage) {
-		_defence.ChangeValue(-damage);
-
-		if (_defence.Value < 0) {
-			_health.ChangeValue(_defence.Value);
-			_defence.ResetValue();
+		if (_defence.Value >= damage) {
+			_defence.ChangeValue(-damage);
+			return;
 		}
+
+		_defence.ResetValue();
+		_health.ChangeValue(-damage + _defence.Value);
 	}
 
 	public IEnumerator Move(int value) {
@@ -102,6 +114,8 @@ public class Player : MonoBehaviour {
 
 			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
         }
+
+		BoardManager.I.OnEvent(_position);
 	}
 	#endregion
     

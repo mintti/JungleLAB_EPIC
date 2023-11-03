@@ -17,7 +17,7 @@ public class PlayerHealth: PlayerProperty<int> {
 	}
 
 	public override void ChangeValue(int value) {
-		base.ChangeValue(value);
+		_value += value;
 		if (_value < 0) {
 			_value = 0;
 		}

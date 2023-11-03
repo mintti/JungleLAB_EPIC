@@ -179,6 +179,7 @@ MonoBehaviour:
   _uiEventInfo: {fileID: 1220561004}
   _uiGambleInfo: {fileID: 1931874821}
   _uiStartPanel: {fileID: 1467720301}
+  _uiMain: {fileID: 525768942}
 --- !u!1 &121398215
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,7 +1005,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 143.405, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &223367233
@@ -1600,6 +1601,7 @@ GameObject:
   - component: {fileID: 495392277}
   - component: {fileID: 495392279}
   - component: {fileID: 495392278}
+  - component: {fileID: 495392280}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1676,9 +1678,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _value: 0
-  _isMaxDefault: 0
-  _maxValue: 0
+  _isMaxDefault: 1
+  _maxValue: 10
   _minValue: 0
+--- !u!114 &495392280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 495392274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00d92f3adb179d64e89689440782d350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxCastingCount: 5
+  _castingGauge: 0
+  _magicCircleCount: 0
 --- !u!1 &497142935
 GameObject:
   m_ObjectHideFlags: 0
@@ -3562,7 +3579,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9205364416887523945, guid: d04581135932d7249b691e999e5c756d, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9205364416887523945, guid: d04581135932d7249b691e999e5c756d, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -4870,9 +4887,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 60
   _currentHp: 0
-  normalMagic: 0
-  normalAttack: 0
-  normalDefense: 0
+  normalMagic: 1
+  normalAttack: 5
+  normalDefense: 5
   angryMagic: 0
   angryAttack: 0
   angryBreath: 0
