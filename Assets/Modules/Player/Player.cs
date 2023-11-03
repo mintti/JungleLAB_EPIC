@@ -81,7 +81,11 @@ public class Player : MonoBehaviour {
 		if (_castingGuage >= MAX_CASTING_GUAGE) {
 			_magicStack += _castingGuage / MAX_CASTING_GUAGE;
 			_castingGuage %= MAX_CASTING_GUAGE;
+
+			UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateMagicCircleCount(_magicStack);
 		}
+		
+		UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateCastingGauge(_castingGuage, MAX_CASTING_GUAGE);
 	}
 	#endregion
     
