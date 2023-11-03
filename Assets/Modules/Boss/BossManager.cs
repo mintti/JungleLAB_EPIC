@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System.Linq;
 
 public class BossManager : MonoBehaviour
 {
@@ -90,7 +90,7 @@ public class BossManager : MonoBehaviour
         if (_paternType == PatternType.FireMagic)
         {
             Debug.Log("Spawn MagicCircle");
-            for(int i = 0; i < _value; i++)
+            for (int i = 0; i < _value; i++)
             {
                 int _ranValue1;
                 int _ranValue2;
@@ -101,34 +101,41 @@ public class BossManager : MonoBehaviour
                     _ranValue1 = Random.Range(1, 5);
                     _ranValue2 = Random.Range(1, 4);
                     _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
-                } while (BoardManager.I.tiles[_tileIndex].IsCurse);
+                } while (BoardManager.I.tiles[_tileIndex].IsCurse || _tileIndex == BoardManager.I.PlayerOnIndex);
+                // 설치 타일이 저주받지 않은 상태여야 하고, 유저가 서있는 타일이면 안됨.
+                Debug.Log(_tileIndex);
 
                 BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                // �������� 2�ϵ��� ����.
+                // 마법진이 2턴동안 유지.
             }
         }
         else if (_paternType == PatternType.Attack)
         {
             Debug.Log("AttackPlayer");
-            //���� Ÿ���� ����
+            GameManager.Player.Hit(_value);
         }
         else if (_paternType == PatternType.Defense)
         {
             Debug.Log("GetDefense");
             _currentDefense += _value;
-            //���� ��� ȹ��
         }
         else if (_paternType == PatternType.FireBreath) 
         {
             Debug.Log("FireBreath");
-            int _ranValue = Random.Range(1, 5);
-            int _startIndex = (_ranValue - 1) * 4;
+            int _ranValue;
+            int _startIndex;
+            int pi = BoardManager.I.PlayerOnIndex;
+            do
+            {
+                _ranValue = Random.Range(1, 5);
+                _startIndex = (_ranValue - 1) * 4;
+            } while (Enumerable.Range(_startIndex, 5).Contains(pi));
 
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
                 FireBreath fb = new FireBreath(1, 2);
                 BoardManager.I.tiles[i].AddDebuff(fb);
-                //1�� �������� �ִ� Ÿ���� 2�ϵ��� ����
+                //1의 데미지를 주는 타일이 2턴동안 유지
             }
         }
 
