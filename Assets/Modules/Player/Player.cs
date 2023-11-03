@@ -6,7 +6,6 @@ using DG.Tweening;
 using TH.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
 
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
@@ -25,12 +24,6 @@ public class Player : MonoBehaviour {
 	#endregion
 
 	#region PrivateVariables
-	private const int MAX_CASTING_GUAGE = 5;
-
-	[Title("Player Properties")]
-	[ShowInInspector, ReadOnly] private int _magicStack;
-	[ShowInInspector, ReadOnly] private int _castingGuage;
-
 	[ShowInInspector, ReadOnly] private int _position;
 
 	// 플레이어 이벤트
@@ -45,22 +38,54 @@ public class Player : MonoBehaviour {
 	#endregion
 
 	#region PublicMethod
+	[Button]
 	public void Init() {
-		// 속석 값 초기화
+		// 속성 값 초기화
+		_health = GetComponent<PlayerHealth>();
+		_defence = GetComponent<PlayerDefence>();
+		_health.Init();
+		_defence.Init();
 		_health.ResetValue();
 		_defence.ResetValue();
 
 		// 플레이어 능력 초기화
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);
 
-		_castingGuage = 0;
-		_magicStack = 0;
-
+		// 플레이어 위치 초기화
 		_position = 0;
+		MoveTo(_position);
 	}
 
 	public T Ability<T>() where T : PlayerAbility {
 		return _abilities[typeof(T)] as T;
+	}
+
+	public void PreUpdatePlayer() {
+		UIManager.I.UIMain.gameObject.SetActive(true);
+		_defence.ResetValue();
+	}
+
+	public void PostUpdatePlayer() {
+		UIManager.I.UIMain.gameObject.SetActive(false);
+	}
+
+	public IEnumerator UpdatePlayer() {
+		// 플레이어 능력 업데이트
+		foreach (var ability in _abilities.Values) {
+			ability.PreUpdate();
+		}
+
+		// 플레이어 능력 업데이트
+		foreach (var ability in _abilities.Values) {
+			ability.UpdateAbility();
+		}
+
+		// 플레이어 능력 업데이트
+		foreach (var ability in _abilities.Values) {
+			ability.PostUpdate();
+		}
+
+		yield return null;
 	}
 
 	public void Defence(int value) {
@@ -68,12 +93,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Hit(int damage) {
-		_defence.ChangeValue(-damage);
-
-		if (_defence.Value < 0) {
-			_health.ChangeValue(_defence.Value);
-			_defence.ResetValue();
+		if (_defence.Value >= damage) {
+			_defence.ChangeValue(-damage);
+			return;
 		}
+
+		_defence.ResetValue();
+		_health.ChangeValue(-damage + _defence.Value);
 	}
 
 	public IEnumerator Move(int value) {
@@ -84,15 +110,25 @@ public class Player : MonoBehaviour {
 		for(int i = 0; i < value; i++)
         {
             _position = BoardManager.I.GetNextIndex(_position);
-            Vector3 nextPos = BoardManager.I.GetTilePos(_position);
-            transform.DOMove(nextPos, 0.5f);
-            yield return new WaitForSeconds(0.5f);
+            yield return MoveToCoroutine(_position, 0.5f);
 
 			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
         }
+
+		BoardManager.I.OnEvent(_position);
 	}
 	#endregion
     
 	#region PrivateMethod
+	private IEnumerator MoveToCoroutine(int index, float time) {
+		Vector3 targetPos = BoardManager.I.GetTilePos(index);
+		transform.DOMove(targetPos, time);
+		yield return new WaitForSeconds(time);
+	}
+
+	private void MoveTo(int index) {
+		Vector3 targetPos = BoardManager.I.GetTilePos(index);
+		transform.position = targetPos;
+	}
 	#endregion
 }

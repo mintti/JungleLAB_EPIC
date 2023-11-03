@@ -79,11 +79,30 @@ namespace TH.Core
 			UIManager.I.UIPlayerInfo.UIPlayerSkill.LearnSkill(learningSkill);
 		}
 
-        public override void UpdateUI()
-        {
-            UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateMagicCircleCount(_magicCircleCount);
-			UIManager.I.UIPlayerInfo.UIPlayerSkill.UpdateCastingGauge(_castingGauge, _maxCastingCount);
-        }
+		public bool HasLearn(SkillData skillData)
+		{
+			return _learnedSkills.Any(x => x.SkillType == skillData.SkillType);
+		}
+
+		public SkillData GetSkill(SkillType skillType)
+		{
+			if (_learnedSkills == null)
+			{
+				return null;
+			}
+
+			if (_learnedSkills.Count == 0)
+			{
+				return null;
+			}
+
+			if (_learnedSkills.Find(x => x.SkillType == skillType) == null)
+			{
+				return null;
+			}
+
+			return _learnedSkills.FirstOrDefault(x => x.SkillType == skillType);
+		}
         #endregion
 
         #region PrivateMethod

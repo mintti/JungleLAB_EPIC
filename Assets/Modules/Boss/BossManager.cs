@@ -102,11 +102,11 @@ public class BossManager : MonoBehaviour
                     _ranValue2 = Random.Range(1, 4);
                     _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
                 } while (BoardManager.I.tiles[_tileIndex].IsCurse || _tileIndex == BoardManager.I.PlayerOnIndex);
-                // ì„¤ì¹˜ íƒ€ì¼ì´ ì €ì£¼ë°›ì§€ ì•Šì€ ìƒíƒœì—¬ì•¼ í•˜ê³ , ìœ ì €ê°€ ì„œìˆëŠ” íƒ€ì¼ì´ë©´ ì•ˆë¨.
+                // ?„¤ì¹? ????¼?´ ???ì£¼ë°›ì§? ?•Š??? ?ƒ?ƒœ?—¬?•¼ ?•˜ê³?, ?œ ???ê°? ?„œ?ˆ?Š” ????¼?´ë©? ?•ˆ?¨.
                 Debug.Log(_tileIndex);
 
-                BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                // ë§ˆë²•ì§„ì´ 2í„´ë™ì•ˆ ìœ ì§€.
+                BoardManager.I.tiles[_tileIndex].OnCurse(3);
+                // ë§ˆë²•ì§„ì´ 2?„´?™?•ˆ ?œ ì§?.
             }
         }
         else if (_paternType == PatternType.Attack)
@@ -135,7 +135,7 @@ public class BossManager : MonoBehaviour
             {
                 FireBreath fb = new FireBreath(1, 2);
                 BoardManager.I.tiles[i].AddDebuff(fb);
-                //1ì˜ ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” íƒ€ì¼ì´ 2í„´ë™ì•ˆ ìœ ì§€
+                //1?˜ ?°ë¯¸ì??ë¥? ì£¼ëŠ” ????¼?´ 2?„´?™?•ˆ ?œ ì§?
             }
         }
 
@@ -147,7 +147,7 @@ public class BossManager : MonoBehaviour
         {
             _currentPatternIndex++;
         }
-        TestUpdateUI();
+        //TestUpdateUI();
     }
 
     public void HpUpdate(int _dmg)
@@ -180,7 +180,7 @@ public class BossManager : MonoBehaviour
         }
 
         _currentHp = _afterHp;
-        TestUpdateUI();
+        //TestUpdateUI();
     }
 
     public void TestHit()
