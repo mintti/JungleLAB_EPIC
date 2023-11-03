@@ -104,19 +104,19 @@ public class BossManager : MonoBehaviour
                 } while (BoardManager.I.tiles[_tileIndex].IsCurse);
 
                 BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                // ¸¶¹ýÁøÀÌ 2ÅÏµ¿¾È À¯Áö.
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 2ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
             }
         }
         else if (_paternType == PatternType.Attack)
         {
             Debug.Log("AttackPlayer");
-            //À¯Àú Å¸°ÙÆÃ °ø°Ý
+            //ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         }
         else if (_paternType == PatternType.Defense)
         {
             Debug.Log("GetDefense");
             _currentDefense += _value;
-            //º¸½º ¹æ¾î È¹µæ
+            //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ È¹ï¿½ï¿½
         }
         else if (_paternType == PatternType.FireBreath) 
         {
@@ -128,7 +128,7 @@ public class BossManager : MonoBehaviour
             {
                 FireBreath fb = new FireBreath(1, 2);
                 BoardManager.I.tiles[i].AddDebuff(fb);
-                //1ÀÇ µ¥¹ÌÁö¸¦ ÁÖ´Â Å¸ÀÏÀÌ 2ÅÏµ¿¾È À¯Áö
+                //1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ 2ï¿½Ïµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
         }
 
@@ -160,7 +160,7 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
-            //1Â÷ ±¤ÆøÈ­
+            //1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­
             Debug.Log("Angry1");
         }
 
@@ -168,7 +168,7 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
-            //2Â÷ ±¤ÆøÈ­
+            //2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­
             Debug.Log("Angry2");
         }
 
