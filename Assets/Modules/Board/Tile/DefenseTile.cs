@@ -33,14 +33,16 @@ public class DefenseTile : BaseTile
     [Button]
     public override void OnCurse(int count)
     {
-        GetComponent<SpriteRenderer>().color = Color.black;
+        Sprite curseSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_CURSE);
+        GetComponent<SpriteRenderer>().sprite = curseSprite;
         _isCurse = true;
         _curseTurnCount = count;
     }
 
     public override void OffCurse()
     {
+        Sprite defenseSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_DEFENSE);
+        GetComponent<SpriteRenderer>().sprite = defenseSprite;
         _isCurse = false;
-        GetComponent<SpriteRenderer>().color = Color.white;
     }
 }

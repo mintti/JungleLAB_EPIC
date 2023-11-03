@@ -31,7 +31,8 @@ public class AttackTile : BaseTile
     }
     public override void OnCurse(int count)
     {
-        GetComponent<SpriteRenderer>().color = Color.black;
+        Sprite curseSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_CURSE);
+        GetComponent<SpriteRenderer>().sprite = curseSprite;
         _isCurse = true;
         _curseTurnCount = count;
     }
@@ -39,6 +40,7 @@ public class AttackTile : BaseTile
     public override void OffCurse()
     {
         _isCurse = false;
-        GetComponent<SpriteRenderer>().color = Color.white;
+        Sprite attackSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_ATTACK);
+        GetComponent<SpriteRenderer>().sprite = attackSprite;
     }
 }
