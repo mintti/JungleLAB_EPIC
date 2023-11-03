@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventInfoTMP: {fileID: 8182418337366597989}
+  eventDrawBtn: {fileID: 7749738379734434890}
 --- !u!1 &2222851039169800892
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,7 +637,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8333816911959521518}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 455925101556793554}
+        m_TargetAssemblyTypeName: UIEventInfo, Assembly-CSharp
+        m_MethodName: B_Execute
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4157984110913735778
 GameObject:
   m_ObjectHideFlags: 0
