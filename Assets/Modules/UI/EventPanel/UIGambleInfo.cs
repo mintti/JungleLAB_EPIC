@@ -16,9 +16,12 @@ public class UIGambleInfo : MonoBehaviour
     [SerializeField] private GameObject _resultPanel;
     [SerializeField] private TextMeshProUGUI _resultTMP;
 
-
+    [Header("Data")]
+    [SerializeField] private bool _isSelect;
+    [SerializeField] private bool _isOdd;
+    [SerializeField] public bool _isCancel;
     
-    private int _sucessCount;
+    [SerializeField] private int _sucessCount;
     public int SucessCount
     {
         get => _sucessCount;
@@ -28,28 +31,18 @@ public class UIGambleInfo : MonoBehaviour
             
         }
     }
-    public void UpdateInfo() // [TODO] 남은 도박 횟수, 도박 결과(홀&짝), 성공 여부, 도박 단계 받기
-    {
-        gambleCountTMP.text = $"남은 횟수 {3}";
-        gambleResultTMP.text = $"홀";
-        gambleCardNumTMP.text = $"획득 개수 : 1 , 2 , 4 , 8"; //성공 시, 도박 단계에 초록색 입히기
-        //gambleCardNumTMP.text = $"실패";
-
-    }
     
     [Button]
     public void OnTileEvent()
     {
+        // 초기화
         gambleResultTMP.text = "-";
         _resultPanel.SetActive(false);
         _cover.SetActive(true);
         gameObject.SetActive(true);
+        
         StartCoroutine(GambleFlow());
     }
-
-    private bool _isSelect;
-    private bool _isOdd;
-    public bool _isCancel;
     public void B_SelectOdd(bool isOdd)
     {
         _isOdd = isOdd;
