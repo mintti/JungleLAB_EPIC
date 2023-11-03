@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using TH.Core;
-using Mono.CSharp;
 using System;
+using DG.Tweening;
 
 public class Player : MonoBehaviour {
 	#region PublicVariables
@@ -30,6 +28,8 @@ public class Player : MonoBehaviour {
 	[ShowInInspector, ReadOnly] private int _magicStack;
 	[ShowInInspector, ReadOnly] private int _castingGuage;
 
+	[ShowInInspector, ReadOnly] private int _index;
+
 	// 플레이어 이벤트
 	private Func<int, IEnumerator> _onMove;
 	#endregion
@@ -41,6 +41,8 @@ public class Player : MonoBehaviour {
 
 		_castingGuage = 0;
 		_magicStack = 0;
+
+		_index = 0;
 	}
 
 	public void Defence(int value) {
@@ -56,8 +58,16 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public void Move(int value) {
+	public IEnumerator Move(int value) {
 		StartCoroutine(_onMove?.Invoke(value));
+
+		for(int i = 0; i < value; i++)
+        {
+            _index = BoardManager.I.GetPrevIndex(_index);
+            Vector3 nextPos = BoardManager.I.GetTilePos(_index);
+            transform.DOMove(nextPos, 0.5f);
+            yield return new WaitForSeconds(0.5f);
+        }
 	}
 
 	public void CastMagic(int value) {
