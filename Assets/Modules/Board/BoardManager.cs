@@ -81,4 +81,8 @@ public class BoardManager : Singleton<BoardManager>
         summons.Remove(s);
     }
 
+    public BaseTile GetTile(int index)
+    {
+        return tiles[index];
+    }
 }
