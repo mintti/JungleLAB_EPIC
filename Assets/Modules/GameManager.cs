@@ -25,9 +25,13 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private static Player _player;
     public static Player Player {
         get {
-            return FindAnyObjectByType<Player>();
+            if (_player == null) {
+                FindAnyObjectByType<Player>();
+            }
+            return _player;
         }
     }
 

@@ -20,6 +20,8 @@ public class UICardInfo : MonoBehaviour
     private List<UICard> _selectedCards = null;
 
     public void UpdateUI() {
+        _selectedCards = null;
+
         _drawPile.Get(gameObject).text = _cardDeck.DrawPile.Count.ToString();
         _discardPile.Get(gameObject).text = _cardDeck.Graveyard.Count.ToString();
 
@@ -43,6 +45,10 @@ public class UICardInfo : MonoBehaviour
     }
 
     public void SelectedCardMove() {
+        if (_selectedCards != null && _selectedCards.Count > 1) {
+            return;
+        }
+
         UseSelectedCard(Card.ActionType.Move);
     }
 
@@ -77,6 +83,12 @@ public class UICardInfo : MonoBehaviour
             uICard.UnSelect();
             _selectedCards.Remove(uICard);
         } else {
+            List<UICard> temp = new List<UICard>(_selectedCards);
+            temp.Add(uICard);
+            if (!IsCardNumberContinuous(temp)) {
+                return;
+            }
+
             uICard.Select();
             _selectedCards.Add(uICard);
         }
@@ -90,5 +102,21 @@ public class UICardInfo : MonoBehaviour
                 card.UnSelect();
             }
         }
+    }
+
+    private bool IsCardNumberContinuous(List<UICard> targetList) {
+        if (targetList == null || _selectedCards.Count <= 1) {
+            return true;
+        }
+
+        List<UICard> temp = new List<UICard>(targetList);
+        temp.Sort((a, b) => a.Card.CardData.CardNumber.CompareTo(b.Card.CardData.CardNumber));
+
+        for (int i = 0; i < temp.Count - 1; i++) {
+            if (temp[i].Card.CardData.CardNumber + 1 != temp[i + 1].Card.CardData.CardNumber) {
+                return false;
+            }
+        }
+        return true;
     }
 }
