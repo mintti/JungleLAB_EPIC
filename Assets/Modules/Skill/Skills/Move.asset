@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Move
   m_EditorClassIdentifier: 
   _skillType: 4
-  _name: 
-  _maxLevel: 0
-  _cost: 0
+  _name: "\uC774\uB3D9"
+  _maxLevel: 1
+  _cost: 3
   _sprite: {fileID: 21300000, guid: 795b69b7ebd2209429c281dbf7f34c75, type: 3}
-  _description: 
+  _description: "\uC2DC\uC791 \uC9C0\uC810\uC73C\uB85C \uC21C\uAC04\uC774\uB3D9\uD569\uB2C8\uB2E4."
