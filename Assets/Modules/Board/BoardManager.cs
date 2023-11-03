@@ -57,6 +57,16 @@ public class BoardManager : Singleton<BoardManager>
         return nextIndex;
     }
 
+    public int GetPrevIndex(int index)
+    {
+        int prevIndex = index - 1;
+        if (prevIndex < 0)
+        {
+            prevIndex = tiles.Count-1;
+        }
+        return prevIndex;
+    }
+
     public Vector3 GetTilePos(int index)
     {
         return tiles[index].transform.position;
@@ -66,4 +76,6 @@ public class BoardManager : Singleton<BoardManager>
     {
         summons.Add(s);
     }
+
+
 }
