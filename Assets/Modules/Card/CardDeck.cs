@@ -34,6 +34,25 @@ public class CardDeck : MonoBehaviour {
 		_cards.Add(target);
 	}
 
+	public void RemoveCard(Card target) {
+		if (!_hasInit) {
+			GameManager.Log.Log(LogManager.ERROR_CARD_DECK_NOT_INIT, LogManager.LogType.Error);
+			return;
+		}
+
+		_cards.Remove(target);
+
+		if (_drawPile.Contains(target)) {
+			_drawPile.Remove(target);
+		}
+		else if (_hand.Contains(target)) {
+			_hand.Remove(target);
+		}
+		else if (_graveyard.Contains(target)) {
+			_graveyard.Remove(target);
+		}
+	}
+
 	/// <summary>
 	/// 카드 덱 초기화
 	/// </summary>
