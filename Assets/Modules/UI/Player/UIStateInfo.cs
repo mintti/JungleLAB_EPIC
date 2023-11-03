@@ -9,7 +9,6 @@ public class UIStateInfo : MonoBehaviour
     [Header("Component")]
     [SerializeField] private TextMeshProUGUI testInfoTMP;
 
-
     public void UpdateInfo() // [TODO] 데이터 받기 필요
     {
         testInfoTMP.text = $"체력:{1000}/{1000}\n" +

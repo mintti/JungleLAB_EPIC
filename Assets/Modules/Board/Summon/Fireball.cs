@@ -9,6 +9,8 @@ public class Fireball : MonoBehaviour, ISummon
     [SerializeField] private int _distance;
     [SerializeField] private int _damage;
 
+    public int Index => _index;
+
     public void Init(int index)
     {
         _index = index;
@@ -37,5 +39,10 @@ public class Fireball : MonoBehaviour, ISummon
             yield return new WaitForSeconds(0.5f);
         }
 
+    }
+
+    public void OnEvent()
+    {
+        throw new System.NotImplementedException();
     }
 }
