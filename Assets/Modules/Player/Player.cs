@@ -6,7 +6,6 @@ using DG.Tweening;
 using TH.Core;
 using System.Collections.Generic;
 using System.Linq;
-using System.Collections.ObjectModel;
 
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
@@ -54,6 +53,12 @@ public class Player : MonoBehaviour {
 
 	public T Ability<T>() where T : PlayerAbility {
 		return _abilities[typeof(T)] as T;
+	}
+
+	public void PreUpdate() {
+		foreach (var ability in _abilities.Values) {
+			ability.PreUpdate();
+		}
 	}
 
 	public void Defence(int value) {

@@ -89,6 +89,11 @@ namespace TH.Core
 		{
 			return _learnedSkills.Any(x => x.SkillType == skillData.SkillType);
 		}
+
+		public SkillData GetSkill(SkillType skillType)
+		{
+			return _learnedSkills.FirstOrDefault(x => x.SkillType == skillType);
+		}
         #endregion
 
         #region PrivateMethod
