@@ -10,10 +10,8 @@ public class BoardManager : Singleton<BoardManager>
     {
         get => GameManager.Player.Index;
     }
-    [SerializeField] private int _lineTileCount;
     public List<BaseTile> tiles = new();
     public List<ISummon> summons = new();
-    public GameObject fireBreath;
     private void Start()
     {
         Init();

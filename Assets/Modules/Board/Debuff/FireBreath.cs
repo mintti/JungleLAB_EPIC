@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using TH.Core;
 
 public class FireBreath : Debuff {
 
     private int _damage;
-    public override GameObject Effect => BoardManager.I.fireBreath;
+    public override GameObject Effect => GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.CURSE_FIREBREATH);
     public FireBreath(int damage, int count)
     {
         _debuffCount =count;
