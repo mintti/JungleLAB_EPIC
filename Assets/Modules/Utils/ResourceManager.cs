@@ -12,7 +12,8 @@ namespace TH.Core
 			public const string PATH = "Prefabs/";
 
 			public const string UI_CARD = "UI/Card";
-			public const string SUMMON_FIREBALL = "Summon/Fireball";
+			public const string SUMMON_FIREBALL = "Summon/FireBall";
+			public const string CURSE_FIREBREATH = "Summon/FireBreath";
 		}
 
 		public class Sprites
