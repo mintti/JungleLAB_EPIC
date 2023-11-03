@@ -13,6 +13,8 @@ namespace TH.Core
 
 			public const string UI_CARD = "UI/Card";
 			public const string SUMMON_FIREBALL = "Summon/FireBall";
+			public const string SUMMON_SEED = "Summon/Seed";
+			public const string SUMMON_BlackCat = "Summon/BlackCat";
 			public const string CURSE_FIREBREATH = "Summon/FireBreath";
 		}
 

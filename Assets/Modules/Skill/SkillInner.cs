@@ -1,10 +1,11 @@
 
 using System;
+using UnityEngine;
 
 /// <summary>
 /// 스킬에서 동적으로 관리가 필요한 요소들을 포함합니다.
 /// </summary>
-public abstract class SkillInner
+public abstract class SkillInner : MonoBehaviour
 {
     private SkillData _baseSkill;
 
