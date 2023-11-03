@@ -8,7 +8,7 @@ public class BoardManager : Singleton<BoardManager>
     private int _playerOnIndex;
     public int PlayerOnIndex
     {
-        get => GameManager.Player.Index;
+        get => GameManager.Player.Position;
     }
     public List<BaseTile> tiles = new();
     public List<ISummon> summons = new();
