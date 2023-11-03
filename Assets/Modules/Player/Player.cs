@@ -63,10 +63,12 @@ public class Player : MonoBehaviour {
 
 		for(int i = 0; i < value; i++)
         {
-            _index = BoardManager.I.GetPrevIndex(_index);
+            _index = BoardManager.I.GetNextIndex(_index);
             Vector3 nextPos = BoardManager.I.GetTilePos(_index);
             transform.DOMove(nextPos, 0.5f);
             yield return new WaitForSeconds(0.5f);
+
+			BoardManager.I.GetTile(_index).debuff?.OnDebuff();
         }
 	}
 

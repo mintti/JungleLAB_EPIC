@@ -24,21 +24,37 @@ public class UIMainButtonPanel : MonoBehaviour
     
 	#region PrivateMethod
 	private void Awake() {
-		_actionButton.Get(gameObject).onClick.AddListener(OnActionButtonClick);
-		_moveButton.Get(gameObject).onClick.AddListener(OnMoveButtonClick);
+		_actionButton.Get(gameObject).onClick.AddListener(() => {StartCoroutine(OnActionButtonClick());});
+		_moveButton.Get(gameObject).onClick.AddListener(() => {StartCoroutine(OnMoveButtonClick());});
 		_actionEndButton.Get(gameObject).onClick.AddListener(OnActionEndButtonClick);
 	}
 
-	private void OnActionButtonClick() {
-		GameManager.Card.SelectedCardAction();
+	private IEnumerator OnActionButtonClick() {
+		DisableButtons();
+		yield return GameManager.Card.SelectedCardAction();
+		EnableButtons();
 	}
 
-	private void OnMoveButtonClick() {
-		GameManager.Card.SelectedCardMove();
+	private IEnumerator OnMoveButtonClick() {
+		DisableButtons();
+		yield return GameManager.Card.SelectedCardMove();
+		EnableButtons();
 	}
 
 	private void OnActionEndButtonClick() {
 		GameManager.Card.DrawCard();
+	}
+
+	private void DisableButtons() {
+		_actionButton.Get(gameObject).interactable = false;
+		_moveButton.Get(gameObject).interactable = false;
+		_actionEndButton.Get(gameObject).interactable = false;
+	}
+
+	private void EnableButtons() {
+		_actionButton.Get(gameObject).interactable = true;
+		_moveButton.Get(gameObject).interactable = true;
+		_actionEndButton.Get(gameObject).interactable = true;
 	}
 	#endregion
 }
