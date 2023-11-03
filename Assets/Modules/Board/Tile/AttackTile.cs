@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TH.Core;
+
 public class AttackTile : BaseTile
 {
     public override void OnAction(int num)
@@ -18,7 +20,8 @@ public class AttackTile : BaseTile
             if (_curseTurnCount == 0)
             {
                 OffCurse();
-                GameObject s=Instantiate(BoardManager.I.fireball, transform.position, Quaternion.identity);
+                GameObject fireballPrefab = GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL);
+                GameObject s=Instantiate(fireballPrefab, transform.position, Quaternion.identity);
                 s.GetComponent<Fireball>().Init(index);
                 BoardManager.I.AddSummon(s.GetComponent<ISummon>());
             }
