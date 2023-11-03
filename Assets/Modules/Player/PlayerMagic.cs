@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using System.Security.Cryptography.X509Certificates;
 
 namespace TH.Core
 {
@@ -86,6 +87,21 @@ namespace TH.Core
 
 		public SkillData GetSkill(SkillType skillType)
 		{
+			if (_learnedSkills == null)
+			{
+				return null;
+			}
+
+			if (_learnedSkills.Count == 0)
+			{
+				return null;
+			}
+
+			if (_learnedSkills.Find(x => x.SkillType == skillType) == null)
+			{
+				return null;
+			}
+			
 			return _learnedSkills.FirstOrDefault(x => x.SkillType == skillType);
 		}
         #endregion
