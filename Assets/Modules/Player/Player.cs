@@ -61,7 +61,9 @@ public class Player : MonoBehaviour {
 	}
 
 	public IEnumerator Move(int value) {
-		StartCoroutine(_onMove?.Invoke(value));
+		if (_onMove != null) {
+			StartCoroutine(_onMove?.Invoke(value));
+		}
 
 		for(int i = 0; i < value; i++)
         {
