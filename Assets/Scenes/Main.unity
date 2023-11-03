@@ -235,7 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _uiPlayerInfo: {fileID: 149334304}
   _uiBossInfo: {fileID: 212307194}
-  uiNewSkillSelector: {fileID: 2069029187}
+  _uiNewSkillSelector: {fileID: 0}
 --- !u!1 &66036606
 GameObject:
   m_ObjectHideFlags: 0
@@ -3213,6 +3213,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _castingGaugeParentTr: {fileID: 1890403647}
   magicCircleCntTMP: {fileID: 1085441079}
+  _castingGaugeOnColor: {r: 0, g: 0, b: 0, a: 0}
+  _castingGaugeOffColor: {r: 0, g: 0, b: 0, a: 0}
   _playerSkillTr: {fileID: 30233403}
   _learnedSkillPrefab: {fileID: 6465396704709256190, guid: 406190e8e9091d945a6e78d66e6ed7da, type: 3}
 --- !u!1 &1716858619
@@ -4033,7 +4035,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a9dd437e762e96488f0b26c1456d73e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillInfoPrefab: {fileID: 0}
+  _newSkillInfoPrefab: {fileID: 0}
+  _newSkillInfos: []
+  _newSkillTr: {fileID: 0}
+  _skillDatas: []
 --- !u!1 &2143639589
 GameObject:
   m_ObjectHideFlags: 0
