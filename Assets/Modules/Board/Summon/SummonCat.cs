@@ -8,6 +8,9 @@ public class SummonCat : MonoBehaviour, ISummon
     private int _index;
     private int _lifeCount;
     private int _level;
+
+    public int Index => _index;
+
     public void Init(int count,int level)
     {
         _lifeCount = count;
@@ -45,5 +48,10 @@ public class SummonCat : MonoBehaviour, ISummon
             Destroy(this);
         }
         yield break;
+    }
+
+    public void OnEvent()
+    {
+        throw new System.NotImplementedException();
     }
 }

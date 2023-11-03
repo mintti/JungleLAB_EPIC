@@ -35,6 +35,27 @@ public class BoardManager : Singleton<BoardManager>
         }
     }
 
+    public void OnEvent(int index)
+    {
+        if(tiles[index] is not AttackTile && tiles[index] is not DefenseTile)
+        {
+            tiles[index].OnAction();
+        }
+
+        if (tiles[index].IsCurse)
+        {
+            tiles[index].OffCurse();
+        }
+
+        foreach(ISummon s in summons)
+        {
+            if (s.Index == index)
+            {
+                s.OnEvent();
+            }
+        }
+    }
+
     protected override void Init()
     {
         for(int i = 0; i < tiles.Count; i++)
