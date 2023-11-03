@@ -20,10 +20,11 @@ public class UINewSkillSelector : MonoBehaviour
     public void ActiveNewSkillSelector()
     {
         gameObject.SetActive(true);
-        
+
         // [TODO] 표시 할 스킬 겟
-        
-        
+        // 아직 안 배운 스킬 + 배운 스킬 중 맥스레벨에 도달하지않은 스킬 중 랜덤 3개 봅아서 아래에 등록해주기 
+
+
         for (int i = 0; i < ShowSkillCount; i++)
         {
             _newSkillTr.GetChild(i).GetComponent<UISkillInfo>().Init(_skillDatas[i]);
