@@ -36,13 +36,13 @@ public class CardManager: IManager
 		_uICardInfo.Get().UpdateUI();
 	}
 
-	public void SelectedCardAction() {
-		_uICardInfo.Get().SelectedCardAction();
+	public IEnumerator SelectedCardAction() {
+		yield return _uICardInfo.Get().SelectedCardAction();
 		_uICardInfo.Get().UpdateUI();
 	}
 
-	public void SelectedCardMove() {
-		_uICardInfo.Get().SelectedCardMove();
+	public IEnumerator SelectedCardMove() {
+		yield return _uICardInfo.Get().SelectedCardMove();
 		_uICardInfo.Get().UpdateUI();
 	}
 

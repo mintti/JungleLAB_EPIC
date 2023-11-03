@@ -8,13 +8,10 @@ public class BoardManager : Singleton<BoardManager>
     private int _playerOnIndex;
     public int PlayerOnIndex
     {
-        get => _playerOnIndex;
+        get => GameManager.Player.Index;
     }
-    [SerializeField] private int _lineTileCount;
     public List<BaseTile> tiles = new();
     public List<ISummon> summons = new();
-    public GameObject fireball;
-    public GameObject fireBreath;
     private void Start()
     {
         Init();
@@ -77,5 +74,13 @@ public class BoardManager : Singleton<BoardManager>
         summons.Add(s);
     }
 
+    public void DeleteSummon(ISummon s)
+    {
+        summons.Remove(s);
+    }
 
+    public BaseTile GetTile(int index)
+    {
+        return tiles[index];
+    }
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using TH.Core;
 using TMPro;
 using UnityEngine;
@@ -40,27 +41,31 @@ public class UICardInfo : MonoBehaviour
         _cardDeck = cardDeck;
     }
 
-    public void SelectedCardAction() {
-        UseSelectedCard(Card.ActionType.Activate);
+    public IEnumerator SelectedCardAction() {
+        yield return UseSelectedCard(Card.ActionType.Activate);
     }
 
-    public void SelectedCardMove() {
+    public IEnumerator SelectedCardMove() {
         if (_selectedCards != null && _selectedCards.Count > 1) {
-            return;
+            yield break;
         }
 
-        UseSelectedCard(Card.ActionType.Move);
+        yield return UseSelectedCard(Card.ActionType.Move);
     }
 
-    private void UseSelectedCard(Card.ActionType actionType) {
+    private IEnumerator UseSelectedCard(Card.ActionType actionType) {
         if (_selectedCards == null) {
-            return;
+            yield break;
         }
 
         foreach (var card in _selectedCards) {
-            card.Card.Use(actionType);
-            _cardDeck.UseCard(card.Card);
+            yield return UseCardCoroutine(card.Card, actionType);
         }
+    }
+
+    private IEnumerator UseCardCoroutine(Card card, Card.ActionType actionType) {
+        _cardDeck.UseCard(card);
+        yield return card.Use(actionType);
     }
 
     private void CardSelect(UICard uiCard) {

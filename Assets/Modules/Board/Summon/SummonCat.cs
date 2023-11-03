@@ -13,6 +13,7 @@ public class SummonCat : MonoBehaviour, ISummon
         _lifeCount = count;
         _level = level;
         BoardManager.I.AddSummon(GetComponent<SummonCat>());
+        GameManager.Player.OnMove += Move;
     }
 
     public IEnumerator Move(int value)
@@ -40,6 +41,7 @@ public class SummonCat : MonoBehaviour, ISummon
         _lifeCount -= 1;
         if (_lifeCount <= 0)
         {
+            GameManager.Player.OnMove -= Move;
             Destroy(this);
         }
         yield break;

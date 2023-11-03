@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TH.Core;
+
 public class AttackTile : BaseTile
 {
     public override void OnAction(int num)
     {
-        // 보스의 HP를 num만큼 감소 
+        GameManager.Boss.HpUpdate(num);
     }
 
     public override void OnTurnEnd()
@@ -18,7 +20,8 @@ public class AttackTile : BaseTile
             if (_curseTurnCount == 0)
             {
                 OffCurse();
-                GameObject s=Instantiate(BoardManager.I.fireball, transform.position, Quaternion.identity);
+                GameObject fireballPrefab = GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL);
+                GameObject s=Instantiate(fireballPrefab, transform.position, Quaternion.identity);
                 s.GetComponent<Fireball>().Init(index);
                 BoardManager.I.AddSummon(s.GetComponent<ISummon>());
             }
@@ -28,7 +31,8 @@ public class AttackTile : BaseTile
     }
     public override void OnCurse(int count)
     {
-        GetComponent<SpriteRenderer>().color = Color.black;
+        Sprite curseSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_CURSE);
+        GetComponent<SpriteRenderer>().sprite = curseSprite;
         _isCurse = true;
         _curseTurnCount = count;
     }
@@ -36,6 +40,7 @@ public class AttackTile : BaseTile
     public override void OffCurse()
     {
         _isCurse = false;
-        GetComponent<SpriteRenderer>().color = Color.white;
+        Sprite attackSprite = GameManager.Resource.LoadSprite(ResourceManager.Sprites.TILE_ATTACK);
+        GetComponent<SpriteRenderer>().sprite = attackSprite;
     }
 }

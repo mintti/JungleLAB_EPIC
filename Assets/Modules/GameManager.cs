@@ -35,6 +35,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private static BossManager _boss;
+    public static BossManager Boss {
+        get {
+            if (_boss == null) {
+                _boss = FindAnyObjectByType<BossManager>();
+            }
+            return _boss;
+        }
+    }
+
     public static LogManager Log {
 		get {
 			return _managerList[ManagerType.LOG] as LogManager;

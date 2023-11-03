@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-
+using System.Linq;
 
 public class BossManager : MonoBehaviour
 {
@@ -90,7 +90,7 @@ public class BossManager : MonoBehaviour
         if (_paternType == PatternType.FireMagic)
         {
             Debug.Log("Spawn MagicCircle");
-            for(int i = 0; i < _value; i++)
+            for (int i = 0; i < _value; i++)
             {
                 int _ranValue1;
                 int _ranValue2;
@@ -101,34 +101,41 @@ public class BossManager : MonoBehaviour
                     _ranValue1 = Random.Range(1, 5);
                     _ranValue2 = Random.Range(1, 4);
                     _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
-                } while (BoardManager.I.tiles[_tileIndex].IsCurse);
+                } while (BoardManager.I.tiles[_tileIndex].IsCurse || _tileIndex == BoardManager.I.PlayerOnIndex);
+                // ì„¤ì¹˜ íƒ€ì¼ì´ ì €ì£¼ë°›ì§€ ì•Šì€ ìƒíƒœì—¬ì•¼ í•˜ê³ , ìœ ì €ê°€ ì„œìžˆëŠ” íƒ€ì¼ì´ë©´ ì•ˆë¨.
+                Debug.Log(_tileIndex);
 
                 BoardManager.I.tiles[_tileIndex].OnCurse(2);
-                // ¸¶¹ýÁøÀÌ 2ÅÏµ¿¾È À¯Áö.
+                // ë§ˆë²•ì§„ì´ 2í„´ë™ì•ˆ ìœ ì§€.
             }
         }
         else if (_paternType == PatternType.Attack)
         {
             Debug.Log("AttackPlayer");
-            //À¯Àú Å¸°ÙÆÃ °ø°Ý
+            GameManager.Player.Hit(_value);
         }
         else if (_paternType == PatternType.Defense)
         {
             Debug.Log("GetDefense");
             _currentDefense += _value;
-            //º¸½º ¹æ¾î È¹µæ
         }
         else if (_paternType == PatternType.FireBreath) 
         {
             Debug.Log("FireBreath");
-            int _ranValue = Random.Range(1, 5);
-            int _startIndex = (_ranValue - 1) * 4;
+            int _ranValue;
+            int _startIndex;
+            int pi = BoardManager.I.PlayerOnIndex;
+            do
+            {
+                _ranValue = Random.Range(1, 5);
+                _startIndex = (_ranValue - 1) * 4;
+            } while (Enumerable.Range(_startIndex, 5).Contains(pi));
 
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
                 FireBreath fb = new FireBreath(1, 2);
                 BoardManager.I.tiles[i].AddDebuff(fb);
-                //1ÀÇ µ¥¹ÌÁö¸¦ ÁÖ´Â Å¸ÀÏÀÌ 2ÅÏµ¿¾È À¯Áö
+                //1ì˜ ë°ë¯¸ì§€ë¥¼ ì£¼ëŠ” íƒ€ì¼ì´ 2í„´ë™ì•ˆ ìœ ì§€
             }
         }
 
@@ -160,7 +167,7 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
-            //1Â÷ ±¤ÆøÈ­
+            //1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­
             Debug.Log("Angry1");
         }
 
@@ -168,7 +175,7 @@ public class BossManager : MonoBehaviour
         {
             _currentState++;
             _currentPatternIndex = 0;
-            //2Â÷ ±¤ÆøÈ­
+            //2ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È­
             Debug.Log("Angry2");
         }
 
