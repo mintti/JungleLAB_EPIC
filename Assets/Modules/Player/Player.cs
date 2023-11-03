@@ -8,7 +8,7 @@ using System;
 
 public class Player : MonoBehaviour {
 	#region PublicVariables
-	public Action OnMove {
+	public Func<int, IEnumerator> OnMove {
 		get {
 			return _onMove;
 		}
@@ -30,7 +30,8 @@ public class Player : MonoBehaviour {
 	[ShowInInspector, ReadOnly] private int _magicStack;
 	[ShowInInspector, ReadOnly] private int _castingGuage;
 
-	private Action _onMove;
+	// 플레이어 이벤트
+	private Func<int, IEnumerator> _onMove;
 	#endregion
 
 	#region PublicMethod
@@ -56,7 +57,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Move(int value) {
-		_onMove?.Invoke();
+		StartCoroutine(_onMove?.Invoke(value));
 	}
 
 	public void CastMagic(int value) {

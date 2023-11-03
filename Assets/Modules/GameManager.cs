@@ -29,7 +29,7 @@ public class GameManager : Singleton<GameManager>
     public static Player Player {
         get {
             if (_player == null) {
-                FindAnyObjectByType<Player>();
+                _player = FindAnyObjectByType<Player>();
             }
             return _player;
         }
