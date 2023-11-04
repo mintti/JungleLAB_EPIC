@@ -35,4 +35,9 @@ public class MagicFlower : MonoBehaviour,ISummon
     {
         Attack();
     }
+
+    public void OnPass()
+    {
+        throw new System.NotImplementedException();
+    }
 }

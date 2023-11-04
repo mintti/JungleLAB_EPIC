@@ -22,10 +22,23 @@ public class UINewSkillSelector : MonoBehaviour
     public IEnumerator ActiveNewSkillSelector()
     {
         gameObject.SetActive(true);
-        // [TODO] 표시 할 스킬 겟
-        // 아직 안 배운 스킬 + 배운 스킬 중 맥스레벨에 도달하지않은 스킬 중 랜덤 3개 봅아서 아래에 등록해주기 
+
         List<int> pickNumbers = new();
-        while (pickNumbers.Count < ShowSkillCount)
+        int pickNumbersCount=0;
+
+        foreach (SkillData s in _skillDatas)
+        {
+            if(GameManager.Player.Ability<PlayerMagic>().GetSkill(s.SkillType).Inner.Level
+                != s.MaxLevel)
+            {
+                pickNumbersCount++;
+            }
+
+            if (pickNumbersCount == ShowSkillCount)
+                break;
+        }
+
+        while (pickNumbers.Count < pickNumbersCount)
         {
             int rand = Random.Range(0, _skillDatas.Length);
             if (pickNumbers.Contains(rand))
@@ -39,9 +52,11 @@ public class UINewSkillSelector : MonoBehaviour
 
         }
         
-        // [TODO] 만약, 배울 마법이 존재하지 않는 경우, 칸을 감소하여 출력 시킬 것
+        for(int i = 0; i < ShowSkillCount; i++)
+        {
+            _newSkillTr.GetChild(i).gameObject.SetActive(false);
 
-        Debug.Log(pickNumbers.Count);
+        }
 
         for (int i = 0; i < ShowSkillCount; i++)
         {

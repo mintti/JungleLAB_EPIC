@@ -16,6 +16,20 @@ public class Fireball : MonoBehaviour, ISummon
         _index = index;
     }
 
+   
+    private void Attack()
+    {
+        GameManager.Player.Hit(_damage);
+        BoardManager.I.DeleteSummon(this);
+        Destroy(gameObject);
+    }
+
+    public IEnumerator MoveTo(int index, float time)
+    {
+        Vector3 targetPos = BoardManager.I.GetTilePos(index);
+        transform.DOMove(targetPos, time);
+        yield return new WaitForSeconds(time);
+    }
     public IEnumerator Connect()
     {
         throw new System.NotImplementedException();
@@ -28,15 +42,10 @@ public class Fireball : MonoBehaviour, ISummon
             _index = BoardManager.I.GetNextIndex(_index);
             if (_index == BoardManager.I.PlayerOnIndex)
             {
-                GameManager.Player.Hit(_damage);
-                BoardManager.I.DeleteSummon(this);
-                Destroy(gameObject);
-
+                Attack();
             }
 
-            Vector3 nextPos = BoardManager.I.GetTilePos(_index);
-            transform.DOMove(nextPos, 0.5f);
-            yield return new WaitForSeconds(0.5f);
+            yield return MoveTo(_index, 0.5f);
         }
 
     }
@@ -44,5 +53,10 @@ public class Fireball : MonoBehaviour, ISummon
     public void OnEvent()
     {
         throw new System.NotImplementedException();
+    }
+
+    public void OnPass()
+    {
+        Attack();
     }
 }

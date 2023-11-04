@@ -7,4 +7,5 @@ public interface ISummon {
     IEnumerator OnTurnEnd();
     IEnumerator Connect();
     void OnEvent();
+    void OnPass();
 }
