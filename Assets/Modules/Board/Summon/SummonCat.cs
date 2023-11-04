@@ -11,12 +11,14 @@ public class SummonCat : MonoBehaviour, ISummon
 
     public int Index => _index;
 
-    public void Init(int count,int level)
+    public void Init(int index,int count,int level)
     {
+        _index = index;
         _lifeCount = count;
         _level = level;
         BoardManager.I.AddSummon(GetComponent<SummonCat>());
         GameManager.Player.OnMove += Move;
+        GameManager.Player.OnTileAction += OnAction;
     }
 
     public IEnumerator Move(int value)
@@ -30,13 +32,18 @@ public class SummonCat : MonoBehaviour, ISummon
         }
     }
 
-    public void OnAction()
+    public void OnAction(int _)
     {
-        BoardManager.I.tiles[_index].OnAction(_level);
+        if (BoardManager.I.tiles[_index] is AttackTile 
+            || BoardManager.I.tiles[_index] is DefenseTile)
+        {
+            BoardManager.I.tiles[_index].OnAction(_level);
+        }
+        
     }
     public IEnumerator Connect()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     public IEnumerator OnTurnEnd()
@@ -45,18 +52,24 @@ public class SummonCat : MonoBehaviour, ISummon
         if (_lifeCount <= 0)
         {
             GameManager.Player.OnMove -= Move;
-            Destroy(this);
+            GameManager.Player.OnTileAction -= OnAction;
+            BoardManager.I.DeleteSummon(this);
+            if (this.gameObject != null)
+            {
+                Destroy(gameObject);
+            }
+           
         }
         yield break;
     }
 
     public void OnEvent()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public void OnPass()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

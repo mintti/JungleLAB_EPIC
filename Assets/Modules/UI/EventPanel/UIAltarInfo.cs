@@ -26,7 +26,7 @@ public class UIAltarInfo : MonoBehaviour
     private void Start()
     {
         ResetCount();
-        // ResetCount
+        GameManager.Player.OneAroundEvent += ResetCount;
     }
 
     private void ResetCount()
@@ -41,7 +41,7 @@ public class UIAltarInfo : MonoBehaviour
     }
     
     public void B_Execute() => StartCoroutine(EventExecutor());
-
+    public void B_Cancel() => gameObject.SetActive(false);
 
     public IEnumerator EventExecutor()
     {
@@ -49,9 +49,10 @@ public class UIAltarInfo : MonoBehaviour
         {
             RemainingCount--;
             GameManager.Log.Log("피의 제단 실행 (로직 필요)");
-        
-            // [TODO] 체력 
-            // [TODO] 드로우 카드 1장
+
+            GameManager.Player.Hit(5);
+            GameManager.Card.CardDeck.DrawCard(1);
+            GameManager.Card.UpdateUI();
         }
         else
         {

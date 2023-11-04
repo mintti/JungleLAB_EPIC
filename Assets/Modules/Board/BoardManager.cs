@@ -11,11 +11,8 @@ public class BoardManager : Singleton<BoardManager>
         get => GameManager.Player.Position;
     }
     public List<BaseTile> tiles = new();
-    public List<ISummon> summons = new();
-    private void Start()
-    {
-        Init();
-    }
+    [ShowInInspector] public List<ISummon> summons = new();
+    private List<int> deleteSummonsIndexes = new();
 
     [Button]
     public void TestTurnEnd()
@@ -31,8 +28,13 @@ public class BoardManager : Singleton<BoardManager>
 
         foreach(ISummon s in summons)
         {
+            if (s == null)
+            {
+                continue;
+            }
             yield return s.OnTurnEnd();
         }
+        UpdateSummons();
     }
 
     public void OnEvent(int index)
@@ -49,11 +51,18 @@ public class BoardManager : Singleton<BoardManager>
 
         foreach(ISummon s in summons)
         {
+            if (s == null)
+            {
+                continue;
+            }
+
             if (s.Index == index)
             {
                 s.OnEvent();
             }
         }
+        UpdateSummons();
+
     }
 
     public void OnPass(int index)
@@ -61,10 +70,17 @@ public class BoardManager : Singleton<BoardManager>
         tiles[index].debuff?.OnDebuff();
         foreach(ISummon s in summons)
         {
+            if (s == null)
+            {
+                continue;
+            }
+
             if (s.Index == index)
                 s.OnPass();
         }
+        UpdateSummons();
     }
+
 
     protected override void Init()
     {
@@ -107,7 +123,17 @@ public class BoardManager : Singleton<BoardManager>
 
     public void DeleteSummon(ISummon s)
     {
-        summons.Remove(s);
+        int index=summons.IndexOf(s);
+        deleteSummonsIndexes.Add(index);
+    }
+    private void UpdateSummons()
+    {
+        for(int i = 0; i < deleteSummonsIndexes.Count; i++)
+        {
+            summons[deleteSummonsIndexes[i]] = null;
+        }
+        summons.RemoveAll(item => item == null);
+        deleteSummonsIndexes.Clear();
     }
 
     public BaseTile GetTile(int index)

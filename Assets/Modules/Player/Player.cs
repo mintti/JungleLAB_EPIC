@@ -22,6 +22,15 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public Action<int> OnTileAction {
+		get {
+			return _onTileAction;
+		}
+		set {
+			_onTileAction = value;
+		}
+	}
+
 	public int Position => _position;
 	#endregion
 
@@ -30,6 +39,7 @@ public class Player : MonoBehaviour {
 
 	// 플레이어 이벤트
 	private Func<int, IEnumerator> _onMove;
+	private Action<int> _onTileAction;
 
 	// 플레이어 속성들
 	private PlayerHealth _health;
@@ -37,6 +47,8 @@ public class Player : MonoBehaviour {
 
 	// 플레이어 능력
 	private Dictionary<Type, PlayerAbility> _abilities;
+
+	public Action OneAroundEvent { get; set; }
 	#endregion
 
 	#region PublicMethod
@@ -51,8 +63,11 @@ public class Player : MonoBehaviour {
 		// 플레이어 능력 초기화
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);
 
+		// 플레이어 마법 게이지 초기화
+		GetComponent<PlayerMagic>().Init();
+
 		// 플레이어 위치 초기화
-		_position = 7;
+		_position = 0;
 		MoveTo(_position);
 	}
 
@@ -118,6 +133,8 @@ public class Player : MonoBehaviour {
             _position = BoardManager.I.GetNextIndex(_position);
 
 			if (prePos == LAST_POSITION && _position == 0) {
+
+				OneAroundEvent?.Invoke();
 				yield return UIManager.I.UINewSkillSelector.ActiveNewSkillSelector();
 			}
 
@@ -141,6 +158,16 @@ public class Player : MonoBehaviour {
 		yield return MoveTo(_position, time);
 		BoardManager.I.GetTile(_position).debuff?.OnDebuff();
 		BoardManager.I.OnEvent(_position);
+	}
+
+	public void TileAction(Card.Type type, int value) {
+		_onTileAction?.Invoke(value);
+
+		if (type == Card.Type.Wizard) {
+			Ability<PlayerMagic>().CastingGauge += value;
+		}
+
+		BoardManager.I.tiles[_position].OnAction(value);
 	}
 	#endregion
     

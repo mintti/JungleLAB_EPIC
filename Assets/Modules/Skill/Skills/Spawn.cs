@@ -14,10 +14,9 @@ namespace Modules.Skill.Skills
             };
 
             int catIndex = GameManager.Player.Position;
-            GameObject cat = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL),
+            GameObject cat = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_BLACKCAT),
                 BoardManager.I.GetTilePos(catIndex), Quaternion.identity);
-            cat.GetComponent<SummonCat>().Init(value, catIndex);
-            BoardManager.I.AddSummon(cat.GetComponent<SummonCat>());
+            cat.GetComponent<SummonCat>().Init(catIndex,3,value);
         }
     }
 }

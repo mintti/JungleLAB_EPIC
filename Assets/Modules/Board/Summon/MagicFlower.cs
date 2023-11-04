@@ -23,12 +23,12 @@ public class MagicFlower : MonoBehaviour,ISummon
 
     public IEnumerator OnTurnEnd()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     public IEnumerator Connect()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     public void OnEvent()
@@ -38,6 +38,6 @@ public class MagicFlower : MonoBehaviour,ISummon
 
     public void OnPass()
     {
-        throw new System.NotImplementedException();
+
     }
 }
