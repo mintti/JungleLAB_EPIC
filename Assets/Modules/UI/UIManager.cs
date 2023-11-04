@@ -10,8 +10,11 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private UIPlayerInfo _uiPlayerInfo;
     public UIPlayerInfo UIPlayerInfo => _uiPlayerInfo;
     
-    [SerializeField] private UIBossInfo _uiBossInfo;
-    public UIBossInfo UIBossInfo => _uiBossInfo;
+    // [SerializeField] private UIBossInfo _uiBossInfo;
+    // public UIBossInfo UIBossInfo => _uiBossInfo;
+    
+    [SerializeField]private UIEnemyInfo _uiEnemyInfo;
+    public UIEnemyInfo UIEnemyInfo => _uiEnemyInfo;
     
     [Header("Player Event")] 
     [SerializeField] private UINewSkillSelector _uiNewSkillSelector;
@@ -33,4 +36,5 @@ public class UIManager : Singleton<UIManager>
     [Header("Main UI")]
     [SerializeField] private UIMainButtonPanel _uiMain;
     public UIMainButtonPanel UIMain => _uiMain;
+
 }

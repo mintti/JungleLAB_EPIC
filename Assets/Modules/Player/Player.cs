@@ -51,6 +51,8 @@ public class Player : MonoBehaviour {
 	// 플레이어 행동 (카드)
 	private UICardRequestPanel _cardMoveRequest;
 	private UICardRequestPanel _cardActionRequest;
+
+	public Action OneAroundEvent { get; set; }
 	#endregion
 
 	#region PublicMethod
@@ -65,8 +67,11 @@ public class Player : MonoBehaviour {
 		// 플레이어 능력 초기화
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);
 
+		// 플레이어 마법 게이지 초기화
+		GetComponent<PlayerMagic>().Init();
+
 		// 플레이어 위치 초기화
-		_position = 7;
+		_position = 0;
 		MoveTo(_position);
 	}
 
@@ -120,6 +125,11 @@ public class Player : MonoBehaviour {
 		_health.ChangeValue(-damage + _defence.Value);
 	}
 
+	public void Heal(int value)
+	{
+		_health.ChangeValue(value);
+	}
+
 	public IEnumerator Move(int value) {
 		GameManager.Card.MakeCardsUnSelectable();
 
@@ -133,6 +143,8 @@ public class Player : MonoBehaviour {
             _position = BoardManager.I.GetNextIndex(_position);
 
 			if (prePos == LAST_POSITION && _position == 0) {
+
+				OneAroundEvent?.Invoke();
 				yield return UIManager.I.UINewSkillSelector.ActiveNewSkillSelector();
 			}
 

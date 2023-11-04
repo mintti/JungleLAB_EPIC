@@ -11,12 +11,22 @@ public class SummonCat : MonoBehaviour, ISummon
 
     public int Index => _index;
 
-    public void Init(int count,int level)
+    public void Init(int index,int count,int level)
     {
+        _index = index;
         _lifeCount = count;
         _level = level;
         BoardManager.I.AddSummon(GetComponent<SummonCat>());
         GameManager.Player.OnMove += Move;
+        GameManager.Player.OnTileAction += OnAction;
+    }
+
+    public void DestroyCat()
+    {
+        GameManager.Player.OnMove -= Move;
+        GameManager.Player.OnTileAction -= OnAction;
+        BoardManager.I.DeleteSummon(this);
+        Destroy(gameObject);
     }
 
     public IEnumerator Move(int value)
@@ -27,16 +37,26 @@ public class SummonCat : MonoBehaviour, ISummon
             Vector3 nextPos = BoardManager.I.GetTilePos(_index);
             transform.DOMove(nextPos, 0.5f);
             yield return new WaitForSeconds(0.5f);
+
+            if (BoardManager.I.OnPassCat(_index, this))
+            {
+                yield break;
+            }
         }
     }
 
-    public void OnAction()
+    public void OnAction(int _)
     {
-        BoardManager.I.tiles[_index].OnAction(_level);
+        if (BoardManager.I.tiles[_index] is AttackTile 
+            || BoardManager.I.tiles[_index] is DefenseTile)
+        {
+            BoardManager.I.tiles[_index].OnAction(_level);
+        }
+        
     }
     public IEnumerator Connect()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     public IEnumerator OnTurnEnd()
@@ -44,19 +64,19 @@ public class SummonCat : MonoBehaviour, ISummon
         _lifeCount -= 1;
         if (_lifeCount <= 0)
         {
-            GameManager.Player.OnMove -= Move;
-            Destroy(this);
+            DestroyCat();
+           
         }
         yield break;
     }
 
     public void OnEvent()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     public void OnPass()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

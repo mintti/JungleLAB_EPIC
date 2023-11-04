@@ -11,7 +11,7 @@ public class UIBossInfo : MonoBehaviour
     public void UpdateInfo(BossManager boss)
     {
         var pattern = boss.GetCurrentPattern();
-        testInfoTMP.text = $"HP:{boss._currentHp}/{boss.maxHp}\n" +
+        testInfoTMP.text = $"HP:{boss.CurrentHp}/{boss.maxHp}\n" +
                            $"행동: [{pattern.type.ToString()}] {pattern.value} ".ToTMP();
     }
 

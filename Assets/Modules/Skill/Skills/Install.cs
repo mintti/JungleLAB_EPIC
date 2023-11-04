@@ -15,10 +15,9 @@ namespace Modules.Skill.Skills
             };
 
             int seedIndex = GameManager.Player.Position;
-            GameObject seed = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL),
+            GameObject seed = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_SEED),
                 BoardManager.I.GetTilePos(seedIndex), Quaternion.identity);
             seed.GetComponent<MagicFlower>().Init(value, seedIndex);
-            BoardManager.I.AddSummon(seed.GetComponent<MagicFlower>());
         }
     }
 }

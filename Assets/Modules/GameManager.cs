@@ -83,19 +83,16 @@ public class GameManager : Singleton<GameManager>
 
         // 다른 매니저들 초기화
         InitManagers();
-
-        B_Start();
     }
     #endregion
 
     [Header("Game Flow Variable")]
     [SerializeField] private bool _gameEnd;
-
     public void B_Start()
     {
         // Player 초기화
         Player.Init();
-        
+
         // 게임 시작
         StartCoroutine(GameFlow());
     }
@@ -107,12 +104,19 @@ public class GameManager : Singleton<GameManager>
         _gameEnd = false;
         do
         {
+            Log.Log("플레이어 턴");
             yield return PlayerEvent();
+
+            Log.Log("보스 턴");
             yield return BossEvent();
-            
+
             // 각 행동 종료 및 턴 증가
+            Log.Log("보드 턴");
             yield return BoardEvent();
-            
+
+            // 플레이어/몬스터 버프 디버프 업데이트
+            Log.Log("턴 앤드 이벤트");
+            yield return Boss.TurnEndEvent();
         } while (!_gameEnd);
     }
 
@@ -130,8 +134,7 @@ public class GameManager : Singleton<GameManager>
     {
         // [TODO] 보스 턴 시작 전달
         //yield return WaitNext();
-        Boss.BossTurn();
-        yield return null;
+        yield return Boss.BossTurn();
     }
     
     IEnumerator BoardEvent()
