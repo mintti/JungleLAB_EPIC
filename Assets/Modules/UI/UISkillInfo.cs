@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UISkillInfo : MonoBehaviour
 {
-    [SerializeField] private SkillData _baseSkill;
+    [SerializeField] private Skill _baseSkill;
     // public SkillData BaseSkill { get; private set; }
-    public SkillData BaseSkill
+    public Skill BaseSkill
     {
         get => _baseSkill;
         set => _baseSkill = value;
@@ -18,29 +18,30 @@ public class UISkillInfo : MonoBehaviour
     [SerializeField] private Image _img;
     [SerializeField] private TextMeshProUGUI _descriptionTMP;
 
-    bool _isLearn;
-    public void Init(SkillData skill, bool isLearn = false)
+    bool _isNewSkill;
+    public void Init(Skill skill, bool isNewSkill = false)
     {
-        _isLearn = isLearn;
-
+        _isNewSkill = isNewSkill;
         BaseSkill = skill;
         UpdateInfo();
     }
 
     public void UpdateInfo()
     {
-        var level = BaseSkill.Inner.Level;
+        int level =  _baseSkill.Inner.Level;
         
-        if(_isLearn)
+        if (_isNewSkill)
         {
-            if(GameManager.Player.Ability<PlayerMagic>().GetSkill(BaseSkill.SkillType) != null)
+            var skill = GameManager.Player.Ability<PlayerMagic>().GetSkill(_baseSkill.Data.SkillType);
+
+            if (skill != null)
             {
-                level += 1;
+                level = skill.Inner.Level + 1;
             }
         }
-        
-        _nameTMP.text = $"{BaseSkill.Name} {level}";
-        _img.sprite = BaseSkill.Sprite;
-        _descriptionTMP.text = BaseSkill.Description;
+    
+        _nameTMP.text = $"{BaseSkill.Data.Name} {level}";
+        _img.sprite = BaseSkill.Data.Sprite;
+        _descriptionTMP.text = BaseSkill.Data.Description;
     }
 }

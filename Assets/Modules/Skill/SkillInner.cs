@@ -7,10 +7,12 @@ using UnityEngine;
 /// </summary>
 public abstract class SkillInner : MonoBehaviour
 {
+    public bool IsLearn { get; set; }
     private SkillData _baseSkill;
 
     public void Init(SkillData baseSkill)
     {
+        IsLearn = false;
         _baseSkill = baseSkill;
     }
 
