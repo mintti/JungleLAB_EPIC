@@ -895,6 +895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   altarCountTMP: {fileID: 8161767866915603775}
+  _remainingCount: 0
 --- !u!1 &8910965396998230629
 GameObject:
   m_ObjectHideFlags: 0

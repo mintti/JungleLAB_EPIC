@@ -88,8 +88,7 @@ public class UICardInfo : MonoBehaviour
             uICard.UnSelect();
             _selectedCards.Remove(uICard);
         } else {
-            List<UICard> temp = new List<UICard>(_selectedCards);
-            temp.Add(uICard);
+            List<UICard> temp = new List<UICard>(_selectedCards) { uICard };
             if (!IsCardNumberContinuous(temp)) {
                 return;
             }
@@ -98,19 +97,24 @@ public class UICardInfo : MonoBehaviour
             _selectedCards.Add(uICard);
         }
 
-        if (_selectedCards.Count == 0) {
-            _selectedCards = null;
-        }
-
         foreach (var card in _handCards) {
             if (!_selectedCards.Contains(card)) {
                 card.UnSelect();
             }
         }
+
+        if (_selectedCards.Count == 0) {
+            _selectedCards = null;
+        }
     }
 
     private bool IsCardNumberContinuous(List<UICard> targetList) {
-        if (targetList == null || _selectedCards.Count <= 1) {
+        if (targetList == null) {
+            GameManager.Log.Log("targetList is null", LogManager.LogType.Error);
+            return false;
+        }
+
+        if (targetList.Count == 0) {
             return true;
         }
 

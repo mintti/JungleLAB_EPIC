@@ -127,6 +127,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public IEnumerator MoveTo(int index, float time) {
+		_position = index;
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.DOMove(targetPos, time);
 		yield return new WaitForSeconds(time);
@@ -141,7 +142,9 @@ public class Player : MonoBehaviour {
 	#endregion
     
 	#region PrivateMethod
+	[Button]
 	private void MoveTo(int index) {
+		_position = index;
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.position = targetPos;
 	}
