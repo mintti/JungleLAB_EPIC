@@ -32,7 +32,7 @@ public class Fireball : MonoBehaviour, ISummon
     }
     public IEnumerator Connect()
     {
-        throw new System.NotImplementedException();
+        yield break;
     }
 
     public IEnumerator OnTurnEnd()
