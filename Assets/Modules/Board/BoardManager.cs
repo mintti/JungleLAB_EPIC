@@ -56,6 +56,16 @@ public class BoardManager : Singleton<BoardManager>
         }
     }
 
+    public void OnPass(int index)
+    {
+        tiles[index].debuff?.OnDebuff();
+        foreach(ISummon s in summons)
+        {
+            if (s.Index == index)
+                s.OnPass();
+        }
+    }
+
     protected override void Init()
     {
         for(int i = 0; i < tiles.Count; i++)
