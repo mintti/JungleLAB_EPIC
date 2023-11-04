@@ -1,3 +1,5 @@
+using UnityEngine;
+using TH.Core;
 namespace Modules.Skill.Skills
 {
     public class Spawn : SkillInner
@@ -11,7 +13,11 @@ namespace Modules.Skill.Skills
                 3 => 3,
             };
 
-            GameManager.Log.Log($"플레이어와 동일하게 이동하며 {value} 값만큼 타일을 활성화하는 소환수를 소환할 것임");
+            int catIndex = GameManager.Player.Position;
+            GameObject cat = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL),
+                BoardManager.I.GetTilePos(catIndex), Quaternion.identity);
+            cat.GetComponent<SummonCat>().Init(value, catIndex);
+            BoardManager.I.AddSummon(cat.GetComponent<SummonCat>());
         }
     }
 }

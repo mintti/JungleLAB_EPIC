@@ -1,3 +1,6 @@
+using UnityEngine;
+using TH.Core;
+
 namespace Modules.Skill.Skills
 {
     public class Install : SkillInner
@@ -11,7 +14,11 @@ namespace Modules.Skill.Skills
                 3 => 8,
             };
 
-            GameManager.Log.Log($"{value} 만큼의 데미지를 입히는 식물을 현재 땅에 심을 것임");
+            int seedIndex = GameManager.Player.Position;
+            GameObject seed = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_FIREBALL),
+                BoardManager.I.GetTilePos(seedIndex), Quaternion.identity);
+            seed.GetComponent<MagicFlower>().Init(value, seedIndex);
+            BoardManager.I.AddSummon(seed.GetComponent<MagicFlower>());
         }
     }
 }
