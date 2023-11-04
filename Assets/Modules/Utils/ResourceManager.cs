@@ -12,6 +12,7 @@ namespace TH.Core
 			public const string PATH = "Prefabs/";
 
 			public const string UI_CARD = "UI/Card";
+			public const string UI_CARD_USE_PANEL = "UI/CardUsePanel";
 			public const string SUMMON_FIREBALL = "Summon/FireBall";
 			public const string SUMMON_SEED = "Summon/Seed";
 			public const string SUMMON_BLACKCAT = "Summon/BlackCat";

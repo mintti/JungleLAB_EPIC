@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mono.CSharp;
 using Sirenix.OdinInspector;
 using TH.Core;
 using UnityEngine;
@@ -51,6 +52,8 @@ public class CardDeck : MonoBehaviour {
 		else if (_graveyard.Contains(target)) {
 			_graveyard.Remove(target);
 		}
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -76,6 +79,50 @@ public class CardDeck : MonoBehaviour {
 		DiscardCard(card);
 	}
 
+	public void ExtractCardFromHand(Card card) {
+		if (!_hand.Contains(card)) {
+			GameManager.Log.Log(LogManager.ERROR_CARD_NOT_IN_HAND, LogManager.LogType.Error);
+			return;
+		}
+
+		_hand.Remove(card);
+		GameManager.Card.UpdateUI();
+	}
+
+	public void PutCardIntoHand(Card card) {
+		if (_graveyard.Contains(card)) {
+			_graveyard.Remove(card);
+		}
+
+		if (_drawPile.Contains(card)) {
+			_drawPile.Remove(card);
+		}
+
+		if (!_hand.Contains(card)) {
+			_hand.Add(card);
+		} else {
+			GameManager.Log.Log(LogManager.ERROR_CARD_ALREADY_IN_HAND, LogManager.LogType.Error);
+		}
+
+		GameManager.Card.UpdateUI();
+	}
+
+	public void PutCardIntoGraveyard(Card card) {
+		if (_drawPile.Contains(card)) {
+			_drawPile.Remove(card);
+		}
+
+		if (_hand.Contains(card)) {
+			_hand.Remove(card);
+		}
+
+		if (!_graveyard.Contains(card)) {
+			_graveyard.Add(card);
+		}
+
+		GameManager.Card.UpdateUI();
+	}
+
 	/// <summary>
 	/// 해당 카드 버리기
 	/// </summary>
@@ -88,6 +135,8 @@ public class CardDeck : MonoBehaviour {
 
 		_hand.Remove(card);
 		_graveyard.Add(card);
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -98,6 +147,8 @@ public class CardDeck : MonoBehaviour {
 			_graveyard.Add(card);
 		}
 		_hand.Clear();
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -108,10 +159,12 @@ public class CardDeck : MonoBehaviour {
 	public int DrawCard(int count) {
 		for (int i = 0; i < count; i++) {
 			if (DrawCard() == false) {
+				GameManager.Card.UpdateUI();
 				return i;
 			}
 		}
 
+		GameManager.Card.UpdateUI();
 		return count;
 	}
 	#endregion

@@ -48,6 +48,10 @@ public class Player : MonoBehaviour {
 	// 플레이어 능력
 	private Dictionary<Type, PlayerAbility> _abilities;
 
+	// 플레이어 행동 (카드)
+	private UICardRequestPanel _cardMoveRequest;
+	private UICardRequestPanel _cardActionRequest;
+
 	public Action OneAroundEvent { get; set; }
 	#endregion
 
@@ -77,11 +81,15 @@ public class Player : MonoBehaviour {
 
 	public void PreUpdatePlayer() {
 		UIManager.I.UIMain.gameObject.SetActive(true);
+
+		RequestCardPanels();
+
 		_defence.ResetValue();
 	}
 
 	public void PostUpdatePlayer() {
 		UIManager.I.UIMain.gameObject.SetActive(false);
+		GameManager.Card.MakeCardsUnSelectable();
 	}
 
 	public IEnumerator UpdatePlayer() {
@@ -123,6 +131,8 @@ public class Player : MonoBehaviour {
 	}
 
 	public IEnumerator Move(int value) {
+		GameManager.Card.MakeCardsUnSelectable();
+
 		if (_onMove != null) {
 			StartCoroutine(_onMove?.Invoke(value));
 		}
@@ -144,6 +154,8 @@ public class Player : MonoBehaviour {
         }
 
 		BoardManager.I.OnEvent(_position);
+
+		RequestCardPanels();
 	}
 
 	public IEnumerator MoveTo(int index, float time) {
@@ -177,6 +189,45 @@ public class Player : MonoBehaviour {
 		_position = index;
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.position = targetPos;
+	}
+
+	private void RequestCardPanels() {
+		if (_cardActionRequest != null) {
+			_cardActionRequest.Close();
+		}
+
+		if (_cardMoveRequest != null) {
+			_cardMoveRequest.Close();
+		}
+
+		_cardMoveRequest = GameManager.Card.RequestCard(
+			"이동",
+			"낸 카드의 수만큼 이동합니다.",
+			(type, value) => {
+				_cardActionRequest.Close();
+				_cardActionRequest = null;
+				_cardMoveRequest = null;
+				StartCoroutine(Move(value));
+			},
+			CardAfterUse.KeepToGraveyard,
+			CardUseRestriction.JustOne,
+			false,
+			null,
+			CardRequestPosition.Left
+		);
+
+		_cardActionRequest = GameManager.Card.RequestCard(
+			"행동",
+			"낸 카드의 수만큼 행동합니다.",
+			(type, value) => {
+				TileAction(type, value);
+			},
+			CardAfterUse.KeepToGraveyard,
+			CardUseRestriction.Succesive,
+			false,
+			null,
+			CardRequestPosition.Right
+		);
 	}
 	#endregion
 }

@@ -127,6 +127,7 @@ public class GameManager : Singleton<GameManager>
         // [TODO] 플레이어 턴 시작 전달
         yield return WaitNext(); 
         yield return Player.UpdatePlayer();
+        Player.PostUpdatePlayer();
     }
     
     IEnumerator BossEvent()

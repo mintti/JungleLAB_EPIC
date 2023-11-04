@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 namespace TH.Core {
 
-    public class UICard : MonoBehaviour, IPointerClickHandler
+    public class UICard : MonoBehaviour, IPointerDownHandler
     {
         #region PublicVariables
 		public Card Card => _card;
@@ -19,7 +19,9 @@ namespace TH.Core {
         #region PrivateVariables
 		private Card _card;
 		private Action<UICard> _onSelect;
-		private Action<UICard> _onAddSelect;
+
+		private bool _isSelectable = false;
+		private bool _isSelected = false;
 
 		private ComponentGetter<RectTransform> _rectTransform
 			= new ComponentGetter<RectTransform>(TypeOfGetter.This);
@@ -27,42 +29,79 @@ namespace TH.Core {
 			= new ComponentGetter<TextMeshProUGUI>(TypeOfGetter.ChildByName, "CardNumber");
 		private ComponentGetter<Image> _cardImage
 			= new ComponentGetter<Image>(TypeOfGetter.ChildByName, "Image");
+		private ComponentGetter<Image> _panelImage
+			= new ComponentGetter<Image>(TypeOfGetter.This);
+
+		private RectTransform _parentRectTransform;
         #endregion
 
         #region PublicMethod
-		public void Init(Card card, Action<UICard> onSelect, Action<UICard> onAddSelect) {
+		public void Init(Card card, RectTransform parentDeck, Action<UICard> onSelect) {
 			_card = card;
 			_onSelect = onSelect;
-			_onAddSelect = onAddSelect;
+
+			_parentRectTransform = parentDeck;
 
 			_cardNumberText.Get(gameObject).text = card.CardData.CardNumber.ToString();
 			_cardImage.Get(gameObject).sprite = CardManager.GetCardEmblem(card.CardData.CardType);
 		}
 
-		public void OnPointerClick(PointerEventData eventData)
+		public void OnPointerDown(PointerEventData eventData)
         {
+			if (!_isSelectable) {
+				return;
+			}
+
 			if (_card == null) {
 				return;
 			}
-			if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
-				_onAddSelect(this);
-			} else {
-				_onSelect(this);
+
+			if (GameManager.Card.CardSlectionState != CardUIState.Idle) {
+				return;
 			}
+
+			_onSelect?.Invoke(this);
         }
 
 		public void UnSelect() {
 			_rectTransform.Get(gameObject).DOScale(1f, 0.1f).SetEase(Ease.OutBack);
+
+			_isSelected = false;
+			transform.SetParent(_parentRectTransform);
+
+			
+			_cardImage.Get(gameObject).raycastTarget = true;
+			_cardNumberText.Get(gameObject).raycastTarget = true;
+			_panelImage.Get(gameObject).raycastTarget = true;
 		}
 
 		public void Select() {
 			_rectTransform.Get(gameObject).DOScale(1.2f, 0.1f).SetEase(Ease.OutBack);
+
+			_isSelected = true;
+			transform.SetParent(UIManager.I.UIPlayerInfo.transform);
+
+			_cardImage.Get(gameObject).raycastTarget = false;
+			_cardNumberText.Get(gameObject).raycastTarget = false;
+			_panelImage.Get(gameObject).raycastTarget = false;
+		}
+
+		public void MakeSelectable() {
+			_isSelectable = true;
+		}
+
+		public void MakeUnSelectable() {
+			_isSelectable = false;
 		}
         #endregion
 
         #region PrivateMethod
+		private void Update() {
+			if (_isSelected) {
+				transform.position = Input.mousePosition;
+			}
+		}
         #endregion
-        
     }
 
 }

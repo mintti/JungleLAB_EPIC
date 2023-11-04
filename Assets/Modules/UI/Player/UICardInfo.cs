@@ -3,10 +3,11 @@ using System.Collections;
 using TH.Core;
 using TMPro;
 using UnityEngine;
+using System;
 
 public class UICardInfo : MonoBehaviour
 {
-    public IReadOnlyList<UICard> SelectedCards => _selectedCards;
+    public UICard SelectedCard => _selectedCard;
 
     private ObjectGetter _handUI
         = new ObjectGetter(TypeOfGetter.ChildByName, "Cards");
@@ -18,10 +19,13 @@ public class UICardInfo : MonoBehaviour
     private List<UICard> _handCards = new List<UICard>();
     private CardDeck _cardDeck;
 
-    private List<UICard> _selectedCards = null;
+    private UICard _selectedCard = null;
+    private Action<UICard> _onDragStarted;
+
+    private bool _isSelectable = false;
 
     public void UpdateUI() {
-        _selectedCards = null;
+        _selectedCard = null;
 
         _drawPile.Get(gameObject).text = _cardDeck.DrawPile.Count.ToString();
         _discardPile.Get(gameObject).text = _cardDeck.Graveyard.Count.ToString();
@@ -32,80 +36,63 @@ public class UICardInfo : MonoBehaviour
         foreach (var card in _cardDeck.Hand) {
             var uiCardObj = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.UI_CARD), _handUI.Get(gameObject).transform);
             UICard uiCard = uiCardObj.GetComponent<UICard>();
-            uiCard.GetComponent<UICard>().Init(card, CardSelect, CardAddSelect);
+            uiCard.GetComponent<UICard>().Init(
+                card, 
+                _handUI.Get(gameObject).transform as RectTransform, 
+                OnCardSelect);
             _handCards.Add(uiCard);
         }
+
+        if (_isSelectable) {
+            MakeCardsSelectable();
+        }
+        else {
+            MakeCardsUnSelectable();
+        }
     }
 
-    public void Init(CardDeck cardDeck) {
+    public void Init(CardDeck cardDeck, Action<UICard> onDragStarted) {
         _cardDeck = cardDeck;
+        _onDragStarted = onDragStarted;
     }
 
-    public IEnumerator SelectedCardAction() {
-        yield return UseSelectedCard(Card.ActionType.Activate);
-    }
+    public void MakeCardsSelectable() {
+        _isSelectable = true;
 
-    public IEnumerator SelectedCardMove() {
-        if (_selectedCards != null && _selectedCards.Count > 1) {
-            yield break;
-        }
-
-        yield return UseSelectedCard(Card.ActionType.Move);
-    }
-
-    private IEnumerator UseSelectedCard(Card.ActionType actionType) {
-        if (_selectedCards == null) {
-            yield break;
-        }
-
-        foreach (var card in _selectedCards) {
-            yield return UseCardCoroutine(card.Card, actionType);
+        foreach (var card in _handCards) {
+            card.MakeSelectable();
         }
     }
+
+    public void MakeCardsUnSelectable() {
+        _isSelectable = false;
+
+        foreach (var card in _handCards) {
+            card.MakeUnSelectable();
+        }
+    }
+
+    public void FinishDragging() {
+        if (_selectedCard == null) {
+            GameManager.Log.Log("selectedCard is null", LogManager.LogType.Error);
+            return;
+        }
+
+        _selectedCard.UnSelect();
+    }
+
+    #region PrivateMethod
 
     private IEnumerator UseCardCoroutine(Card card, Card.ActionType actionType) {
         _cardDeck.UseCard(card);
         yield return card.Use(actionType);
     }
 
-    private void CardSelect(UICard uiCard) {
-        _selectedCards = new List<UICard> { uiCard };
-        uiCard.Select();
+    private void OnCardSelect(UICard uiCard) {
+        _selectedCard = uiCard;
+        _onDragStarted(uiCard);
 
-        foreach (var card in _handCards) {
-            if (card != uiCard) {
-                card.UnSelect();
-            }
-        }
-    }
-
-    private void CardAddSelect(UICard uICard) {
-        if (_selectedCards == null) {
-            _selectedCards = new List<UICard>();
-        }
-
-        if (_selectedCards.Contains(uICard)) {
-            uICard.UnSelect();
-            _selectedCards.Remove(uICard);
-        } else {
-            List<UICard> temp = new List<UICard>(_selectedCards) { uICard };
-            if (!IsCardNumberContinuous(temp)) {
-                return;
-            }
-
-            uICard.Select();
-            _selectedCards.Add(uICard);
-        }
-
-        foreach (var card in _handCards) {
-            if (!_selectedCards.Contains(card)) {
-                card.UnSelect();
-            }
-        }
-
-        if (_selectedCards.Count == 0) {
-            _selectedCards = null;
-        }
+        _selectedCard.Select();
     }
 
     private bool IsCardNumberContinuous(List<UICard> targetList) {
@@ -128,4 +115,5 @@ public class UICardInfo : MonoBehaviour
         }
         return true;
     }
+    #endregion
 }
