@@ -34,11 +34,7 @@ public class Card {
 		if (actionType == ActionType.Move) {
 			yield return GameManager.Player.Move(_cardData.CardNumber);
 		} else if (actionType == ActionType.Activate) {
-			if (_cardData.CardType == Type.Wizard) {
-				GameManager.Player.Ability<PlayerMagic>().CastingGauge += _cardData.CardNumber;
-			}
-			
-			BoardManager.I.tiles[BoardManager.I.PlayerOnIndex].OnAction(_cardData.CardNumber);
+			GameManager.Player.TileAction(_cardData.CardType, _cardData.CardNumber);
 		}
 	}
 	#endregion
