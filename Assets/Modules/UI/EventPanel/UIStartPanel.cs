@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIStartPanel : MonoBehaviour
 {
+    [SerializeField] private int _value;
     private bool _wait;
     public void OnTileEvent()
     {
@@ -25,6 +26,7 @@ public class UIStartPanel : MonoBehaviour
         
         // [TODO] 플레이어 체력 회복
         GameManager.Log.Log("시작 지점 효과로 체력이 회복됩니다.");
+        GameManager.Player.Heal(_value);
         
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);

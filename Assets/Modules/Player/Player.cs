@@ -102,6 +102,11 @@ public class Player : MonoBehaviour {
 		_health.ChangeValue(-damage + _defence.Value);
 	}
 
+	public void Heal(int value)
+	{
+		_health.ChangeValue(value);
+	}
+
 	public IEnumerator Move(int value) {
 		if (_onMove != null) {
 			StartCoroutine(_onMove?.Invoke(value));
