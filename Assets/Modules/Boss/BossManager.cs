@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using Mono.CSharp;
 
 public class BossManager : MonoBehaviour
 {
@@ -29,12 +30,50 @@ public class BossManager : MonoBehaviour
     public int enragedDefense;
 
 
+    [Header("Status Effect")]
+    [SerializeField] private GameObject _weakIconObj;
+    [SerializeField] private TextMeshProUGUI _weakTMP;
+    private int _weakCount;
+    private int WeakCount
+    {
+        get => _weakCount;
+        set
+        {
+            _weakCount = value;
+            _weakIconObj.SetActive(_weakCount > 0);
+            _weakTMP.text = $"{_weakCount}";
+        }
+    }
+    
+    [SerializeField] private GameObject _brokenIconObj;
+    [SerializeField] private TextMeshProUGUI _brokenTMP;
+    private int _brokenCount;
+    private int BrokenCount
+    {
+        get => _brokenCount;
+        set
+        {
+            _brokenCount = value;
+            _brokenIconObj.SetActive(_brokenCount > 0);
+            _brokenTMP.text = $"{_brokenCount}";
+        }
+    }
+
+    public void EventDebuffBoss(int broken, int weak)
+    {
+        WeakCount = weak;
+        BrokenCount = broken;
+    }
+
     public void Start()
     {
         _currentHp = maxHp;
         _currentState = 0;
         _currentPatternIndex = 0;
 
+        BrokenCount = 0;
+        WeakCount = 0;
+        
         Pattern pattern1 = new Pattern { type = PatternType.FireMagic, value = normalMagic };
         Pattern pattern2 = new Pattern { type = PatternType.Attack, value = normalAttack };
         Pattern pattern3 = new Pattern { type = PatternType.Defense, value = normalDefense };
@@ -79,7 +118,15 @@ public class BossManager : MonoBehaviour
         return pattern;
     }
     
-    public void BossTurn()
+    public IEnumerator TurnEndEvent()
+    {
+        BrokenCount--;
+        WeakCount--;
+        
+        yield return new WaitForSeconds(.5f);
+    }
+    
+    public IEnumerator BossTurn()
     {
         _currentDefense = 0;
 
@@ -112,7 +159,9 @@ public class BossManager : MonoBehaviour
         else if (_paternType == PatternType.Attack)
         {
             Debug.Log("AttackPlayer");
-            GameManager.Player.Hit(_value);
+
+            var value = WeakCount > 0 ? _value / 2 : _value;
+            GameManager.Player.Hit(value); 
         }
         else if (_paternType == PatternType.Defense)
         {
@@ -148,10 +197,13 @@ public class BossManager : MonoBehaviour
             _currentPatternIndex++;
         }
         //TestUpdateUI();
+
+        yield return new WaitForSeconds(1f);
     }
 
     public void HpUpdate(int _dmg)
     {
+        _dmg = _brokenCount > 0 ? (int)(_dmg * 1.5f) : _dmg;
         if (_currentDefense > 0)
         {
             _currentDefense -= _dmg;
