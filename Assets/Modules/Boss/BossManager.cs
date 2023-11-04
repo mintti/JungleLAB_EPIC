@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System.Linq;
+using Mono.CSharp;
 
 public class BossManager : MonoBehaviour
 {
@@ -114,13 +115,15 @@ public class BossManager : MonoBehaviour
         return pattern;
     }
     
-    public void TurnEndEvent()
+    public IEnumerator TurnEndEvent()
     {
         BrokenCount--;
         WeakCount--;
+
+        yield return new WaitForSeconds(.5f);
     }
     
-    public void BossTurn()
+    public IEnumerator BossTurn()
     {
         _currentDefense = 0;
 
@@ -191,6 +194,8 @@ public class BossManager : MonoBehaviour
             _currentPatternIndex++;
         }
         //TestUpdateUI();
+
+        yield return new WaitForSeconds(1f);
     }
 
     public void HpUpdate(int _dmg)
