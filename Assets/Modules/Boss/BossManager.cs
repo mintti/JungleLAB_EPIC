@@ -71,6 +71,9 @@ public class BossManager : MonoBehaviour
         _currentState = 0;
         _currentPatternIndex = 0;
 
+        BrokenCount = 0;
+        WeakCount = 0;
+        
         Pattern pattern1 = new Pattern { type = PatternType.FireMagic, value = normalMagic };
         Pattern pattern2 = new Pattern { type = PatternType.Attack, value = normalAttack };
         Pattern pattern3 = new Pattern { type = PatternType.Defense, value = normalDefense };
@@ -119,7 +122,7 @@ public class BossManager : MonoBehaviour
     {
         BrokenCount--;
         WeakCount--;
-
+        
         yield return new WaitForSeconds(.5f);
     }
     
