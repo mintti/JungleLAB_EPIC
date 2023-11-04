@@ -181,6 +181,20 @@ public class Player : MonoBehaviour {
 
 		BoardManager.I.tiles[_position].OnAction(value);
 	}
+
+	public void ShowCardPanels() {
+		RequestCardPanels();
+	}
+
+	public void HideCardPanels() {
+		if (_cardActionRequest != null) {
+			_cardActionRequest.Close();
+		}
+
+		if (_cardMoveRequest != null) {
+			_cardMoveRequest.Close();
+		}
+	}
 	#endregion
     
 	#region PrivateMethod
@@ -192,13 +206,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void RequestCardPanels() {
-		if (_cardActionRequest != null) {
-			_cardActionRequest.Close();
-		}
-
-		if (_cardMoveRequest != null) {
-			_cardMoveRequest.Close();
-		}
+		HideCardPanels();
 
 		_cardMoveRequest = GameManager.Card.RequestCard(
 			"이동",
