@@ -22,6 +22,8 @@ public class UICardInfo : MonoBehaviour
     private UICard _selectedCard = null;
     private Action<UICard> _onDragStarted;
 
+    private bool _isSelectable = false;
+
     public void UpdateUI() {
         _selectedCard = null;
 
@@ -40,6 +42,13 @@ public class UICardInfo : MonoBehaviour
                 OnCardSelect);
             _handCards.Add(uiCard);
         }
+
+        if (_isSelectable) {
+            MakeCardsSelectable();
+        }
+        else {
+            MakeCardsUnSelectable();
+        }
     }
 
     public void Init(CardDeck cardDeck, Action<UICard> onDragStarted) {
@@ -48,12 +57,16 @@ public class UICardInfo : MonoBehaviour
     }
 
     public void MakeCardsSelectable() {
+        _isSelectable = true;
+
         foreach (var card in _handCards) {
             card.MakeSelectable();
         }
     }
 
     public void MakeCardsUnSelectable() {
+        _isSelectable = false;
+
         foreach (var card in _handCards) {
             card.MakeUnSelectable();
         }
@@ -78,6 +91,8 @@ public class UICardInfo : MonoBehaviour
     private void OnCardSelect(UICard uiCard) {
         _selectedCard = uiCard;
         _onDragStarted(uiCard);
+
+        _selectedCard.Select();
     }
 
     private bool IsCardNumberContinuous(List<UICard> targetList) {

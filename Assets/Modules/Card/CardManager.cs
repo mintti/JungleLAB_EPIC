@@ -98,10 +98,10 @@ public class CardManager: IManager
 	private Vector2 GetCardUsePanelPosition(CardRequestPosition cardRequestPosition) {
 		switch (cardRequestPosition) {
 			case CardRequestPosition.Left:
-				return new Vector2(-800, 0);
+				return new Vector2(-600, 0);
 
 			case CardRequestPosition.Right:
-				return new Vector2(800, 0);
+				return new Vector2(600, 0);
 
 			case CardRequestPosition.Middle:
 				return new Vector2(0, 0);

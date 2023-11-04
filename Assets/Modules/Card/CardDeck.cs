@@ -52,6 +52,8 @@ public class CardDeck : MonoBehaviour {
 		else if (_graveyard.Contains(target)) {
 			_graveyard.Remove(target);
 		}
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -84,6 +86,7 @@ public class CardDeck : MonoBehaviour {
 		}
 
 		_hand.Remove(card);
+		GameManager.Card.UpdateUI();
 	}
 
 	public void PutCardIntoHand(Card card) {
@@ -100,6 +103,8 @@ public class CardDeck : MonoBehaviour {
 		} else {
 			GameManager.Log.Log(LogManager.ERROR_CARD_ALREADY_IN_HAND, LogManager.LogType.Error);
 		}
+
+		GameManager.Card.UpdateUI();
 	}
 
 	public void PutCardIntoGraveyard(Card card) {
@@ -114,6 +119,8 @@ public class CardDeck : MonoBehaviour {
 		if (!_graveyard.Contains(card)) {
 			_graveyard.Add(card);
 		}
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -128,6 +135,8 @@ public class CardDeck : MonoBehaviour {
 
 		_hand.Remove(card);
 		_graveyard.Add(card);
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -138,6 +147,8 @@ public class CardDeck : MonoBehaviour {
 			_graveyard.Add(card);
 		}
 		_hand.Clear();
+
+		GameManager.Card.UpdateUI();
 	}
 
 	/// <summary>
@@ -148,10 +159,12 @@ public class CardDeck : MonoBehaviour {
 	public int DrawCard(int count) {
 		for (int i = 0; i < count; i++) {
 			if (DrawCard() == false) {
+				GameManager.Card.UpdateUI();
 				return i;
 			}
 		}
 
+		GameManager.Card.UpdateUI();
 		return count;
 	}
 	#endregion

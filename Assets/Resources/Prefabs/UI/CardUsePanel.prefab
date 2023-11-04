@@ -267,6 +267,7 @@ GameObject:
   - component: {fileID: 4087187118544503555}
   - component: {fileID: 5929360294799838442}
   - component: {fileID: 1784925002640778773}
+  - component: {fileID: 8728531111424829195}
   m_Layer: 5
   m_Name: CardUseSlot
   m_TagString: Untagged
@@ -332,6 +333,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 0.21
+--- !u!114 &8728531111424829195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990998687525783959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74092b9013bc1684cb230d4802ab37c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7272256576538015831
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,6 +357,7 @@ GameObject:
   - component: {fileID: 9196276523382942242}
   - component: {fileID: 5899690206643751587}
   - component: {fileID: 2999954331917096382}
+  - component: {fileID: 2811348967398258265}
   m_Layer: 5
   m_Name: CardUsePanel
   m_TagString: Untagged
@@ -428,6 +442,18 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 1}
   m_EffectDistance: {x: 5, y: 5}
   m_UseGraphicAlpha: 1
+--- !u!114 &2811348967398258265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7272256576538015831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cb1f49dd3474db4d90200470a875307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8910965396998230629
 GameObject:
   m_ObjectHideFlags: 0

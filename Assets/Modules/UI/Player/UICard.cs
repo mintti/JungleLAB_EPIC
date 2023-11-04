@@ -29,6 +29,8 @@ namespace TH.Core {
 			= new ComponentGetter<TextMeshProUGUI>(TypeOfGetter.ChildByName, "CardNumber");
 		private ComponentGetter<Image> _cardImage
 			= new ComponentGetter<Image>(TypeOfGetter.ChildByName, "Image");
+		private ComponentGetter<Image> _panelImage
+			= new ComponentGetter<Image>(TypeOfGetter.This);
 
 		private RectTransform _parentRectTransform;
         #endregion
@@ -37,6 +39,8 @@ namespace TH.Core {
 		public void Init(Card card, RectTransform parentDeck, Action<UICard> onSelect) {
 			_card = card;
 			_onSelect = onSelect;
+
+			_parentRectTransform = parentDeck;
 
 			_cardNumberText.Get(gameObject).text = card.CardData.CardNumber.ToString();
 			_cardImage.Get(gameObject).sprite = CardManager.GetCardEmblem(card.CardData.CardType);
@@ -65,7 +69,10 @@ namespace TH.Core {
 			_isSelected = false;
 			transform.SetParent(_parentRectTransform);
 
-			gameObject.layer = LayerMask.NameToLayer("UI");
+			
+			_cardImage.Get(gameObject).raycastTarget = true;
+			_cardNumberText.Get(gameObject).raycastTarget = true;
+			_panelImage.Get(gameObject).raycastTarget = true;
 		}
 
 		public void Select() {
@@ -74,7 +81,9 @@ namespace TH.Core {
 			_isSelected = true;
 			transform.SetParent(UIManager.I.UIPlayerInfo.transform);
 
-			gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
+			_cardImage.Get(gameObject).raycastTarget = false;
+			_cardNumberText.Get(gameObject).raycastTarget = false;
+			_panelImage.Get(gameObject).raycastTarget = false;
 		}
 
 		public void MakeSelectable() {
