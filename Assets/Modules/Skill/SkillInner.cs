@@ -23,7 +23,7 @@ public abstract class SkillInner : MonoBehaviour
         {
             _level = Math.Min(value, _baseSkill.MaxLevel);
         }
-    } 
+    }
 
     public abstract void Execute();
 
