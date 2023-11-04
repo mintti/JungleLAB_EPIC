@@ -54,7 +54,7 @@ public class Player : MonoBehaviour {
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);
 
 		// 플레이어 위치 초기화
-		_position = 0;
+		_position = 7;
 		MoveTo(_position);
 	}
 
@@ -120,7 +120,7 @@ public class Player : MonoBehaviour {
 
             yield return MoveTo(_position, 0.5f);
 
-			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
+			BoardManager.I.OnPass(_position);
         }
 
 		BoardManager.I.OnEvent(_position);
@@ -130,6 +130,13 @@ public class Player : MonoBehaviour {
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.DOMove(targetPos, time);
 		yield return new WaitForSeconds(time);
+	}
+
+	public IEnumerator Teleport(int index, float time=0.5f) {
+		_position = index;
+		yield return MoveTo(_position, time);
+		BoardManager.I.GetTile(_position).debuff?.OnDebuff();
+		BoardManager.I.OnEvent(_position);
 	}
 	#endregion
     
