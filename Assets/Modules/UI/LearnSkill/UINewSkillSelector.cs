@@ -12,8 +12,8 @@ public class UINewSkillSelector : MonoBehaviour
     [SerializeField] private List<UISkillInfo> _newSkillInfos;
     [SerializeField] private Transform _newSkillTr;
     
-    [SerializeField] private SkillData[] _skillDatas;
-    
+    [SerializeField] private SkillData[] _skillDatas ;
+
     public int ShowSkillCount => 3;
     
     private bool _hasSkillSelected = false;
@@ -28,8 +28,10 @@ public class UINewSkillSelector : MonoBehaviour
 
         foreach (SkillData s in _skillDatas)
         {
-            if(GameManager.Player.Ability<PlayerMagic>().GetSkill(s.SkillType).Inner.Level
-                != s.MaxLevel)
+            var skill = GameManager.Player.Ability<PlayerMagic>().GetSkill(s.SkillType);
+            
+            if(skill == null ||
+               skill.Inner.Level <s.MaxLevel)
             {
                 pickNumbersCount++;
             }
@@ -44,9 +46,10 @@ public class UINewSkillSelector : MonoBehaviour
             if (pickNumbers.Contains(rand))
                 continue;
 
-            if (GameManager.Player.Ability<PlayerMagic>().GetSkill(_skillDatas[rand].SkillType)!=null&&
-                _skillDatas[rand].MaxLevel 
-                == GameManager.Player.Ability<PlayerMagic>().GetSkill(_skillDatas[rand].SkillType).Inner.Level)
+            var skill = GameManager.Player.Ability<PlayerMagic>().GetSkill(_skillDatas[rand].SkillType);
+            
+            if (skill != null &&
+                _skillDatas[rand].MaxLevel == skill.Inner.Level)
                 continue;
             pickNumbers.Add(rand);
 
@@ -54,14 +57,13 @@ public class UINewSkillSelector : MonoBehaviour
         
         for(int i = 0; i < ShowSkillCount; i++)
         {
-            _newSkillTr.GetChild(i).gameObject.SetActive(false);
-
+            bool active = i < pickNumbersCount;
+            _newSkillTr.GetChild(i).gameObject.SetActive(active);
         }
 
         for (int i = 0; i < ShowSkillCount; i++)
         {
-
-            _newSkillTr.GetChild(i).GetComponent<UISkillInfo>().Init(_skillDatas[pickNumbers[i]], true);
+            _newSkillTr.GetChild(i).GetComponent<UISkillInfo>().Init(new Skill(_skillDatas[pickNumbers[i]]), true);
         }
 
         _hasSkillSelected = false;

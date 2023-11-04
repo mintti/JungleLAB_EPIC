@@ -52,7 +52,7 @@ namespace TH.Core
 		[SerializeField, ReadOnly] private int _castingGauge;
 		[SerializeField, ReadOnly] private int _magicCircleCount;
 
-		private List<SkillData> _learnedSkills;
+		public List<Skill> _learnedSkills = new();
 		#endregion
 
 		#region PublicMethod
@@ -62,14 +62,13 @@ namespace TH.Core
 			CastingGauge += value;
 		}
 
-		public void LearnSkill(SkillData learningSkill)
+		public void LearnSkill(Skill learningSkill)
 		{
-			_learnedSkills ??= new();
-
-			var skill = _learnedSkills.FirstOrDefault(x => x.SkillType == learningSkill.SkillType);
+			var skill = _learnedSkills.FirstOrDefault(x => x.Data.SkillType == learningSkill.Data.SkillType);
 			if (skill == null)
 			{
 				_learnedSkills.Add(learningSkill);
+				learningSkill.Inner.IsLearn = true;
 			}
 			else
 			{
@@ -81,10 +80,12 @@ namespace TH.Core
 
 		public bool HasLearn(SkillData skillData)
 		{
-			return _learnedSkills.Any(x => x.SkillType == skillData.SkillType);
+			return _learnedSkills?.Any(x => x.Data.SkillType == skillData.SkillType) != null;
+			//return _learnedSkills.Any(x => x.SkillType == skillData.SkillType);
 		}
 
-		public SkillData GetSkill(SkillType skillType)
+
+		public Skill GetSkill(SkillType skillType)
 		{
 			if (_learnedSkills == null)
 			{
@@ -96,12 +97,12 @@ namespace TH.Core
 				return null;
 			}
 
-			if (_learnedSkills.Find(x => x.SkillType == skillType) == null)
+			if (_learnedSkills.Find(x => x.Data.SkillType == skillType) == null)
 			{
 				return null;
 			}
 
-			return _learnedSkills.FirstOrDefault(x => x.SkillType == skillType);
+			return _learnedSkills.FirstOrDefault(x => x.Data.SkillType == skillType);
 		}
         #endregion
 

@@ -20,11 +20,11 @@ public class UIPlayerSkillInfo : MonoBehaviour
     /// <summary>
     /// 새로 배우는 스킬 정보를 받아 화면에 표시합니다.
     /// </summary>
-    public void LearnSkill(SkillData learningSkill)
+    public void LearnSkill(Skill learningSkill)
     {
         _learnedSkills ??= new();
 
-        var uiSkill = _learnedSkills.FirstOrDefault(x => x.BaseSkill.SkillType == learningSkill.SkillType);
+        var uiSkill = _learnedSkills.FirstOrDefault(x => x.BaseSkill.Data.SkillType == learningSkill.Data.SkillType);
         if (uiSkill == null)
         {
             var obj = Instantiate(_learnedSkillPrefab, _playerSkillTr);
