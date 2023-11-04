@@ -15,12 +15,21 @@ public abstract class PlayerProperty<T>: MonoBehaviour where T: IComparable {
 	[SerializeField] protected bool _isMaxDefault;
 	[SerializeField, ShowIf("_isMaxDefault", true)] protected T _maxValue;
 	[SerializeField, ShowIf("_isMaxDefault", false)] protected T _minValue;
+
+	protected Action<T> _onValueUpdated;
 	#endregion
 
 	#region PublicMethod
 	public abstract void Init();
-
 	public abstract void ChangeValue(T value);
+
+	public virtual void Subscribe(Action<T> onValueUpdated) {
+		_onValueUpdated += onValueUpdated;
+	}
+
+	public virtual void Unsubscribe(Action<T> onValueUpdated) {
+		_onValueUpdated -= onValueUpdated;
+	}
 
 	public virtual void ResetValue() {
 		if (_isMaxDefault) {
@@ -28,6 +37,8 @@ public abstract class PlayerProperty<T>: MonoBehaviour where T: IComparable {
 		} else {
 			_value = _minValue;
 		}
+
+		_onValueUpdated?.Invoke(_value);
 	}
 	#endregion
     
