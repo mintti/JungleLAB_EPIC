@@ -56,6 +56,14 @@ namespace TH.Core
 		#endregion
 
 		#region PublicMethod
+
+		public void Init()
+        {
+			CastingGauge = 0;
+			MagicCircleCount = 0;
+        }
+
+
 		[Button]
 		public void AddCastingGauge(int value)
 		{

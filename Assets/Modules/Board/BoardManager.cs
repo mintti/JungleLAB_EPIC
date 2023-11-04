@@ -13,16 +13,12 @@ public class BoardManager : Singleton<BoardManager>
     public List<BaseTile> tiles = new();
     [ShowInInspector] public List<ISummon> summons = new();
     private List<int> deleteSummonsIndexes = new();
-    private void Start()
-    {
-        Init();
-    }
-/*
+
     [Button]
     public void TestTurnEnd()
     {
         StartCoroutine(OnTurnEnd());
-    }*/
+    }
     public IEnumerator OnTurnEnd()
     {
         foreach(BaseTile t in tiles)
@@ -84,6 +80,7 @@ public class BoardManager : Singleton<BoardManager>
         }
         UpdateSummons();
     }
+
 
     protected override void Init()
     {
