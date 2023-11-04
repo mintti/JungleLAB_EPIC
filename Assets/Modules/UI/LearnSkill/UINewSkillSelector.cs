@@ -16,9 +16,10 @@ public class UINewSkillSelector : MonoBehaviour
     
     public int ShowSkillCount => 3;
     
+    private bool _hasSkillSelected = false;
 
     [Button]
-    public void ActiveNewSkillSelector()
+    public IEnumerator ActiveNewSkillSelector()
     {
         gameObject.SetActive(true);
         // [TODO] 표시 할 스킬 겟
@@ -47,10 +48,14 @@ public class UINewSkillSelector : MonoBehaviour
 
             _newSkillTr.GetChild(i).GetComponent<UISkillInfo>().Init(_skillDatas[pickNumbers[i]], true);
         }
+
+        _hasSkillSelected = false;
+        yield return new WaitUntil(() => _hasSkillSelected);
+        gameObject.SetActive(false);
     }
 
     public void DisableSelector()
     {
-        gameObject.SetActive(false);
+        _hasSkillSelected = true;
     }
 }

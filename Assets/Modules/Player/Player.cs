@@ -10,6 +10,8 @@ using System.Linq;
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
 public class Player : MonoBehaviour {
+	const int LAST_POSITION = 15;
+
 	#region PublicVariables
 	public Func<int, IEnumerator> OnMove {
 		get {
@@ -109,23 +111,29 @@ public class Player : MonoBehaviour {
 
 		for(int i = 0; i < value; i++)
         {
+			int prePos = _position;
             _position = BoardManager.I.GetNextIndex(_position);
-            yield return MoveToCoroutine(_position, 0.5f);
+
+			if (prePos == LAST_POSITION && _position == 0) {
+				yield return UIManager.I.UINewSkillSelector.ActiveNewSkillSelector();
+			}
+
+            yield return MoveTo(_position, 0.5f);
 
 			BoardManager.I.GetTile(_position).debuff?.OnDebuff();
         }
 
 		BoardManager.I.OnEvent(_position);
 	}
-	#endregion
-    
-	#region PrivateMethod
-	private IEnumerator MoveToCoroutine(int index, float time) {
+
+	public IEnumerator MoveTo(int index, float time) {
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.DOMove(targetPos, time);
 		yield return new WaitForSeconds(time);
 	}
-
+	#endregion
+    
+	#region PrivateMethod
 	private void MoveTo(int index) {
 		Vector3 targetPos = BoardManager.I.GetTilePos(index);
 		transform.position = targetPos;
