@@ -54,4 +54,9 @@ public class SummonCat : MonoBehaviour, ISummon
     {
         throw new System.NotImplementedException();
     }
+
+    public void OnPass()
+    {
+        throw new System.NotImplementedException();
+    }
 }
