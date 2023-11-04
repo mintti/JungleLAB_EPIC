@@ -50,6 +50,10 @@ public class CardManager: IManager
 
 		_uICardInfo.Get().UpdateUI();
 	}
+
+	public void UpdateUI() {
+		_uICardInfo.Get().UpdateUI();
+	}
 	#endregion
     
 	#region PrivateMethod
