@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TH.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -115,6 +116,8 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator GetMagicCircle1()
     {
+        PlayerMagic magic = GameManager.Player.Ability<PlayerMagic>();
+        magic.AddCastingGauge(magic.MaxCastingCount);
         yield return null;
     }
 
@@ -127,6 +130,4 @@ public class UIEventInfo : MonoBehaviour
     {
         yield return null;
     }
-
-
 }
