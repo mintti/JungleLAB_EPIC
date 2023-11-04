@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +26,8 @@ public class PlayerDefence: PlayerProperty<int> {
 		if (_value < 0) {
 			_value = 0;
 		}
+
+		_onValueUpdated?.Invoke(_value);
 	}
 	#endregion
 
