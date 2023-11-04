@@ -31,13 +31,15 @@ public class UIMainButtonPanel : MonoBehaviour
 
 	private IEnumerator OnActionButtonClick() {
 		DisableButtons();
-		yield return GameManager.Card.SelectedCardAction();
+		//yield return GameManager.Card.SelectedCardAction();
+		yield return null;
 		EnableButtons();
 	}
 
 	private IEnumerator OnMoveButtonClick() {
 		DisableButtons();
-		yield return GameManager.Card.SelectedCardMove();
+		//yield return GameManager.Card.SelectedCardMove();
+		yield return null;
 		EnableButtons();
 	}
 

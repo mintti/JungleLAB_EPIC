@@ -59,7 +59,7 @@ public class UIGambleInfo : MonoBehaviour
     private Card _selectedCard;
     public void B_SelectCard()
     {
-        var card = UIManager.I.UIPlayerInfo.UICardInfo.SelectedCards.FirstOrDefault()?.Card;
+        var card = UIManager.I.UIPlayerInfo.UICardInfo.SelectedCard?.Card;
 
         if (card != null)
         {

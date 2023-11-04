@@ -2411,6 +2411,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1548505593}
     m_Modifications:
+    - target: {fileID: 1784925002640778773, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784925002640778773, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784925002640778773, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784925002640778773, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767044433039985981, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Name
+      value: RequestName
+      objectReference: {fileID: 0}
     - target: {fileID: 5595318116344139763, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2498,6 +2518,10 @@ PrefabInstance:
     - target: {fileID: 7272256576538015831, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
       propertyPath: m_Name
       value: CardUsePanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 8910965396998230629, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
+      propertyPath: m_Name
+      value: Description
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8451942068ae3ba4a98f1346462a7be8, type: 3}
