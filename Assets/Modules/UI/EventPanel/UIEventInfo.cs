@@ -95,8 +95,8 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator Week3ToEnemy()
     {
-        // TODO: 취약과 약화를 2턴동안 겁니다. 구현 필요
-        yield return null;
+        GameManager.Boss.EventDebuffBoss(2, 2);
+        yield return new WaitForSeconds(1f);
     }
 
     IEnumerator Move3()

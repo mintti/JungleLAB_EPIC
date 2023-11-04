@@ -90,7 +90,6 @@ public class GameManager : Singleton<GameManager>
 
     [Header("Game Flow Variable")]
     [SerializeField] private bool _gameEnd;
-
     public void B_Start()
     {
         // Player 초기화
@@ -113,6 +112,8 @@ public class GameManager : Singleton<GameManager>
             // 각 행동 종료 및 턴 증가
             yield return BoardEvent();
             
+            // 플레이어/몬스터 버프 디버프 업데이트
+            yield return Boss.TurnEndEvent();
         } while (!_gameEnd);
     }
 
@@ -129,8 +130,7 @@ public class GameManager : Singleton<GameManager>
     {
         // [TODO] 보스 턴 시작 전달
         //yield return WaitNext();
-        Boss.BossTurn();
-        yield return null;
+        yield return Boss.BossTurn();
     }
     
     IEnumerator BoardEvent()
