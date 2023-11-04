@@ -22,6 +22,15 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public Action<int> OnTileAction {
+		get {
+			return _onTileAction;
+		}
+		set {
+			_onTileAction = value;
+		}
+	}
+
 	public int Position => _position;
 	#endregion
 
@@ -30,6 +39,7 @@ public class Player : MonoBehaviour {
 
 	// 플레이어 이벤트
 	private Func<int, IEnumerator> _onMove;
+	private Action<int> _onTileAction;
 
 	// 플레이어 속성들
 	private PlayerHealth _health;
@@ -136,6 +146,16 @@ public class Player : MonoBehaviour {
 		yield return MoveTo(_position, time);
 		BoardManager.I.GetTile(_position).debuff?.OnDebuff();
 		BoardManager.I.OnEvent(_position);
+	}
+
+	public void TileAction(Card.Type type, int value) {
+		_onTileAction?.Invoke(value);
+
+		if (type == Card.Type.Wizard) {
+			Ability<PlayerMagic>().CastingGauge += value;
+		}
+
+		BoardManager.I.tiles[_position].OnAction(value);
 	}
 	#endregion
     
