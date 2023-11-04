@@ -81,6 +81,23 @@ public class BoardManager : Singleton<BoardManager>
         UpdateSummons();
     }
 
+    public bool OnPassCat(int index,SummonCat c)
+    {
+        foreach (ISummon s in summons)
+        {
+            if (s.Index == index
+                && s is Fireball)
+            {
+                Fireball fb = (Fireball)s;
+                fb.DestroyFireball();
+                c.DestroyCat();
+                return true;
+            }
+        }
+        
+        UpdateSummons();
+        return false;
+    }
 
     protected override void Init()
     {

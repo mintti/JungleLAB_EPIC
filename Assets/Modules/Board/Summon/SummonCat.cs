@@ -21,6 +21,14 @@ public class SummonCat : MonoBehaviour, ISummon
         GameManager.Player.OnTileAction += OnAction;
     }
 
+    public void DestroyCat()
+    {
+        GameManager.Player.OnMove -= Move;
+        GameManager.Player.OnTileAction -= OnAction;
+        BoardManager.I.DeleteSummon(this);
+        Destroy(gameObject);
+    }
+
     public IEnumerator Move(int value)
     {
         for(int i = 0; i < value; i++)
@@ -29,6 +37,11 @@ public class SummonCat : MonoBehaviour, ISummon
             Vector3 nextPos = BoardManager.I.GetTilePos(_index);
             transform.DOMove(nextPos, 0.5f);
             yield return new WaitForSeconds(0.5f);
+
+            if (BoardManager.I.OnPassCat(_index, this))
+            {
+                yield break;
+            }
         }
     }
 
@@ -51,13 +64,7 @@ public class SummonCat : MonoBehaviour, ISummon
         _lifeCount -= 1;
         if (_lifeCount <= 0)
         {
-            GameManager.Player.OnMove -= Move;
-            GameManager.Player.OnTileAction -= OnAction;
-            BoardManager.I.DeleteSummon(this);
-            if (this.gameObject != null)
-            {
-                Destroy(gameObject);
-            }
+            DestroyCat();
            
         }
         yield break;
