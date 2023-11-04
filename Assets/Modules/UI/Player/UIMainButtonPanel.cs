@@ -11,10 +11,6 @@ public class UIMainButtonPanel : MonoBehaviour
 	#endregion
 
 	#region PrivateVariables
-	private ComponentGetter<Button> _actionButton
-		= new ComponentGetter<Button>(TypeOfGetter.ChildByName, "ActionBTN");
-	private ComponentGetter<Button> _moveButton
-		= new ComponentGetter<Button>(TypeOfGetter.ChildByName, "MoveBTN");
 	private ComponentGetter<Button> _actionEndButton
 		= new ComponentGetter<Button>(TypeOfGetter.ChildByName, "ActionEndBTN");
 	#endregion
@@ -24,8 +20,6 @@ public class UIMainButtonPanel : MonoBehaviour
     
 	#region PrivateMethod
 	private void Awake() {
-		_actionButton.Get(gameObject).onClick.AddListener(() => {StartCoroutine(OnActionButtonClick());});
-		_moveButton.Get(gameObject).onClick.AddListener(() => {StartCoroutine(OnMoveButtonClick());});
 		_actionEndButton.Get(gameObject).onClick.AddListener(OnActionEndButtonClick);
 	}
 
@@ -48,14 +42,10 @@ public class UIMainButtonPanel : MonoBehaviour
 	}
 
 	private void DisableButtons() {
-		_actionButton.Get(gameObject).interactable = false;
-		_moveButton.Get(gameObject).interactable = false;
 		_actionEndButton.Get(gameObject).interactable = false;
 	}
 
 	private void EnableButtons() {
-		_actionButton.Get(gameObject).interactable = true;
-		_moveButton.Get(gameObject).interactable = true;
 		_actionEndButton.Get(gameObject).interactable = true;
 	}
 	#endregion

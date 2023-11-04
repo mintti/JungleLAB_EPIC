@@ -6,17 +6,6 @@ namespace TH.Core {
 
 public class CardManager: IManager
 {
-	public enum CardRequestPosition {
-		Left,
-		Right,
-		Middle
-	}
-
-	public enum CardUIState {
-		Idle,
-		Dragging,
-	}
-
 	private const int DRAW_COUNT = 5;
 
     #region PublicVariables
@@ -52,10 +41,12 @@ public class CardManager: IManager
 		SetCardSelectable(false);
 	}
 
-	public void RequestCard (
+	public UICardRequestPanel RequestCard (
 		string requestName,
 		string description,
 		Action<Card.Type, int> cardAction,
+		CardAfterUse cardAfterUse=CardAfterUse.KeepToGraveyard,
+		CardUseRestriction cardUseRestriction=CardUseRestriction.JustOne,
 		bool isCloseButtonVisible=false,
 		Action onCloseButtonClick=null,
 		CardRequestPosition cardRequestPosition=CardRequestPosition.Middle
@@ -63,7 +54,7 @@ public class CardManager: IManager
 		GameObject cardUsePanelPrefab = GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.UI_CARD_USE_PANEL);
 		GameObject cardUsePanel = GameObject.Instantiate(cardUsePanelPrefab, UIManager.I.UIPlayerInfo.transform);
 		
-		(cardUsePanel.transform as RectTransform).anchoredPosition = GetCardUsePanelPosition(CardRequestPosition.Middle);
+		(cardUsePanel.transform as RectTransform).anchoredPosition = GetCardUsePanelPosition(cardRequestPosition);
 
 		SetCardSelectable(true);
 
@@ -74,9 +65,13 @@ public class CardManager: IManager
 			SetTargetRequestPanel,
 			ClearTargetRequestPanel,
 			cardAction,
+			cardAfterUse,
+			cardUseRestriction,
 			isCloseButtonVisible,
 			onCloseButtonClick
 		);
+
+		return requestPanel;
 	}
 
 	public void DrawCard() {
@@ -88,6 +83,14 @@ public class CardManager: IManager
 
 	public void UpdateUI() {
 		_uICardInfo.Get().UpdateUI();
+	}
+
+	public void MakeCardsSelectable() {
+		SetCardSelectable(true);
+	}
+
+	public void MakeCardsUnSelectable() {
+		SetCardSelectable(false);
 	}
 	#endregion
     
@@ -133,7 +136,9 @@ public class CardManager: IManager
 				if (_targetCardRequestPanel == null) {
 					_uICardInfo.Get().FinishDragging();
 				} else {
-					_targetCardRequestPanel.UseCard(_uICardInfo.Get().SelectedCard.Card);
+					if (!_targetCardRequestPanel.UseCard(_uICardInfo.Get().SelectedCard.Card)) {
+						_uICardInfo.Get().FinishDragging();
+					}
 				}
 				_cardUIState = CardUIState.Idle;
 			}
@@ -149,6 +154,17 @@ public class CardManager: IManager
 		_targetCardRequestPanel = null;
 	}
 	#endregion
+}
+
+public enum CardRequestPosition {
+		Left,
+		Right,
+		Middle
+}
+
+public enum CardUIState {
+	Idle,
+	Dragging,
 }
 
 }

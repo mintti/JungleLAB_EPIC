@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mono.CSharp;
 using Sirenix.OdinInspector;
 using TH.Core;
 using UnityEngine;
@@ -74,6 +75,45 @@ public class CardDeck : MonoBehaviour {
 	/// <param name="card">대상 카드</param>
 	public void UseCard(Card card) {
 		DiscardCard(card);
+	}
+
+	public void ExtractCardFromHand(Card card) {
+		if (!_hand.Contains(card)) {
+			GameManager.Log.Log(LogManager.ERROR_CARD_NOT_IN_HAND, LogManager.LogType.Error);
+			return;
+		}
+
+		_hand.Remove(card);
+	}
+
+	public void PutCardIntoHand(Card card) {
+		if (_graveyard.Contains(card)) {
+			_graveyard.Remove(card);
+		}
+
+		if (_drawPile.Contains(card)) {
+			_drawPile.Remove(card);
+		}
+
+		if (!_hand.Contains(card)) {
+			_hand.Add(card);
+		} else {
+			GameManager.Log.Log(LogManager.ERROR_CARD_ALREADY_IN_HAND, LogManager.LogType.Error);
+		}
+	}
+
+	public void PutCardIntoGraveyard(Card card) {
+		if (_drawPile.Contains(card)) {
+			_drawPile.Remove(card);
+		}
+
+		if (_hand.Contains(card)) {
+			_hand.Remove(card);
+		}
+
+		if (!_graveyard.Contains(card)) {
+			_graveyard.Add(card);
+		}
 	}
 
 	/// <summary>

@@ -52,7 +52,7 @@ namespace TH.Core {
 				return;
 			}
 
-			if (GameManager.Card.CardSlectionState != CardManager.CardUIState.Idle) {
+			if (GameManager.Card.CardSlectionState != CardUIState.Idle) {
 				return;
 			}
 
