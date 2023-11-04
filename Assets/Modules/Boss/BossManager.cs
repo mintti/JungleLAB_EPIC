@@ -4,12 +4,35 @@ using UnityEngine;
 using TMPro;
 using System.Linq;
 using Mono.CSharp;
+using UnityEngine.Serialization;
 
 public class BossManager : MonoBehaviour
 {
     public int maxHp;
-    public int _currentHp;
+
+    private int _currentHp;
+
+    public int CurrentHp
+    {
+        get => _currentHp;
+        set
+        {
+            _currentHp = value;
+            UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp);
+        }
+    }
+
     private int _currentState;
+
+    private int CurrentState
+    {
+        get => _currentState;
+        set
+        {
+            _currentState = value;
+            UIManager.I.UIEnemyInfo.UpdateState(_stateIcon[_currentState]);
+        }
+    }
     private int _currentPatternIndex;
     private int _currentDefense;
     public List<BossState> bossStates = new List<BossState>();
@@ -59,6 +82,10 @@ public class BossManager : MonoBehaviour
         }
     }
 
+
+    [SerializeField] private Sprite[] _actionIcon;
+    [SerializeField] private Sprite[] _stateIcon;
+
     public void EventDebuffBoss(int broken, int weak)
     {
         WeakCount = weak;
@@ -67,8 +94,8 @@ public class BossManager : MonoBehaviour
 
     public void Start()
     {
-        _currentHp = maxHp;
-        _currentState = 0;
+        CurrentHp = maxHp;
+        CurrentState = 0;
         _currentPatternIndex = 0;
 
         BrokenCount = 0;
@@ -110,11 +137,14 @@ public class BossManager : MonoBehaviour
         state3.patterns.Add(pattern11);
 
         bossStates.Add(state3);
+        
+        
+        UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern1.type] , pattern1.value);
     }
 
     public Pattern GetCurrentPattern()
     {
-        var pattern = bossStates[_currentState].patterns[_currentPatternIndex];
+        var pattern = bossStates[CurrentState].patterns[_currentPatternIndex];
         return pattern;
     }
     
@@ -188,7 +218,7 @@ public class BossManager : MonoBehaviour
             }
         }
 
-        if (_currentPatternIndex + 1 == bossStates[_currentState].patterns.Count)
+        if (_currentPatternIndex + 1 == bossStates[CurrentState].patterns.Count)
         {
             _currentPatternIndex = 0;
         }
@@ -198,6 +228,8 @@ public class BossManager : MonoBehaviour
         }
         //TestUpdateUI();
 
+        pattern = GetCurrentPattern();
+        UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern.type] , pattern.value);
         yield return new WaitForSeconds(1f);
     }
 
@@ -214,25 +246,27 @@ public class BossManager : MonoBehaviour
             }
         }
 
-        int _afterHp = _currentHp - _dmg;
-        if (_currentHp > maxHp * 0.7 && _afterHp <= maxHp * 0.7)
+        int _afterHp = CurrentHp - _dmg;
+        if (CurrentHp > maxHp * 0.7 && _afterHp <= maxHp * 0.7)
         {
-            _currentState++;
+            CurrentState++;
             _currentPatternIndex = 0;
             //1�� ����ȭ
             Debug.Log("Angry1");
         }
 
-        if (_currentHp > maxHp * 0.3 && _afterHp <= maxHp * 0.3)
+        if (CurrentHp > maxHp * 0.3 && _afterHp <= maxHp * 0.3)
         {
-            _currentState++;
+            CurrentState++;
             _currentPatternIndex = 0;
             //2�� ����ȭ
             Debug.Log("Angry2");
         }
 
-        _currentHp = _afterHp;
+        CurrentHp = _afterHp;
         //TestUpdateUI();
+        var pattern = GetCurrentPattern();
+        UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern.type] , pattern.value);
     }
 
     public void TestHit()
@@ -253,7 +287,7 @@ public class BossManager : MonoBehaviour
         int _value = pattern.value;
 
 
-        hp.text = $"HP : {_currentHp}/{maxHp}";
+        hp.text = $"HP : {CurrentHp}/{maxHp}";
         if(_currentDefense > 0)
         {
             deffense.text = $"+{_currentDefense}";
@@ -284,11 +318,11 @@ public class BossManager : MonoBehaviour
             patternValue.text = $"";
         }
 
-        if (_currentState == 0)
+        if (CurrentState == 0)
         {
             bossState.text = $"Normal";
         }
-        else if (_currentState == 1)
+        else if (CurrentState == 1)
         {
             bossState.text = $"Angry";
         }
