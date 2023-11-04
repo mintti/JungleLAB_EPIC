@@ -32,16 +32,16 @@ public class UIEventInfo : MonoBehaviour
         {
             _events ??= new()
             {
-                //new("꽝", Blank),
-                // new("시작 지점으로 걸어서 이동합니다.", WalkToStartTile),
+                new("꽝", Blank),
+                new("시작 지점으로 걸어서 이동합니다.", WalkToStartTile),
                 new("숫자 카드를 2장 드로우 합니다.", Draw2Card),
-                // new("적에게 취약과 약화를 2턴동안 겁니다.", Week3ToEnemy),
-                // new("앞으로 3칸 이동합니다.", Move3),
-                // new("패에 있는 숫자 카드 하나의 숫자를 2배 해줍니다.", Multiple2),
-                // new("패에 있는 숫자 카드 하나를 복제해줍니다.", Copy),
-                // new("마법진을 1개 획득합니다.", GetMagicCircle1),
+                new("적에게 취약과 약화를 2턴동안 겁니다.", Week3ToEnemy),
+                new("앞으로 3칸 이동합니다.", Move3),
+                new("패에 있는 숫자 카드 하나의 숫자를 2배 해줍니다.", Multiple2),
+                new("패에 있는 숫자 카드 하나를 복제해줍니다.", Copy),
+                new("마법진을 1개 획득합니다.", GetMagicCircle1),
                 // new("원하는 지점으로 순간이동 합니다. (이벤트 제외)", MoveToWantedTile),
-                // new("숫자 카드를 원하는 만큼 버리고, 버린만큼 뽑습니다.", DropNDrawN),
+                new("숫자 카드를 원하는 만큼 버리고, 버린만큼 뽑습니다.", DropNDrawN),
             };
 
             return _events;
@@ -106,12 +106,52 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator Multiple2()
     {
-        yield return null;
+        bool hasDone = false;
+
+        GameManager.Card.RequestCard(
+            "카드 선택",
+            "선택된 카드의 숫자를 2배로 만듭니다.",
+            (type, value) => {
+                Card newCard = new Card(new CardData(value * 2, type));
+                GameManager.Card.CardDeck.AddCard(newCard);
+                GameManager.Card.CardDeck.PutCardIntoGraveyard(newCard);
+                hasDone = true;
+            },
+            CardAfterUse.Remove,
+            CardUseRestriction.JustOne,
+            true,
+            () => {
+                hasDone = true;
+            },
+            CardRequestPosition.Middle
+        );
+
+        yield return new WaitUntil(() => hasDone);
     }
 
     IEnumerator Copy()
     {
-        yield return null;
+        bool hasDone = false;
+
+        GameManager.Card.RequestCard(
+            "카드 선택",
+            "선택된 카드를 복제합니다.",
+            (type, value) => {
+                Card newCard = new Card(new CardData(value, type));
+                GameManager.Card.CardDeck.AddCard(newCard);
+                GameManager.Card.CardDeck.PutCardIntoGraveyard(newCard);
+                hasDone = true;
+            },
+            CardAfterUse.KeepToGraveyard,
+            CardUseRestriction.JustOne,
+            true,
+            () => {
+                hasDone = true;
+            },
+            CardRequestPosition.Middle
+        );
+
+        yield return new WaitUntil(() => hasDone);
     }
 
     IEnumerator GetMagicCircle1()
@@ -128,6 +168,24 @@ public class UIEventInfo : MonoBehaviour
     
     IEnumerator DropNDrawN()
     {
-        yield return null;
+        bool hasDone = false;
+
+        GameManager.Card.RequestCard(
+            "카드 선택",
+            "선택된 카드를 버리고 새로 뽑습니다.\n"+
+            "(여러 장 가능)",
+            (type, value) => {
+                GameManager.Card.CardDeck.DrawCard(1);
+            },
+            CardAfterUse.KeepToGraveyard,
+            CardUseRestriction.Unlimited,
+            true,
+            () => {
+                hasDone = true;
+            },
+            CardRequestPosition.Middle
+        );
+
+        yield return new WaitUntil(() => hasDone);
     }
 }
