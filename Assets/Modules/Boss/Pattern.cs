@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PatternType
+public enum PatternType : int
 {
-    FireMagic,
+    FireMagic = 0,
     Attack,
     Defense,
     FireBreath
