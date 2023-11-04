@@ -7,7 +7,7 @@ using UnityEngine.Events;
 /// </summary>
 public class UIPlayerSkillExecutor : MonoBehaviour, IUIButtonExecutor
 {
-    private SkillData BaseSkill => GetComponent<UISkillInfo>().BaseSkill; 
+    private Skill BaseSkill => GetComponent<UISkillInfo>().BaseSkill; 
     private Action _action;
 
     private Action Action
@@ -21,7 +21,7 @@ public class UIPlayerSkillExecutor : MonoBehaviour, IUIButtonExecutor
 
     public void B_Execute()
     {
-        if (BaseSkill.Cost < 999) // [TODO] Check Magic Circle Count
+        if (BaseSkill.Data.Cost < 999) // [TODO] Check Magic Circle Count
         {
             Action();
         }
