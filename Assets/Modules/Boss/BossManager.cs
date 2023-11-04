@@ -29,6 +29,41 @@ public class BossManager : MonoBehaviour
     public int enragedDefense;
 
 
+    [Header("Status Effect")]
+    [SerializeField] private GameObject _weakIconObj;
+    [SerializeField] private TextMeshProUGUI _weakTMP;
+    private int _weakCount;
+    private int WeakCount
+    {
+        get => _weakCount;
+        set
+        {
+            _weakCount = value;
+            _weakIconObj.SetActive(_weakCount > 0);
+            _weakTMP.text = $"{_weakCount}";
+        }
+    }
+    
+    [SerializeField] private GameObject _brokenIconObj;
+    [SerializeField] private TextMeshProUGUI _brokenTMP;
+    private int _brokenCount;
+    private int BrokenCount
+    {
+        get => _brokenCount;
+        set
+        {
+            _brokenCount = value;
+            _brokenIconObj.SetActive(_brokenCount > 0);
+            _brokenTMP.text = $"{_brokenCount}";
+        }
+    }
+
+    public void EventDebuffBoss(int broken, int weak)
+    {
+        WeakCount = weak;
+        BrokenCount = broken;
+    }
+
     public void Start()
     {
         _currentHp = maxHp;
@@ -79,6 +114,12 @@ public class BossManager : MonoBehaviour
         return pattern;
     }
     
+    public void TurnEndEvent()
+    {
+        BrokenCount--;
+        WeakCount--;
+    }
+    
     public void BossTurn()
     {
         _currentDefense = 0;
@@ -112,7 +153,9 @@ public class BossManager : MonoBehaviour
         else if (_paternType == PatternType.Attack)
         {
             Debug.Log("AttackPlayer");
-            GameManager.Player.Hit(_value);
+
+            var value = WeakCount > 0 ? _value / 2 : _value;
+            GameManager.Player.Hit(value); 
         }
         else if (_paternType == PatternType.Defense)
         {
@@ -152,6 +195,7 @@ public class BossManager : MonoBehaviour
 
     public void HpUpdate(int _dmg)
     {
+        _dmg = _brokenCount > 0 ? (int)(_dmg * 1.5f) : _dmg;
         if (_currentDefense > 0)
         {
             _currentDefense -= _dmg;
