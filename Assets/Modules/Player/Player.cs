@@ -10,7 +10,7 @@ using System.Linq;
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
 public class Player : MonoBehaviour {
-	const int LAST_POSITION = 15;
+	public const int LAST_POSITION = 15;
 
 	#region PublicVariables
 	public Func<int, IEnumerator> OnMove {

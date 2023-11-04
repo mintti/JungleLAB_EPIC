@@ -81,7 +81,7 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator WalkToStartTile()
     {
-        yield return null;
+        yield return GameManager.Player.Move(Player.LAST_POSITION - GameManager.Player.Position);
     }
 
     IEnumerator Draw2Card()
