@@ -47,8 +47,6 @@ public class Player : MonoBehaviour {
 		_defence = GetComponent<PlayerDefence>();
 		_health.Init();
 		_defence.Init();
-		_health.ResetValue();
-		_defence.ResetValue();
 
 		// 플레이어 능력 초기화
 		_abilities = GetComponents<PlayerAbility>().ToDictionary(x => x.GetType(), x => x);

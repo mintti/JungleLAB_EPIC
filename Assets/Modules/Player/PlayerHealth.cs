@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class PlayerHealth: PlayerProperty<int> {
 	#region PublicMethod
 	public override void Init() {
 		_isMaxDefault = true;
+
+		ResetValue();
 	}
 
 	public override void ChangeValue(int value) {
@@ -21,6 +24,8 @@ public class PlayerHealth: PlayerProperty<int> {
 		if (_value < 0) {
 			_value = 0;
 		}
+
+		_onValueUpdated?.Invoke(_value);
 	}
 	#endregion
     
