@@ -47,6 +47,7 @@ public class Player : MonoBehaviour {
 	// 플레이어 속성들
 	private PlayerHealth _health;
 	private PlayerDefence _defence;
+	public PlayerMagic PlayerMagic => GetComponent<PlayerMagic>();
 
 	// 플레이어 능력
 	private Dictionary<Type, PlayerAbility> _abilities;
