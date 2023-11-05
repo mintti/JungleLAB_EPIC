@@ -12,6 +12,7 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼 힐할 것임(플레이어 연결 필요");
+            GameManager.Player.Heal(value);
             return true;
         }
     }

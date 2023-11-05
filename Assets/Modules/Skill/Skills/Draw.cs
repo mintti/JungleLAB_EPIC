@@ -12,6 +12,7 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼의 카드를 드로우할 것임");
+            GameManager.Card.CardDeck.DrawCard(value);
             return true;
         }
     }

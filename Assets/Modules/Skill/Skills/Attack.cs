@@ -14,6 +14,7 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼의 데미지를 입힐 것임(몬스터 연결 필요");
+            GameManager.Boss.HpUpdate(value);
             return true;
         }
     }
