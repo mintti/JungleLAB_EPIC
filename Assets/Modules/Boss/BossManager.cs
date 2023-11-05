@@ -239,6 +239,7 @@ public class BossManager : MonoBehaviour
 
     public void HpUpdate(int _dmg)
     {
+        Debug.Log(_currentDefense);
         _dmg = _brokenCount > 0 ? (int)(_dmg * 1.5f) : _dmg;
         if (_currentDefense > 0)
         {
@@ -248,6 +249,11 @@ public class BossManager : MonoBehaviour
             {
                 _dmg = _currentDefense * -1;
             }
+            else
+            {
+                _dmg = 0;
+            }
+            
         }
 
         int _afterHp = CurrentHp - _dmg;
