@@ -38,10 +38,10 @@ public class SummonCat : MonoBehaviour, ISummon
             transform.DOMove(nextPos, 0.5f);
             yield return new WaitForSeconds(0.5f);
 
-            if (BoardManager.I.OnPassCat(_index, this))
+           /* if (BoardManager.I.OnPassCat(_index, this))
             {
                 yield break;
-            }
+            }*/
         }
     }
 

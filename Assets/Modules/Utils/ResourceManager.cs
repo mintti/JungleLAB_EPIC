@@ -13,10 +13,12 @@ namespace TH.Core
 
 			public const string UI_CARD = "UI/Card";
 			public const string UI_CARD_USE_PANEL = "UI/CardUsePanel";
+			public const string UI_FIREBALLCOUNTTEXT = "UI/FireballCount";
 			public const string SUMMON_FIREBALL = "Summon/FireBall";
 			public const string SUMMON_SEED = "Summon/Seed";
 			public const string SUMMON_BLACKCAT = "Summon/BlackCat";
 			public const string CURSE_FIREBREATH = "Summon/FireBreath";
+
 		}
 
 		public class Sprites
@@ -26,7 +28,7 @@ namespace TH.Core
 			public const string UI_EMBLEM_WIZARD = "Emblem/Wizard";
 			public const string TILE_ATTACK = "Tile/AttackTile";
 			public const string TILE_DEFENSE = "Tile/DefenseTile";
-			public const string TILE_CURSE = "Tile/CurseTile";
+			public const string TILE_CURSE2 = "Tile/CurseTile2";
 		}
 
 		#region PublicVariables
