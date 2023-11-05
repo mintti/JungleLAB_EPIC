@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TH.Core;
 
 public class UIGambleInfo : MonoBehaviour
 {
@@ -12,9 +13,13 @@ public class UIGambleInfo : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gambleCountTMP;
     [SerializeField] private TextMeshProUGUI gambleResultTMP;
     [SerializeField] private TextMeshProUGUI gambleCardNumTMP;
-    [SerializeField] private GameObject _cover;
     [SerializeField] private GameObject _resultPanel;
     [SerializeField] private TextMeshProUGUI _resultTMP;
+
+    private ComponentGetter<TextMeshProUGUI> _cardNumberText 
+        = new(TypeOfGetter.ChildByName, "TargetCard/CardNumberText");
+    private ComponentGetter<Image> _cardImage 
+        = new(TypeOfGetter.ChildByName, "TargetCard/CardImage");
 
     [Header("Data")]
     [SerializeField] private bool _isSelect;
@@ -38,11 +43,30 @@ public class UIGambleInfo : MonoBehaviour
         // 초기화
         gambleResultTMP.text = "-";
         _resultPanel.SetActive(false);
-        _cover.SetActive(true);
-        gameObject.SetActive(true);
-        
-        StartCoroutine(GambleFlow());
+        gameObject.SetActive(false);
+
+        GameManager.Card.RequestCard(
+            "도박장",
+            "카드를 걸고 참여하겠습니까?\n"+
+            "실패 시 카드가 파괴됩니다.",
+            (type, value) => {
+                _resultPanel.SetActive(false);
+                gameObject.SetActive(true);
+
+                StartCoroutine(GambleFlow(type, value));
+            },
+            CardAfterUse.Remove,
+            CardUseRestriction.JustOne,
+            true,
+            () => {
+                GameManager.Log.Log("도박장을 이용하지 않음");
+                GameManager.Player.ShowCardPanels();
+                gameObject.SetActive(false);
+            },
+            CardRequestPosition.Left
+        );
     }
+
     public void B_SelectOdd(bool isOdd)
     {
         _isOdd = isOdd;
@@ -54,42 +78,21 @@ public class UIGambleInfo : MonoBehaviour
         _isCancel = true;
         _isSelect = true;
     }
-
-
-    private Card _selectedCard;
-    public void B_SelectCard()
-    {
-        var card = UIManager.I.UIPlayerInfo.UICardInfo.SelectedCard?.Card;
-
-        if (card != null)
-        {
-            _selectedCard = card;
-            _isSelect = true;
-            
-            GameManager.Log.Log($"{_selectedCard.CardData.CardNumber}/{_selectedCard.CardData.CardType} 카드가 선택됨");
-        }
-        else
-        {
-            GameManager.Log.Log("선택된 카드가 존재하지 않습니다.");
-        }
-    }
     
-    IEnumerator GambleFlow()
+    IEnumerator GambleFlow(Card.Type type, int value)
     {
+        _cardNumberText.Get(gameObject).text = value.ToString();
+		_cardImage.Get(gameObject).sprite = CardManager.GetCardEmblem(type);
 
-        // 대상 카드 선택 or 이용 X
-        yield return WaitSelect();
-        if (_isCancel)
-        {
-            GameManager.Log.Log("도박장을 이용하지 않음");
-            yield return End();
-            yield return null;
-        }
-        
-        // 배팅 시작
-        _cover.SetActive(false);
+        SucessCount = 0;
         do
         {
+            int curNum = (int)Mathf.Pow(2, SucessCount);
+            int ifSuccessNum = (int)Mathf.Pow(2, SucessCount + 1);
+
+            gambleCardNumTMP.text = $"현재: {curNum} / 성공 시: {ifSuccessNum}";
+            gambleCountTMP.text = $"남은 횟수: {3 - SucessCount}";
+
             yield return WaitSelect();
 
             if (_isCancel) break;
@@ -132,7 +135,13 @@ public class UIGambleInfo : MonoBehaviour
         if (copyCnt >= 0)
         {
             // [TODO] 카피 수행
-            // GameManager.Card.
+            // GameManager.Card
+            for (int i = 0; i < copyCnt; i++)
+            {
+                Card newCard = new Card(new CardData(value, type), i == 0 ? false : true);
+                GameManager.Card.CardDeck.AddCard(newCard);
+                GameManager.Card.CardDeck.PutCardIntoHand(newCard);
+            }
         }
         else
         {
@@ -147,6 +156,7 @@ public class UIGambleInfo : MonoBehaviour
     {
         GameManager.Log.Log("이용 종료");
         yield return new WaitForSeconds(1);
+        GameManager.Player.ShowCardPanels();
         gameObject.SetActive(false);
     }
 

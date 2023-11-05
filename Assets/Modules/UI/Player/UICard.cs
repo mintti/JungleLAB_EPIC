@@ -31,6 +31,8 @@ namespace TH.Core {
 			= new ComponentGetter<Image>(TypeOfGetter.ChildByName, "Image");
 		private ComponentGetter<Image> _panelImage
 			= new ComponentGetter<Image>(TypeOfGetter.This);
+		private ComponentGetter<TextMeshProUGUI> _cardTraitText
+			= new ComponentGetter<TextMeshProUGUI>(TypeOfGetter.ChildByName, "TraitText");
 
 		private RectTransform _parentRectTransform;
         #endregion
@@ -44,6 +46,8 @@ namespace TH.Core {
 
 			_cardNumberText.Get(gameObject).text = card.CardData.CardNumber.ToString();
 			_cardImage.Get(gameObject).sprite = CardManager.GetCardEmblem(card.CardData.CardType);
+
+			_cardTraitText.Get(gameObject).text = card.IsVolatile ? "휘발성" : "";
 		}
 
 		public void OnPointerDown(PointerEventData eventData)

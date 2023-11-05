@@ -17,16 +17,21 @@ public class Card {
 		Activate
 	}
 
-	public Card(CardData cardData) {
+	public Card(CardData cardData, bool isVolatile=false) {
 		_cardData = cardData;
+
+		_isVolatile = isVolatile;
 	}
 
     #region PublicVariables
 	public CardData CardData => _cardData;
+	public bool IsVolatile => _isVolatile;
 	#endregion
 
 	#region PrivateVariables
 	[ShowInInspector, ReadOnly] private CardData _cardData;
+
+	private bool _isVolatile;
 	#endregion
 
 	#region PublicMethod

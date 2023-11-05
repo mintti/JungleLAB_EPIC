@@ -5,7 +5,6 @@ using UnityEngine;
 public class UIStartPanel : MonoBehaviour
 {
     [SerializeField] private int _value;
-    private bool _wait;
     public void OnTileEvent()
     {
         gameObject.SetActive(true);  
@@ -13,23 +12,16 @@ public class UIStartPanel : MonoBehaviour
 
     public void B_Execute()
     {
-        if (!_wait)
-        {
-            StartCoroutine(EventExecutor());
-        }
+        EventExecutor();
     }
 
 
-    public IEnumerator EventExecutor()
+    public void EventExecutor()
     {
-        _wait = true;
-        
         // [TODO] 플레이어 체력 회복
         GameManager.Log.Log("시작 지점 효과로 체력이 회복됩니다.");
         GameManager.Player.Heal(_value);
-        
-        yield return new WaitForSeconds(1);
+        GameManager.Player.ShowCardPanels();
         gameObject.SetActive(false);
-        _wait = false;
     }
 }
