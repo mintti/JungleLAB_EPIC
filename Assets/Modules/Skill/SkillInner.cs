@@ -27,7 +27,7 @@ public abstract class SkillInner : MonoBehaviour
         }
     }
 
-    public abstract void Execute();
+    public abstract bool Execute();
 
     public void LevelUp()
     {

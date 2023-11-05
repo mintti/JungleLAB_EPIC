@@ -134,6 +134,17 @@ public class BoardManager : Singleton<BoardManager>
         return tiles[index].transform.position;
     }
 
+    public bool CheckDuplicateSummonOnTile<T>(int index)
+    {
+        foreach(ISummon s in summons)
+        {
+            if(s.Index == index && s.GetType() == typeof(T))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public void AddSummon(ISummon s)
     {
         summons.Add(s);

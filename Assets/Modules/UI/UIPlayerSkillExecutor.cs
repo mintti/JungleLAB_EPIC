@@ -8,9 +8,9 @@ using UnityEngine.Events;
 public class UIPlayerSkillExecutor : MonoBehaviour, IUIButtonExecutor
 {
     private Skill BaseSkill => GetComponent<UISkillInfo>().BaseSkill; 
-    private Action _action;
+    private Func<bool> _action;
 
-    private Action Action
+    private Func<bool> Action
     {
         get
         {
@@ -24,6 +24,7 @@ public class UIPlayerSkillExecutor : MonoBehaviour, IUIButtonExecutor
         if (BaseSkill.Data.Cost < 999) // [TODO] Check Magic Circle Count
         {
             Action();
+            // Action()의 반환값이 true일때 코스트 깎기
         }
     }
 }
