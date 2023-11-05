@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 public abstract class BaseTile : MonoBehaviour
 {
     public int index;
-    public Debuff debuff;
+    [ShowInInspector] public Debuff debuff;
     private GameObject _debuffEffect;
 
     protected bool _isCurse;
@@ -21,6 +21,8 @@ public abstract class BaseTile : MonoBehaviour
     public void AddDebuff(Debuff d)
     {
         debuff = d;
+        Debug.Log(debuff);
+        Debug.Log(debuff.DebuffCount);
         _debuffEffect = Instantiate(d.Effect, transform.position, Quaternion.identity);
     }
     public virtual void OnAction(int num=0)
@@ -34,8 +36,10 @@ public abstract class BaseTile : MonoBehaviour
         if (debuff != null)
         {
             debuff.DebuffCount -= 1;
+            Debug.Log(debuff.DebuffCount);
             if (debuff.DebuffCount <= 0)
             {
+                Debug.Log("destroy");
                 debuff = null;
                 Destroy(_debuffEffect);
             }
