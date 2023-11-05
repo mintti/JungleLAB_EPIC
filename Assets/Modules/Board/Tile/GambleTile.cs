@@ -11,6 +11,6 @@ public class GambleTile : BaseTile
 
     public override void OnTurnEnd()
     {
-
+        base.OnTurnEnd();
     }
 }

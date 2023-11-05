@@ -11,6 +11,6 @@ public class EventTile : BaseTile
 
     public override void OnTurnEnd()
     {
-
+        base.OnTurnEnd();
     }
 }
