@@ -14,11 +14,6 @@ public class BoardManager : Singleton<BoardManager>
     [ShowInInspector] public List<ISummon> summons = new();
     private List<int> deleteSummonsIndexes = new();
 
-    [Button]
-    public void TestTurnEnd()
-    {
-        StartCoroutine(OnTurnEnd());
-    }
     public IEnumerator OnTurnEnd()
     {
         foreach(BaseTile t in tiles)
