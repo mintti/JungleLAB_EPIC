@@ -213,6 +213,10 @@ public class BossManager : MonoBehaviour
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
                 FireBreath fb = new FireBreath(1, 2);
+                if (i == 16)
+                {
+                    i = 0;
+                }
                 BoardManager.I.tiles[i].AddDebuff(fb);
                 //1?˜ ?°ë¯¸ì??ë¥? ì£¼ëŠ” ????¼?´ 2?„´?™?•ˆ ?œ ì§?
             }
@@ -235,6 +239,7 @@ public class BossManager : MonoBehaviour
 
     public void HpUpdate(int _dmg)
     {
+        Debug.Log(_currentDefense);
         _dmg = _brokenCount > 0 ? (int)(_dmg * 1.5f) : _dmg;
         if (_currentDefense > 0)
         {
@@ -244,6 +249,11 @@ public class BossManager : MonoBehaviour
             {
                 _dmg = _currentDefense * -1;
             }
+            else
+            {
+                _dmg = 0;
+            }
+            
         }
 
         int _afterHp = CurrentHp - _dmg;
