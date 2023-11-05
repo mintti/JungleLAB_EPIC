@@ -18,7 +18,7 @@ public class BossManager : MonoBehaviour
         set
         {
             _currentHp = value;
-            UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp);
+            UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp, _currentDefense);
         }
     }
 
@@ -140,6 +140,7 @@ public class BossManager : MonoBehaviour
         
         
         UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern1.type] , pattern1.value);
+
     }
 
     public Pattern GetCurrentPattern()
@@ -212,12 +213,16 @@ public class BossManager : MonoBehaviour
 
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
-                FireBreath fb = new FireBreath(1, 2);
+                FireBreath fb = new FireBreath(1, 3);
                 if (i == 16)
                 {
-                    i = 0;
+                    BoardManager.I.tiles[0].AddDebuff(fb);
                 }
-                BoardManager.I.tiles[i].AddDebuff(fb);
+                else
+                {
+                    BoardManager.I.tiles[i].AddDebuff(fb);
+                }
+                
                 //1?˜ ?°ë¯¸ì??ë¥? ì£¼ëŠ” ????¼?´ 2?„´?™?•ˆ ?œ ì§?
             }
         }
@@ -234,6 +239,7 @@ public class BossManager : MonoBehaviour
 
         pattern = GetCurrentPattern();
         UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern.type] , pattern.value);
+        UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp, _currentDefense);
         yield return new WaitForSeconds(1f);
     }
 

@@ -4,7 +4,7 @@ namespace Modules.Skill.Skills
 {
     public class Spawn : SkillInner
     {
-        public override void Execute()
+        public override bool Execute()
         {
             int value = Level switch
             {
@@ -17,6 +17,7 @@ namespace Modules.Skill.Skills
             GameObject cat = Instantiate(GameManager.Resource.LoadPrefab(ResourceManager.Prefabs.SUMMON_BLACKCAT),
                 BoardManager.I.GetTilePos(catIndex), Quaternion.identity);
             cat.GetComponent<SummonCat>().Init(catIndex,3,value);
+            return true;
         }
     }
 }

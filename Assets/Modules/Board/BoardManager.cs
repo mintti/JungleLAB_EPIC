@@ -14,11 +14,6 @@ public class BoardManager : Singleton<BoardManager>
     [ShowInInspector] public List<ISummon> summons = new();
     private List<int> deleteSummonsIndexes = new();
 
-    [Button]
-    public void TestTurnEnd()
-    {
-        StartCoroutine(OnTurnEnd());
-    }
     public IEnumerator OnTurnEnd()
     {
         foreach(BaseTile t in tiles)
@@ -134,6 +129,17 @@ public class BoardManager : Singleton<BoardManager>
         return tiles[index].transform.position;
     }
 
+    public bool CheckDuplicateSummonOnTile<T>(int index)
+    {
+        foreach(ISummon s in summons)
+        {
+            if(s.Index == index && s.GetType() == typeof(T))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     public void AddSummon(ISummon s)
     {
         summons.Add(s);

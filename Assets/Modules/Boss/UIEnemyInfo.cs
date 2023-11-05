@@ -23,16 +23,23 @@ public class UIEnemyInfo : MonoBehaviour
         _defaultHPWidthSize = _maxHPRect.sizeDelta.x + 10;
     }
 
-    public void Active(string name, int hp)
+    public void Active(string name, int hp, int def)
     {
         gameObject.SetActive(true);
-        UpdateHP(hp, hp);
+        UpdateHP(hp, hp, def);
     }
 
-    public void UpdateHP(int hp, int maxHp)
+    public void UpdateHP(int hp, int maxHp, int def)
     {
+        if (def > 0)
+        {
+            _hpTMP.text = $"{hp}/{maxHp} <color=#00FFFF>+{def}</color>";
+        }
+        else
+        {
+            _hpTMP.text = $"{hp}/{maxHp}";
+        }
         
-        _hpTMP.text = $"{hp}/{maxHp}";
         
         _maxHPRect.sizeDelta = new Vector2(_defaultHPWidthSize, _maxHPRect.sizeDelta.y);
         _curHPRect.sizeDelta = new Vector2((_defaultHPWidthSize - 10) * hp / maxHp, _curHPRect.sizeDelta.y);

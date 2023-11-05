@@ -5,7 +5,7 @@ namespace Modules.Skill.Skills
 {
     public class Defense : SkillInner
     {
-        public override void Execute()
+        public override bool Execute()
         {
             int value = Level switch
             {
@@ -15,6 +15,8 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼의 쉴드를 추가할 것임(플레이어 연결 필요");
+            GameManager.Player.Defence(value);
+            return true;
         }
     }
 }

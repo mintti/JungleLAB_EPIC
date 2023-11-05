@@ -2,7 +2,7 @@ namespace Modules.Skill.Skills
 {
     public class Heal : SkillInner
     {
-        public override void Execute()
+        public override bool Execute()
         {
             int value = Level switch
             {
@@ -12,6 +12,8 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼 힐할 것임(플레이어 연결 필요");
+            GameManager.Player.Heal(value);
+            return true;
         }
     }
 }
