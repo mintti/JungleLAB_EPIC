@@ -212,7 +212,7 @@ public class BossManager : MonoBehaviour
 
             for (int i = _startIndex; i < _startIndex + 5; i++)
             {
-                FireBreath fb = new FireBreath(1, 2);
+                FireBreath fb = new FireBreath(1, 3);
                 if (i == 16)
                 {
                     BoardManager.I.tiles[0].AddDebuff(fb);
