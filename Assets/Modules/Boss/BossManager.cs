@@ -25,6 +25,7 @@ public class BossManager : MonoBehaviour
             if (_currentHp == 0)
             {
                 GetComponent<Animator>().Play("Die");
+                UIManager.I.ClearObj.SetActive(true);
             }
         }
     }

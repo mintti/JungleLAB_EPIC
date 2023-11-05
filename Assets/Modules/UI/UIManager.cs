@@ -37,4 +37,11 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private UIMainButtonPanel _uiMain;
     public UIMainButtonPanel UIMain => _uiMain;
 
+
+    [SerializeField] private GameObject _clearObj;
+    public GameObject ClearObj => _clearObj;
+    [SerializeField] private GameObject _gameOverObj;
+    public GameObject GameOverObj => _gameOverObj;
+
+
 }

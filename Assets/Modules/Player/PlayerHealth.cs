@@ -25,6 +25,7 @@ public class PlayerHealth: PlayerProperty<int> {
 			_value = 0;
 			
 			GameManager.Player.Animator.Play("Die");
+			UIManager.I.GameOverObj.SetActive(true);
 		}
 
 		_onValueUpdated?.Invoke(_value);
