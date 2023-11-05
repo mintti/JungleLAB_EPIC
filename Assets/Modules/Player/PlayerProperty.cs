@@ -8,6 +8,8 @@ namespace TH.Core {
 public abstract class PlayerProperty<T>: MonoBehaviour where T: IComparable {
     #region PublicVariables
 	public T Value => _value;
+	public T MaxValue => _maxValue;
+	public T MinValue => _minValue;
 	#endregion
 
 	#region PrivateVariables

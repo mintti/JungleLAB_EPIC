@@ -513,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d798146467cd1a744b823cf44d9dc003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _value: 10
+  _value: 5
 --- !u!1 &4135278200741198259
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,7 +580,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: HP +10
+  m_text: HP +5
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4a3bebb31724482438f5322528cbee88, type: 2}
   m_sharedMaterial: {fileID: -4142215150734796316, guid: 4a3bebb31724482438f5322528cbee88, type: 2}
