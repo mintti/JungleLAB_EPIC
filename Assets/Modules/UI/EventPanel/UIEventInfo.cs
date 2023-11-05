@@ -32,16 +32,16 @@ public class UIEventInfo : MonoBehaviour
         {
             _events ??= new()
             {
-                new("꽝", Blank),
-                new("시작 지점으로 걸어서 이동합니다.", WalkToStartTile, 1f),
-                new("숫자 카드를 2장 드로우 합니다.", Draw2Card, 1f),
-                new("적에게 취약과 약화를 2턴동안 겁니다.", Week3ToEnemy, 1f),
-                new("앞으로 3칸 이동합니다.", Move3, 1f),
+                // new("꽝", Blank),
+                // new("시작 지점으로 걸어서 이동합니다.", WalkToStartTile, 1f),
+                // new("숫자 카드를 2장 드로우 합니다.", Draw2Card, 1f),
+                // new("적에게 취약과 약화를 2턴동안 겁니다.", Week3ToEnemy, 1f),
+                // new("앞으로 3칸 이동합니다.", Move3, 1f),
                 new("패에 있는 숫자 카드 하나의 숫자를 2배 해줍니다.", Multiple2),
-                new("패에 있는 숫자 카드 하나를 복제해줍니다.", Copy),
-                new("마법진을 1개 획득합니다.", GetMagicCircle1, 1f),
-                // new("원하는 지점으로 순간이동 합니다. (이벤트 제외)", MoveToWantedTile),
-                new("숫자 카드를 원하는 만큼 버리고, 버린만큼 뽑습니다.", DropNDrawN),
+                // new("패에 있는 숫자 카드 하나를 복제해줍니다.", Copy),
+                // new("마법진을 1개 획득합니다.", GetMagicCircle1, 1f),
+                // // new("원하는 지점으로 순간이동 합니다. (이벤트 제외)", MoveToWantedTile),
+                // new("숫자 카드를 원하는 만큼 버리고, 버린만큼 뽑습니다.", DropNDrawN),
             };
 
             return _events;
@@ -63,6 +63,7 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator EventExecutor()
     {
+        eventDrawBtn.gameObject.SetActive(false);
         // 랜덤 이벤트 설정
         var idx = Random.Range(0, Events.Count);
         var evt = Events[idx];
@@ -103,7 +104,7 @@ public class UIEventInfo : MonoBehaviour
 
     IEnumerator Move3()
     {
-        yield return GameManager.Player.MoveTo(3, 0.5f);
+        yield return GameManager.Player.Move(3);
     }
 
     IEnumerator Multiple2()
@@ -116,7 +117,7 @@ public class UIEventInfo : MonoBehaviour
             (type, value) => {
                 Card newCard = new Card(new CardData(value * 2, type));
                 GameManager.Card.CardDeck.AddCard(newCard);
-                GameManager.Card.CardDeck.PutCardIntoGraveyard(newCard);
+                GameManager.Card.CardDeck.PutCardIntoHand(newCard);
                 hasDone = true;
             },
             CardAfterUse.Remove,
@@ -125,7 +126,7 @@ public class UIEventInfo : MonoBehaviour
             () => {
                 hasDone = true;
             },
-            CardRequestPosition.Middle
+            CardRequestPosition.Left
         );
 
         yield return new WaitUntil(() => hasDone);
@@ -141,7 +142,7 @@ public class UIEventInfo : MonoBehaviour
             (type, value) => {
                 Card newCard = new Card(new CardData(value, type));
                 GameManager.Card.CardDeck.AddCard(newCard);
-                GameManager.Card.CardDeck.PutCardIntoGraveyard(newCard);
+                GameManager.Card.CardDeck.PutCardIntoHand(newCard);
                 hasDone = true;
             },
             CardAfterUse.KeepToGraveyard,
@@ -150,7 +151,7 @@ public class UIEventInfo : MonoBehaviour
             () => {
                 hasDone = true;
             },
-            CardRequestPosition.Middle
+            CardRequestPosition.Left
         );
 
         yield return new WaitUntil(() => hasDone);
@@ -185,7 +186,7 @@ public class UIEventInfo : MonoBehaviour
             () => {
                 hasDone = true;
             },
-            CardRequestPosition.Middle
+            CardRequestPosition.Left
         );
 
         yield return new WaitUntil(() => hasDone);
