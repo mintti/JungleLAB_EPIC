@@ -18,7 +18,7 @@ public class BossManager : MonoBehaviour
         set
         {
             _currentHp = value;
-            UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp);
+            UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp, _currentDefense);
         }
     }
 
@@ -140,6 +140,7 @@ public class BossManager : MonoBehaviour
         
         
         UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern1.type] , pattern1.value);
+
     }
 
     public Pattern GetCurrentPattern()
@@ -238,6 +239,7 @@ public class BossManager : MonoBehaviour
 
         pattern = GetCurrentPattern();
         UIManager.I.UIEnemyInfo.UpdateAction(_actionIcon[(int)pattern.type] , pattern.value);
+        UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp, _currentDefense);
         yield return new WaitForSeconds(1f);
     }
 
