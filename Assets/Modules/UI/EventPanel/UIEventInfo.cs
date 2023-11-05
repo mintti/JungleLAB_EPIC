@@ -72,7 +72,7 @@ public class UIEventInfo : MonoBehaviour
         yield return evt.Action();
         
         // 1초 후 액션 종료
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0f);
         gameObject.SetActive(false);
     }
     
