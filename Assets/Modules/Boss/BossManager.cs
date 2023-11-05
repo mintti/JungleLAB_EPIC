@@ -215,9 +215,13 @@ public class BossManager : MonoBehaviour
                 FireBreath fb = new FireBreath(1, 2);
                 if (i == 16)
                 {
-                    i = 0;
+                    BoardManager.I.tiles[0].AddDebuff(fb);
                 }
-                BoardManager.I.tiles[i].AddDebuff(fb);
+                else
+                {
+                    BoardManager.I.tiles[i].AddDebuff(fb);
+                }
+                
                 //1?ùò ?ç∞ÎØ∏Ï??Î•? Ï£ºÎäî ????ùº?ù¥ 2?Ñ¥?èô?ïà ?ú†Ïß?
             }
         }
