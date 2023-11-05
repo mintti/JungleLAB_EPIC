@@ -9,6 +9,7 @@ public class AttackTile : BaseTile
     private GameObject _countText;
     public override void OnAction(int num)
     {
+        GameManager.Player.Animator.Play("Attack");
         GameManager.Boss.HpUpdate(num);
     }
 

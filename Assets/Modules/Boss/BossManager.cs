@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using TMPro;
 using System.Linq;
 using Mono.CSharp;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class BossManager : MonoBehaviour
 {
@@ -17,8 +19,14 @@ public class BossManager : MonoBehaviour
         get => _currentHp;
         set
         {
-            _currentHp = value;
+            _currentHp = Math.Max(0, value);
             UIManager.I.UIEnemyInfo.UpdateHP(_currentHp, maxHp, _currentDefense);
+
+            if (_currentHp == 0)
+            {
+                GetComponent<Animator>().Play("Die");
+                UIManager.I.ClearObj.SetActive(true);
+            }
         }
     }
 
@@ -167,6 +175,7 @@ public class BossManager : MonoBehaviour
 
         if (_paternType == PatternType.FireMagic)
         {
+            GetComponent<Animator>().Play("Magic");    
             Debug.Log("Spawn MagicCircle");
             for (int i = 0; i < _value; i++)
             {
@@ -180,15 +189,16 @@ public class BossManager : MonoBehaviour
                     _ranValue2 = Random.Range(1, 4);
                     _tileIndex = (_ranValue1 - 1) * 4 + _ranValue2;
                 } while (BoardManager.I.tiles[_tileIndex].IsCurse || _tileIndex == BoardManager.I.PlayerOnIndex);
-                // ?„¤ì¹? ????¼?´ ???ì£¼ë°›ì§? ?•Š??? ?ƒ?ƒœ?—¬?•¼ ?•˜ê³?, ?œ ???ê°? ?„œ?žˆ?Š” ????¼?´ë©? ?•ˆ?¨.
+                // ?ï¿½ï¿½ï¿½? ????ï¿½ï¿½?ï¿½ï¿½ ???ì£¼ë°›ï¿½? ?ï¿½ï¿½??? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?, ?ï¿½ï¿½???ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ????ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½.
                 Debug.Log(_tileIndex);
 
                 BoardManager.I.tiles[_tileIndex].OnCurse(3);
-                // ë§ˆë²•ì§„ì´ 2?„´?™?•ˆ ?œ ì§?.
+                // ë§ˆë²•ì§„ì´ 2?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?.
             }
         }
         else if (_paternType == PatternType.Attack)
         {
+            GetComponent<Animator>().Play("Attack");   
             Debug.Log("AttackPlayer");
 
             var value = WeakCount > 0 ? _value / 2 : _value;
@@ -196,11 +206,13 @@ public class BossManager : MonoBehaviour
         }
         else if (_paternType == PatternType.Defense)
         {
+            GetComponent<Animator>().Play("Shield");
             Debug.Log("GetDefense");
             _currentDefense += _value;
         }
         else if (_paternType == PatternType.FireBreath) 
         {
+            GetComponent<Animator>().Play("Magic");
             Debug.Log("FireBreath");
             int _ranValue;
             int _startIndex;
@@ -223,7 +235,7 @@ public class BossManager : MonoBehaviour
                     BoardManager.I.tiles[i].AddDebuff(fb);
                 }
                 
-                //1?˜ ?°ë¯¸ì??ë¥? ì£¼ëŠ” ????¼?´ 2?„´?™?•ˆ ?œ ì§?
+                //1?ï¿½ï¿½ ?ï¿½ï¿½ë¯¸ï¿½??ï¿½? ì£¼ëŠ” ????ï¿½ï¿½?ï¿½ï¿½ 2?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
             }
         }
 
@@ -262,6 +274,11 @@ public class BossManager : MonoBehaviour
             
         }
 
+        if (_dmg > 0)
+        {
+            GetComponent<Animator>().Play("Hit");    
+        }
+        
         int _afterHp = CurrentHp - _dmg;
         if (CurrentHp > maxHp * 0.7 && _afterHp <= maxHp * 0.7)
         {
