@@ -81,7 +81,7 @@ public class BoardManager : Singleton<BoardManager>
         UpdateSummons();
     }
 
-    public bool OnPassCat(int index,SummonCat c)
+   /* public bool OnPassCat(int index,SummonCat c)
     {
         foreach (ISummon s in summons)
         {
@@ -98,7 +98,7 @@ public class BoardManager : Singleton<BoardManager>
         UpdateSummons();
         return false;
     }
-
+*/
     protected override void Init()
     {
         for(int i = 0; i < tiles.Count; i++)
