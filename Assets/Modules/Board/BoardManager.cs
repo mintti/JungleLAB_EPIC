@@ -68,6 +68,7 @@ public class BoardManager : Singleton<BoardManager>
     public void OnPass(int index)
     {
         tiles[index].debuff?.OnDebuff();
+        Debug.Log(tiles[index].debuff);
         foreach(ISummon s in summons)
         {
             if (s == null)

@@ -11,6 +11,6 @@ public class StartTile : BaseTile
 
     public override void OnTurnEnd()
     {
-
+        base.OnTurnEnd();
     }
 }

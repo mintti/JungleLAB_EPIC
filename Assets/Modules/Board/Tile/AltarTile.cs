@@ -11,7 +11,7 @@ public class AltarTile : BaseTile
 
     public override void OnTurnEnd()
     {
-
+        base.OnTurnEnd();
     }
 
 }
