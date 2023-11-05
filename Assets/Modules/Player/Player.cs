@@ -48,6 +48,7 @@ public class Player : MonoBehaviour {
 	private PlayerHealth _health;
 	private PlayerDefence _defence;
 	public PlayerMagic PlayerMagic => GetComponent<PlayerMagic>();
+	public Animator Animator => GetComponent<Animator>();
 
 	// 플레이어 능력
 	private Dictionary<Type, PlayerAbility> _abilities;
@@ -116,16 +117,24 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Defence(int value) {
+		Animator.Play("Shield");
 		_defence.ChangeValue(value);
 	}
 
 	public void Hit(int damage) {
+		
+		if(_defence.Value > 0)
+			Animator.Play("SuccessDefense");
+		
 		if (_defence.Value >= damage) {
 			_defence.ChangeValue(-damage);
 			return;
 		}
+
+		var value = -damage + _defence.Value;
+		if (value < 0) Animator.Play("Hit");
+		_health.ChangeValue(value);
 		
-		_health.ChangeValue(-damage + _defence.Value);
 		_defence.ResetValue();
 	}
 
