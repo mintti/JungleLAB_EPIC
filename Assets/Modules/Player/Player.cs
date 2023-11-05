@@ -131,6 +131,10 @@ public class Player : MonoBehaviour {
 	public void Heal(int value)
 	{
 		_health.ChangeValue(value);
+
+		if (_health.Value > _health.MaxValue) {
+			_health.ResetValue();
+		}
 	}
 
 	public IEnumerator Move(int value) {
