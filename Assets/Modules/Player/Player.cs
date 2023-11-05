@@ -231,8 +231,10 @@ public class Player : MonoBehaviour {
 			"이동",
 			"낸 카드의 수만큼 이동합니다.",
 			(type, value) => {
-				_cardActionRequest.Close();
-				_cardActionRequest = null;
+				if (_cardActionRequest != null) {
+					_cardActionRequest.Close();
+					_cardActionRequest = null;
+				}
 				_cardMoveRequest = null;
 				StartCoroutine(Move(value));
 			},
@@ -243,19 +245,21 @@ public class Player : MonoBehaviour {
 			CardRequestPosition.Left
 		);
 
-		_cardActionRequest = GameManager.Card.RequestCard(
-			"행동",
-			"낸 카드의 수만큼 행동합니다.\n"+
-			$"현재 타일: ({GetCurrentTileName()})",
-			(type, value) => {
-				TileAction(type, value);
-			},
-			CardAfterUse.KeepToGraveyard,
-			CardUseRestriction.Succesive,
-			false,
-			null,
-			CardRequestPosition.Right
-		);
+		if (IsSpecialTile(BoardManager.I.tiles[_position]) == false) {
+			_cardActionRequest = GameManager.Card.RequestCard(
+				"행동",
+				"낸 카드의 수만큼 행동합니다.\n"+
+				$"현재 타일: ({GetCurrentTileName()})",
+				(type, value) => {
+					TileAction(type, value);
+				},
+				CardAfterUse.KeepToGraveyard,
+				CardUseRestriction.Succesive,
+				false,
+				null,
+				CardRequestPosition.Right
+			);
+		}
 	}
 
 	private string GetCurrentTileName() {
