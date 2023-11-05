@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2993385287790968551}
   - component: {fileID: 343031485994834366}
   m_Layer: 0
-  m_Name: FireBall
+  m_Name: Fireball
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _distance: 2
-  _damage: 3
+  _damage: 5
