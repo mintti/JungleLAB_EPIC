@@ -5653,14 +5653,14 @@ MonoBehaviour:
   normalMagic: 1
   normalAttack: 5
   normalDefense: 5
-  angryMagic: 0
-  angryAttack: 0
-  angryBreath: 0
-  angryDefense: 0
-  enragedMagic: 0
-  enragedAttack: 0
-  enragedBreath: 0
-  enragedDefense: 0
+  angryMagic: 2
+  angryAttack: 10
+  angryBreath: 1
+  angryDefense: 5
+  enragedMagic: 4
+  enragedAttack: 10
+  enragedBreath: 1
+  enragedDefense: 10
   _weakIconObj: {fileID: 191950311}
   _weakTMP: {fileID: 191950309}
   _brokenIconObj: {fileID: 1408031095}
