@@ -2,7 +2,7 @@ namespace Modules.Skill.Skills
 {
     public class Draw : SkillInner
     {
-        public override void Execute()
+        public override bool Execute()
         {
             int value = Level switch
             {
@@ -12,6 +12,7 @@ namespace Modules.Skill.Skills
             };
 
             GameManager.Log.Log($"{value} 만큼의 카드를 드로우할 것임");
+            return true;
         }
     }
 }
