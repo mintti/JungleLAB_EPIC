@@ -123,9 +123,9 @@ public class Player : MonoBehaviour {
 			_defence.ChangeValue(-damage);
 			return;
 		}
-
-		_defence.ResetValue();
+		
 		_health.ChangeValue(-damage + _defence.Value);
+		_defence.ResetValue();
 	}
 
 	public void Heal(int value)
