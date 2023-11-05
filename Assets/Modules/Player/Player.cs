@@ -6,6 +6,9 @@ using DG.Tweening;
 using TH.Core;
 using System.Collections.Generic;
 using System.Linq;
+using Mono.CSharp;
+using UnityEngine.Tilemaps;
+using Modules.Skill.Skills;
 
 [RequireComponent(typeof(PlayerHealth))]
 [RequireComponent(typeof(PlayerDefence))]
@@ -155,7 +158,9 @@ public class Player : MonoBehaviour {
 
 		BoardManager.I.OnEvent(_position);
 
-		RequestCardPanels();
+		if (IsSpecialTile(BoardManager.I.tiles[_position]) == false) {
+			RequestCardPanels();
+		}
 	}
 
 	public IEnumerator MoveTo(int index, float time) {
@@ -226,7 +231,8 @@ public class Player : MonoBehaviour {
 
 		_cardActionRequest = GameManager.Card.RequestCard(
 			"행동",
-			"낸 카드의 수만큼 행동합니다.",
+			"낸 카드의 수만큼 행동합니다.\n"+
+			$"현재 타일: ({GetCurrentTileName()})",
 			(type, value) => {
 				TileAction(type, value);
 			},
@@ -236,6 +242,22 @@ public class Player : MonoBehaviour {
 			null,
 			CardRequestPosition.Right
 		);
+	}
+
+	private string GetCurrentTileName() {
+		return BoardManager.I.tiles[_position] switch
+		{
+			AttackTile => "공격",
+			DefenseTile => "방어",
+			AltarTile => "제단",
+			EventTile => "이벤트",
+			GambleTile => "도박",
+			_ => "일반"
+		};	
+	}
+
+	private bool IsSpecialTile(BaseTile tile) {
+		return !(tile is AttackTile or DefenseTile); 
 	}
 	#endregion
 }

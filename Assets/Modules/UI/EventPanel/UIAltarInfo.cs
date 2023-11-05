@@ -40,10 +40,14 @@ public class UIAltarInfo : MonoBehaviour
         gameObject.SetActive(true);   
     }
     
-    public void B_Execute() => StartCoroutine(EventExecutor());
-    public void B_Cancel() => gameObject.SetActive(false);
+    public void B_Execute() => EventExecutor();
+    
+    public void B_Cancel() {
+        gameObject.SetActive(false);
+        GameManager.Player.ShowCardPanels();
+    }
 
-    public IEnumerator EventExecutor()
+    public void EventExecutor()
     {
         if (RemainingCount > 0) 
         {
@@ -57,9 +61,6 @@ public class UIAltarInfo : MonoBehaviour
         else
         {
             GameManager.Log.Log("피의 제단 사용 횟수를 소진하여 이용 할 수 없음");
-        }
-        
-        yield return new WaitForSeconds(1);
-        gameObject.SetActive(false);   
+        }  
     }
 }

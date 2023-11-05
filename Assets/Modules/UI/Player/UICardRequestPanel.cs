@@ -92,7 +92,9 @@ public class UICardRequestPanel : MonoBehaviour
 
 		_cardAction?.Invoke(card.CardData.CardType, card.CardData.CardNumber);
 
-		if (_cardAfterUse == CardAfterUse.Remove) {
+		if (card.IsVolatile) {
+			GameManager.Card.CardDeck.RemoveCard(card);
+		} else if (_cardAfterUse == CardAfterUse.Remove) {
 			GameManager.Card.CardDeck.RemoveCard(card);
 		} else if (_cardAfterUse == CardAfterUse.KeepToHand) {
 			GameManager.Card.CardDeck.PutCardIntoHand(card);

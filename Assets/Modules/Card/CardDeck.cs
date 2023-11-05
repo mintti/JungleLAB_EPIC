@@ -193,6 +193,8 @@ public class CardDeck : MonoBehaviour {
 		foreach (var card in _cards) {
 			_drawPile.Add(card);
 		}
+
+		_drawPile = _drawPile.OrderBy(x => Random.value).ToList();
 	}
 	
 	/// <summary>
