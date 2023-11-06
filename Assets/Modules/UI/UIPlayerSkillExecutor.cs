@@ -21,10 +21,13 @@ public class UIPlayerSkillExecutor : MonoBehaviour, IUIButtonExecutor
 
     public void B_Execute()
     {
-        if (BaseSkill.Data.Cost < 999) // [TODO] Check Magic Circle Count
+        int needCost = BaseSkill.Data.Cost; 
+        if ( needCost <= GameManager.Player.PlayerMagic.MagicCircleCount) // [TODO] Check Magic Circle Count
         {
-            Action();
-            // Action()의 반환값이 true일때 코스트 깎기
+            if (Action())
+            {
+                GameManager.Player.PlayerMagic.MagicCircleCount -= needCost;
+            }
         }
     }
 }
